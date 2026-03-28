@@ -1,0 +1,92 @@
+﻿@model BL.DTOs.UserDTO
+
+<!-- page-wrapper Start-->
+<div class="page-wrapper bg-light min-vh-100 d-flex align-items-center">
+    <div class="authentication-box container">
+        <div class="row justify-content-center shadow-lg rounded-3 overflow-hidden bg-white">
+
+            <!-- Left side -->
+            <div class="col-lg-5 p-0 d-none d-lg-block card-left">
+                <!-- SVG / Image -->
+            </div>
+
+            <!-- Login Form -->
+            <div class="col-lg-7 p-4 card-right">
+                <div class="card border-0">
+                    <div class="card-body p-4">
+
+                        <h3 class="text-center fw-bold mb-2">Welcome Back 👋</h3>
+                        <p class="text-muted text-center mb-4">
+                            Login to continue to your account
+                        </p>
+
+                        <form asp-controller="Account"
+                              asp-action="Login"
+                              method="post"
+                              class="auth-form">
+
+                            <input type="hidden" asp-for="ReturnUrl" />
+                            <input type="hidden" asp-for="ConfirmPassword" />
+
+                            <!-- 🔴 Validation Summary -->
+                            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label fw-semibold"></label>
+                                <input asp-for="Email"
+                                       class="form-control form-control-lg"
+                                       placeholder="Enter your email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label fw-semibold"></label>
+                                <input asp-for="Password"
+                                       type="password"
+                                       class="form-control form-control-lg"
+                                       placeholder="Enter your password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <!-- Remember Me -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-check">
+                                   
+                                        Remember me
+                                    </label>
+                                </div>
+                                <a href="#" class="text-decoration-none text-primary fw-semibold">
+                                    Forgot Password?
+                                </a>
+                            </div>
+
+                            <!-- Login Button -->
+                            <div class="d-grid mb-3">
+                                <button class="btn btn-primary btn-lg rounded-pill" type="submit">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+
+                       
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-outline-secondary rounded-pill">
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+
+}
