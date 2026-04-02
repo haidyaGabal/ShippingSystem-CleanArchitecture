@@ -1,0 +1,21 @@
+# Visual Studio
+.vs/
+
+# Build folders
+bin/
+obj/
+
+# User files
+*.user
+*.suo
+
+# Logs
+*.log
+
+# .NET binaries
+*.dll
+*.exe
+*.pdb
+
+# VS Code
+.vscode/

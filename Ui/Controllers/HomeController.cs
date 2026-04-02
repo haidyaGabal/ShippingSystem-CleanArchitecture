@@ -8,7 +8,7 @@ using Ui.Models;
 namespace Ui.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
+    
 
     public class HomeController : Controller
     {

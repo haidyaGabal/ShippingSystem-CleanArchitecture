@@ -6,6 +6,7 @@ using DAL;
 using DAL.Repositories;
 using DAL.UserModels;
 using Domains;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
