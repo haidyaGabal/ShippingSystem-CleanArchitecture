@@ -10,12 +10,12 @@ namespace BL.Contracts
     public interface IUserService
     {
         Task<UserResultDTO>RegisterAsync(UserDTO RegisterDto);
-        Task<UserResultDTO> LoginAsync(UserDTO LoginDto);
+        Task<UserResultDTO> LoginAsync(LoginDTO LoginDto);
         Task LogoutAsync();
         Task<UserDTO> GetUserByIdAsync(string userId);
         Task<UserDTO> GetUserByEmailAsync(string userId);
        
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
-
+        //Task LoginAsync(LoginDTO user);
     }
 }

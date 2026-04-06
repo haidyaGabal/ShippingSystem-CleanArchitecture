@@ -34,7 +34,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserDTO request)
+        public async Task<IActionResult> Login([FromBody] LoginDTO request)
         {
             var userResult = await _userService.LoginAsync(request);
             if (!userResult.Success)

@@ -23,15 +23,23 @@ namespace Ui.Controllers
         {
             return View();
         }
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserDTO user)
+        public async Task<IActionResult> Login(LoginDTO user)
         {
+            if (!ModelState.IsValid)
+                return View(user);
+
             var result = await _userService.LoginAsync(user);
             if (result.Success)
             {
+
                 // Call the login API using the generic client
                 LoginApiModel apiResult = await _apiClient.PostAsync<LoginApiModel>("api/auth/login", user);
 
@@ -56,10 +64,47 @@ namespace Ui.Controllers
                     Expires = DateTime.UtcNow.AddMinutes(15)  // Adjust token expiry based on your needs
                 });
 
-                return RedirectToRoute(new { area = "admin", controller = "Home", action = "Index" });
+                /// for fetch data from db and get role use this
+                var dbUser= await _userService.GetUserByEmailAsync(user.Email);
+
+                if (dbUser.Role.ToLower() == "admin")
+                
+                    return RedirectToRoute(new { area = "admin", controller = "Home", action = "Index" });
+                
+                else
+                    return RedirectToRoute(new { controller = "Home", action = "Index" });
+                
+
             }
             else
                 return View();
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(UserDTO user)
+        {
+           
+      
+         
+            if (!ModelState.IsValid)
+                return View(user);
+
+
+            var result = await _userService.RegisterAsync(user);
+            if (result.Success)
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+            else
+            {
+                return View();
+            }
+                
+                
+              
         }
     }
 }

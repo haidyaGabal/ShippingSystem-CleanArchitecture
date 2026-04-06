@@ -4,6 +4,7 @@ using BL.Contracts;
 using BL.DTOs;
 using DAL.UserModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 namespace Ui.Services
 {
@@ -28,8 +29,26 @@ namespace Ui.Services
                 return new UserResultDTO { Success = false, Errors = new[] { "Passwords do not match." } };
             }
 
-            var user = new ApplicationUser { UserName = registerDto.Email, Email = registerDto.Email };
+            var user = new ApplicationUser { UserName = registerDto.Email, Email = registerDto.Email,
+                FirstName=registerDto.FirstName,
+                LastName=registerDto.LastName,Phone=registerDto.Phone };
+
             var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            ///for adding role when you register
+
+            var roleName=string.IsNullOrEmpty(registerDto.Role) ?"User":registerDto.Role;
+            var roleResult=await _userManager.AddToRoleAsync(user, roleName);
+
+            if (!roleResult.Succeeded)
+            {
+                return new UserResultDTO
+                {
+                    Success = false,
+                    Errors = roleResult.Errors?.Select(e => e.Description)
+                };
+            }
+
 
             return new UserResultDTO
             {
@@ -38,7 +57,7 @@ namespace Ui.Services
             };
         }
 
-        public async Task<UserResultDTO> LoginAsync(UserDTO loginDto)
+        public async Task<UserResultDTO> LoginAsync(LoginDTO loginDto)
         {
             var result = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, false, false);
 
@@ -64,22 +83,31 @@ namespace Ui.Services
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return null;
-
+            var roles = await _userManager.GetRolesAsync(user);
             return new UserDTO
             {
                 Id = Guid.Parse(user.Id),
                 Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Phone=user.Phone,
+                Role= roles.FirstOrDefault()
             };
         }
         public async Task<UserDTO> GetUserByEmailAsync(string Email)
         {
-            var user = await _userManager.FindByIdAsync(Email);
+            var user = await _userManager.FindByEmailAsync(Email);
             if (user == null) return null;
 
+            var roles = await _userManager.GetRolesAsync(user);
             return new UserDTO
             {
                 Id = Guid.Parse(user.Id),
                 Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Phone = user.Phone,
+                Role = roles.FirstOrDefault()
             };
         }
 
