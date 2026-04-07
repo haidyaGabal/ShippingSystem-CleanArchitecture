@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domains;
 
-public partial class TbUserSebder:BaseEntity
+public partial class TbUserSender:BaseEntity
 {
   
 
@@ -19,8 +19,11 @@ public partial class TbUserSebder:BaseEntity
 
     public string Address { get; set; } = null!;
 
-
+    public string PostalCode { get; set; }
+    public string OtherAddress { get; set; } = null!;
+    public string Contact { get; set; } = null!;
+    public bool IsDefault { get; set; } 
     public virtual TbCity City { get; set; } = null!;
 
-    public virtual ICollection<TbShippment> TbShippments { get; set; } = new List<TbShippment>();
+    public virtual ICollection<TbShipment> TbShipments { get; set; } = new List<TbShipment>();
 }

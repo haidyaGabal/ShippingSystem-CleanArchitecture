@@ -8,9 +8,9 @@ namespace Ui.Areas.admin.Controllers
 
     public class ShippmentController : Controller
     {
-        private readonly IShippment shippment;
+        private readonly IShipment shippment;
 
-        public ShippmentController(IShippment _shippment)
+        public ShippmentController(IShipment _shippment)
         {  
             this.shippment = _shippment;
         }
@@ -22,7 +22,7 @@ namespace Ui.Areas.admin.Controllers
 
         public IActionResult Edit(Guid id)
         {
-            ShippmentDTO item;
+            ShipmentDTO item;
 
             if (id != Guid.Empty)
             {
@@ -32,7 +32,7 @@ namespace Ui.Areas.admin.Controllers
             }
             else
             {
-                item = new ShippmentDTO();
+                item = new ShipmentDTO();
             }
 
             return View(item);
@@ -45,7 +45,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Save(ShippmentDTO dto)
+        public async Task<IActionResult> Save(ShipmentDTO dto)
         {
             if (dto.Id == Guid.Empty)
                 await shippment.Add(dto, dto.Id);

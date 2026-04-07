@@ -60,7 +60,7 @@ namespace Ui
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 
-            builder.Services.AddScoped<IShippingType, ShippingTypeService>();
+            builder.Services.AddScoped<IShipingType, ShippingTypeService>();
             builder.Services.AddScoped<ICountry, CounteryService>();
             builder.Services.AddScoped<ICity, CityService>();
             builder.Services.AddScoped<IUserService, UserService>();

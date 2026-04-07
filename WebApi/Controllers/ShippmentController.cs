@@ -12,24 +12,24 @@ namespace WebApi.Controllers
     [ApiController]
     public class ShippmentController : ControllerBase
     {
-        IShippment _shippment;
-        public ShippmentController(IShippment shippment)
+        IShipment _shippment;
+        public ShippmentController(IShipment shippment)
         {
             _shippment = shippment;
         }
         // GET: api/<ShippmentController>
         [HttpGet]
-        public ActionResult<ApiResponse<List<ShippmentDTO>>> Get()
+        public ActionResult<ApiResponse<List<ShipmentDTO>>> Get()
         {
             try {
                 var data = _shippment.GetAll();
 
-                return Ok( ApiResponse<List<ShippmentDTO>>.SuccessResponse(data));
+                return Ok( ApiResponse<List<ShipmentDTO>>.SuccessResponse(data));
             }
             catch(DataAccessException daEx)
             {
                 ///500 internal server error
-                return StatusCode(500, ApiResponse<List<ShippmentDTO>>.FailResponse(
+                return StatusCode(500, ApiResponse<List<ShipmentDTO>>.FailResponse(
                     "Data Access Exception ", new List<string>() {daEx.Message }
                     ));
                 /// add message , and list of error if i need return errors but this not secure ->  you must return log 
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
                 ///500 internal server error
-                return StatusCode(500, ApiResponse<List<ShippmentDTO>>.FailResponse(
+                return StatusCode(500, ApiResponse<List<ShipmentDTO>>.FailResponse(
                     "General Exception ", new List<string>() { ex.Message }
                     ));
                 /// add message , and list of error if i need return errors but this not secure ->  you must return log 
@@ -50,18 +50,18 @@ namespace WebApi.Controllers
 
         // GET api/<ShippmentController>/5
         [HttpGet("{id}")]
-        public ActionResult<ApiResponse<ShippmentDTO>> Get(Guid id)
+        public ActionResult<ApiResponse<ShipmentDTO>> Get(Guid id)
         {
             try
             {
                 var data = _shippment.GetById(id);
 
-                return Ok(ApiResponse<ShippmentDTO>.SuccessResponse(data));
+                return Ok(ApiResponse<ShipmentDTO>.SuccessResponse(data));
             }
             catch (DataAccessException daEx)
             {
                 ///500 internal server error
-                return StatusCode(500, ApiResponse<ShippmentDTO>.FailResponse(
+                return StatusCode(500, ApiResponse<ShipmentDTO>.FailResponse(
                     "Data Access Exception ", new List<string>() { daEx.Message }
                     ));
                 /// add message , and list of error if i need return errors but this not secure ->  you must return log 
@@ -71,7 +71,7 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
                 ///500 internal server error
-                return StatusCode(500, ApiResponse<ShippmentDTO>.FailResponse(
+                return StatusCode(500, ApiResponse<ShipmentDTO>.FailResponse(
                     "General Exception ", new List<string>() { ex.Message }
                     ));
                 /// add message , and list of error if i need return errors but this not secure ->  you must return log 

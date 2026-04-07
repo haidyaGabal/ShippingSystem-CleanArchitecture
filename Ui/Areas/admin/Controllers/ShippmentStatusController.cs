@@ -8,9 +8,9 @@ namespace Ui.Areas.admin.Controllers
 
     public class ShippmentStatusController : Controller
     {
-        private readonly IShippmentStatus shippmentStatus;
+        private readonly IShipmentStatus shippmentStatus;
 
-        public ShippmentStatusController(IShippmentStatus _shippmentStatus)
+        public ShippmentStatusController(IShipmentStatus _shippmentStatus)
         {
             this.shippmentStatus = _shippmentStatus;    
         }
@@ -22,7 +22,7 @@ namespace Ui.Areas.admin.Controllers
 
         public IActionResult Edit(Guid id)
         {
-            ShippmentStatusDTO item;
+            ShipmentStatusDTO item;
 
             if (id != Guid.Empty)
             {
@@ -32,7 +32,7 @@ namespace Ui.Areas.admin.Controllers
             }
             else
             {
-                item = new ShippmentStatusDTO();
+                item = new ShipmentStatusDTO();
             }
 
             return View(item);
@@ -45,7 +45,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Save(ShippmentStatusDTO dto)
+        public async Task<IActionResult> Save(ShipmentStatusDTO dto)
         {
             if (dto.Id == Guid.Empty)
                 await shippmentStatus.Add(dto, dto.Id);

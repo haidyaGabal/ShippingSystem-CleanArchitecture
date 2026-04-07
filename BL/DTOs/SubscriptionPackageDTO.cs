@@ -18,7 +18,7 @@ namespace BL.DTOs
         public string PackageName { get; set; } = null!;
 
         [Range(1, 1000, ErrorMessage = "Shipment count must be between 1 and 1000")]
-        public int ShippimentCount { get; set; }
+        public int ShipimentCount { get; set; }
 
         [Range(0.1, 10000.0, ErrorMessage = "Number of kilometers must be between 0.1 and 10,000")]
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Kilometers can have maximum 2 decimal places")]

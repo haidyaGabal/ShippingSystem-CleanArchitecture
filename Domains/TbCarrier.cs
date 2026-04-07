@@ -11,5 +11,5 @@ public partial class TbCarrier:BaseEntity
 
    
 
-    public virtual ICollection<TbShippmentStatus> TbShippmentStatuses { get; set; } = new List<TbShippmentStatus>();
+    public virtual ICollection<TbShipmentStatus> TbShippmentStatuses { get; set; } = new List<TbShipmentStatus>();
 }

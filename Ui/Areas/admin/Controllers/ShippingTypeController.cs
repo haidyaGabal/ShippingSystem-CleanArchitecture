@@ -11,9 +11,9 @@ namespace Ui.Areas.admin.Controllers
     [Area("admin")]
     public class ShippingTypeController : Controller
     {
-        private readonly IShippingType shippingType;
+        private readonly IShipingType shippingType;
 
-        public ShippingTypeController(IShippingType shippingType)
+        public ShippingTypeController(IShipingType shippingType)
         {
             this.shippingType = shippingType;
         }
@@ -25,7 +25,7 @@ namespace Ui.Areas.admin.Controllers
 
         public IActionResult Edit(Guid id)
         {
-            ShippingTypeDTO item;
+            ShipingTypeDTO item;
 
             if (id != Guid.Empty)
             {
@@ -35,7 +35,7 @@ namespace Ui.Areas.admin.Controllers
             }
             else
             {
-                item = new ShippingTypeDTO();
+                item = new ShipingTypeDTO();
             }
 
             return View(item);
@@ -48,7 +48,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
       
-        public async Task<IActionResult> Save(ShippingTypeDTO dto)
+        public async Task<IActionResult> Save(ShipingTypeDTO dto)
         {
             if (dto.Id == Guid.Empty)
                await shippingType.Add(dto, dto.Id);

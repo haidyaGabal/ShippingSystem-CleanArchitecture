@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace BL.DTOs
 {
-    public class ShippmentDTO : BaseDTOs
+    public class ShipmentDTO : BaseDTOs
     {
         [Required(ErrorMessage = "Shipping date is required")]
         [DataType(DataType.DateTime)]
-        public DateTime ShippingDate { get; set; }
+        public DateTime ShipingDate { get; set; }
 
         public Guid SenderId { get; set; }
 
         public Guid ReceiverId { get; set; }
 
     
-        public Guid ShippingTypeId { get; set; }
+        public Guid ShipingTypeId { get; set; }
 
         [Range(0.1, 1000.0, ErrorMessage = "Width must be between 0.1 and 1000.0 cm")]
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Width can have maximum 2 decimal places")]
@@ -43,7 +43,7 @@ namespace BL.DTOs
 
         [Range(0, 10000, ErrorMessage = "Shipping rate must be between 0 and 10,000")]
         [DataType(DataType.Currency)]
-        public decimal ShippingRate { get; set; }
+        public decimal ShipingRate { get; set; }
 
         public Guid? PaymentMethodId { get; set; }
 

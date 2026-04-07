@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BL.Contracts
 {
-    public interface IUserSebder : IBaseService<TbUserSebder, UserSebderDTO>
+    public interface IShipmentStatus : IBaseService<TbShipmentStatus, ShipmentStatusDTO>
     {
     }
 }

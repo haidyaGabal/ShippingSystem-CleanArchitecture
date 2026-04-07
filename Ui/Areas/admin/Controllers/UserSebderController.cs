@@ -8,9 +8,9 @@ namespace Ui.Areas.admin.Controllers
 
     public class UserSebderController : Controller
     {
-        private readonly IUserSebder userSebder;
+        private readonly IUserSender userSebder;
 
-        public UserSebderController(IUserSebder userSebder)
+        public UserSebderController(IUserSender userSebder)
         {
             this.userSebder = userSebder;
         
@@ -23,7 +23,7 @@ namespace Ui.Areas.admin.Controllers
 
         public IActionResult Edit(Guid id)
         {
-            UserSebderDTO item;
+            UserSenderDTO item;
 
             if (id != Guid.Empty)
             {
@@ -33,7 +33,7 @@ namespace Ui.Areas.admin.Controllers
             }
             else
             {
-                item = new UserSebderDTO();
+                item = new UserSenderDTO();
             }
 
             return View(item);
@@ -46,7 +46,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Save(UserSebderDTO dto)
+        public async Task<IActionResult> Save(UserSenderDTO dto)
         {
             if (dto.Id == Guid.Empty)
                 await userSebder.Add(dto, dto.Id);

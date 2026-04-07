@@ -1,5 +1,5 @@
 ﻿
-@model List<ShippingTypeDTO>
+@model List<ShipingTypeDTO>
 
 @section Styles {
     <!-- Custom styles for this template -->
@@ -43,9 +43,9 @@
                                    @foreach (var ship in Model)
                                     {
                                     <tr class="odd">
-                                            <td class="sorting_1">@ship.ShippingTypeEname</td>
-                                            <td>@ship.ShippingTypeAname</td>
-                                            <td>@ship.ShippingFactor</td>
+                                            <td class="sorting_1">@ship.ShipingTypeEname</td>
+                                            <td>@ship.ShipingTypeAname</td>
+                                            <td>@ship.ShipingFactor</td>
                                        
                                     </tr>
                                     }

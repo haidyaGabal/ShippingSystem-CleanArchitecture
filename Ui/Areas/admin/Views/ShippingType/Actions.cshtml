@@ -1,4 +1,4 @@
-﻿@model List<ShippingTypeDTO>
+﻿@model List<ShipingTypeDTO>
 @section Styles {
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -34,9 +34,9 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td class="text-start">@item.ShippingTypeEname</td>
-                                <td class="text-start">@item.ShippingTypeAname</td>
-                                <td class="text-start">@item.ShippingFactor</td>
+                                <td class="text-start">@item.ShipingTypeEname</td>
+                                <td class="text-start">@item.ShipingTypeAname</td>
+                                <td class="text-start">@item.ShipingFactor</td>
                                 <td class="text-center">
                                     <a asp-controller="ShippingType"
                                        asp-action="Edit"

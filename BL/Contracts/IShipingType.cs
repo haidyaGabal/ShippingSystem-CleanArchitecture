@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BL.Contracts
 {
-    public interface IShippingType : IBaseService<TbShippingType, ShippingTypeDTO>
+    public interface IShipingType : IBaseService<TbShipingType, ShipingTypeDTO>
     {
 
         ///base Solid Principles if you need to add more methods for shippingtype table

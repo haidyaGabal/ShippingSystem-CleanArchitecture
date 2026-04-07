@@ -40,5 +40,9 @@ namespace BL.DTOs
         [RegularExpression(@"^[a-zA-Z0-9\s\-\.\,#\/]+$",
             ErrorMessage = "Address can only contain letters, numbers, spaces, hyphens, periods, commas, #, and /")]
         public string Address { get; set; } = null!;
+
+        public string PostalCode { get; set; }
+        public string OtherAddress { get; set; } = null!;
+        public string Contact { get; set; } = null!;
     }
 }

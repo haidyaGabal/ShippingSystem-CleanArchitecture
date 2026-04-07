@@ -13,9 +13,9 @@ namespace Ui.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IShippingType _shippingType;
+        private readonly IShipingType _shippingType;
 
-        public HomeController(ILogger<HomeController> logger, IShippingType shippingType)
+        public HomeController(ILogger<HomeController> logger, IShipingType shippingType)
         {
             _logger = logger;
             _shippingType = shippingType;

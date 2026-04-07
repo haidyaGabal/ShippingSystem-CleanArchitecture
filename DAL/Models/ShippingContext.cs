@@ -33,21 +33,24 @@ public partial class ShippingContext : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<TbSetting> TbSettings { get; set; }
 
-    public virtual DbSet<TbShippingType> TbShippingTypes { get; set; }
+    public virtual DbSet<TbShipingType> TbShipingTypes { get; set; }
 
-    public virtual DbSet<TbShippment> TbShippments { get; set; }
+    public virtual DbSet<TbShipment> TbShipments { get; set; }
 
-    public virtual DbSet<TbShippmentStatus> TbShippmentStatuses { get; set; }
+    public virtual DbSet<TbShipmentStatus> TbShipmentStatuses { get; set; }
 
     public virtual DbSet<TbSubscriptionPackage> TbSubscriptionPackages { get; set; }
 
     public virtual DbSet<TbUserReceiver> TbUserReceivers { get; set; }
 
-    public virtual DbSet<TbUserSebder> TbUserSebders { get; set; }
+    public virtual DbSet<TbUserSender> TbUserSenders { get; set; }
 
     public virtual DbSet<TbUserSubscription> TbUserSubscriptions { get; set; }
 
     public virtual DbSet<TbRefreshToken> TbRefreshTokens { get; set; }
+
+    public virtual DbSet<TbShipingPackage> TbShipingPackages { get; set; }
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -125,49 +128,49 @@ public partial class ShippingContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
         });
 
-        modelBuilder.Entity<TbShippingType>(entity =>
+        modelBuilder.Entity<TbShipingType>(entity =>
         {
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.ShippingTypeAname)
+            entity.Property(e => e.ShipingTypeAname)
                 .HasMaxLength(200)
                 .HasColumnName("ShippingTypeAName");
-            entity.Property(e => e.ShippingTypeEname)
+            entity.Property(e => e.ShipingTypeEname)
                 .HasMaxLength(200)
                 .HasColumnName("ShippingTypeEName");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<TbShippment>(entity =>
+        modelBuilder.Entity<TbShipment>(entity =>
         {
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.PackageValue).HasColumnType("decimal(8, 4)");
             entity.Property(e => e.ShippingDate).HasColumnType("datetime");
-            entity.Property(e => e.ShippingRate).HasColumnType("decimal(8, 4)");
+            entity.Property(e => e.ShipingRate).HasColumnType("decimal(8, 4)");
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.PaymentMethod).WithMany(p => p.TbShippments)
                 .HasForeignKey(d => d.PaymentMethodId)
                 .HasConstraintName("FK_TbShippments_TbPaymentMethods");
 
-            entity.HasOne(d => d.Receiver).WithMany(p => p.TbShippments)
+            entity.HasOne(d => d.Receiver).WithMany(p => p.TbShipments)
                 .HasForeignKey(d => d.ReceiverId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TbShippments_TbUserReceivers");
 
-            entity.HasOne(d => d.Sender).WithMany(p => p.TbShippments)
+            entity.HasOne(d => d.Sender).WithMany(p => p.TbShipments)
                 .HasForeignKey(d => d.SenderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TbShippments_TbUserSebders");
 
-            entity.HasOne(d => d.ShippingType).WithMany(p => p.TbShippments)
-                .HasForeignKey(d => d.ShippingTypeId)
+            entity.HasOne(d => d.ShipingType).WithMany(p => p.TbShipments)
+                .HasForeignKey(d => d.ShipingTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TbShippments_TbShippingTypes");
         });
 
-        modelBuilder.Entity<TbShippmentStatus>(entity =>
+        modelBuilder.Entity<TbShipmentStatus>(entity =>
         {
             entity.ToTable("TbShippmentStatus");
 
@@ -180,8 +183,8 @@ public partial class ShippingContext : IdentityDbContext<ApplicationUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TbShippmentStatus_TbCarriers");
 
-            entity.HasOne(d => d.Shippment).WithMany(p => p.TbShippmentStatuses)
-                .HasForeignKey(d => d.ShippmentId)
+            entity.HasOne(d => d.Shipment).WithMany(p => p.TbShippmentStatuses)
+                .HasForeignKey(d => d.ShipmentId)
                 .HasConstraintName("FK_TbShippmentStatus_TbShippments");
         });
 
@@ -209,7 +212,7 @@ public partial class ShippingContext : IdentityDbContext<ApplicationUser>
                 .HasConstraintName("FK_TbUserReceivers_TbCities");
         });
 
-        modelBuilder.Entity<TbUserSebder>(entity =>
+        modelBuilder.Entity<TbUserSender>(entity =>
         {
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Address).HasMaxLength(500);

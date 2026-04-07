@@ -3,17 +3,19 @@ using System.Collections.Generic;
 
 namespace Domains;
 
-public partial class TbShippment:BaseEntity
+public partial class TbShipment:BaseEntity
 {
 
 
     public DateTime ShippingDate { get; set; }
+    public DateTime DeliveryDate { get; set; }
 
     public Guid SenderId { get; set; }
 
     public Guid ReceiverId { get; set; }
 
-    public Guid ShippingTypeId { get; set; }
+    public Guid ShipingTypeId { get; set; }
+    public Guid? ShipingPackageId { get; set; }
 
     public double Width { get; set; }
 
@@ -25,7 +27,7 @@ public partial class TbShippment:BaseEntity
 
     public decimal PackageValue { get; set; }
 
-    public decimal ShippingRate { get; set; }
+    public decimal ShipingRate { get; set; }
 
     public Guid? PaymentMethodId { get; set; }
 
@@ -40,9 +42,11 @@ public partial class TbShippment:BaseEntity
 
     public virtual TbUserReceiver Receiver { get; set; } = null!;
 
-    public virtual TbUserSebder Sender { get; set; } = null!;
+    public virtual TbUserSender Sender { get; set; } = null!;
 
-    public virtual TbShippingType ShippingType { get; set; } = null!;
+    public virtual TbShipingType ShipingType { get; set; } = null!;
 
-    public virtual ICollection<TbShippmentStatus> TbShippmentStatuses { get; set; } = new List<TbShippmentStatus>();
+    public virtual TbShipingPackage ShipingPackages { get; set; }
+
+    public virtual ICollection<TbShipmentStatus> TbShippmentStatuses { get; set; } = new List<TbShipmentStatus>();
 }

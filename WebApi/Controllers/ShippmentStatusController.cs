@@ -12,24 +12,24 @@ namespace WebApi.Controllers
     [ApiController]
     public class ShippmentStatusController : ControllerBase
     {
-        IShippmentStatus _shippmentStatus;
-        public ShippmentStatusController(IShippmentStatus shippmentStatus)
+        IShipmentStatus _shippmentStatus;
+        public ShippmentStatusController(IShipmentStatus shippmentStatus)
         {
             _shippmentStatus= shippmentStatus;
         }
         // GET: api/<ShippmentStatusController>
         [HttpGet]
-        public ActionResult<ApiResponse<List<ShippmentStatusDTO>>> Get()
+        public ActionResult<ApiResponse<List<ShipmentStatusDTO>>> Get()
         {
             try {
                 var data = _shippmentStatus.GetAll();
 
-                return Ok( ApiResponse<List<ShippmentStatusDTO>>.SuccessResponse(data));
+                return Ok( ApiResponse<List<ShipmentStatusDTO>>.SuccessResponse(data));
             }
             catch(DataAccessException daEx)
             {
                 ///500 internal server error
-                return StatusCode(500, ApiResponse<List<ShippmentStatusDTO>>.FailResponse(
+                return StatusCode(500, ApiResponse<List<ShipmentStatusDTO>>.FailResponse(
                     "Data Access Exception ", new List<string>() {daEx.Message }
                     ));
                 /// add message , and list of error if i need return errors but this not secure ->  you must return log 
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
                 ///500 internal server error
-                return StatusCode(500, ApiResponse<List<ShippmentStatusDTO>>.FailResponse(
+                return StatusCode(500, ApiResponse<List<ShipmentStatusDTO>>.FailResponse(
                     "General Exception ", new List<string>() { ex.Message }
                     ));
                 /// add message , and list of error if i need return errors but this not secure ->  you must return log 

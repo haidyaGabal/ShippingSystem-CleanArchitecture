@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BL.DTOs
 {
-    public class ShippmentStatusDTO : BaseDTOs
+    public class ShipmentStatusDTO : BaseDTOs
     {
 
         public Guid? ShipmentId { get; set; }
