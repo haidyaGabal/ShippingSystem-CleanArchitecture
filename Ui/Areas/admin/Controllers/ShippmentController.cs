@@ -1,4 +1,4 @@
-﻿using BL.Contracts;
+﻿using BL.Contracts.Shipment;
 using BL.DTOs;
 using Microsoft.AspNetCore.Mvc;
 

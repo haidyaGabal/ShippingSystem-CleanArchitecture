@@ -11,15 +11,23 @@ namespace BL.DTOs
     public class ShipmentDTO : BaseDTOs
     {
         [Required(ErrorMessage = "Shipping date is required")]
-        [DataType(DataType.DateTime)]
-        public DateTime ShipingDate { get; set; }
+     
+        public DateTime ShippingDate { get; set; }= DateTime.Now;
+
 
         public Guid SenderId { get; set; }
 
         public Guid ReceiverId { get; set; }
+        public Guid? ShipingTypeId { get; set; }
 
-    
-        public Guid ShipingTypeId { get; set; }
+
+        public UserSenderDTO userSender { get; set; }
+        public UserReceiverDTO userReceiver { get; set; }
+
+
+        public Guid? ShipingPackagesId { get; set; }
+        public DateTime DeliveryDate { get; set; }
+     
 
         [Range(0.1, 1000.0, ErrorMessage = "Width must be between 0.1 and 1000.0 cm")]
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Width can have maximum 2 decimal places")]
@@ -53,5 +61,7 @@ namespace BL.DTOs
         public double? TrackingNumber { get; set; }
 
         public Guid? ReferenceId { get; set; }
+
+
     }
 }
