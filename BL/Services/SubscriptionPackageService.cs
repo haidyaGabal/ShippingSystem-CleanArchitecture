@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.Services
 {
-    internal class SubscriptionPackageService
+    public class SubscriptionPackageDTO
     {
     }
 }

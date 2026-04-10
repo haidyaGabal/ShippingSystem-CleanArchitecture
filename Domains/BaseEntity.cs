@@ -8,7 +8,7 @@
 
         public int CurrentState { get; set; }
 
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;  // avoids SqlDateTime overflow
+        public DateTime CreatedDate { get; set; } = DateTime.Now; 
 
         public Guid CreatedBy { get; set; }
 

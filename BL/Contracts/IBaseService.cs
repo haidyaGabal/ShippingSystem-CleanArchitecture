@@ -12,6 +12,7 @@ namespace BL.Contracts
         List<DTO> GetAll();
         DTO GetById(Guid id);
         Task<bool> Add(DTO entity, Guid userId);
+        bool Add(DTO entity,out Guid id);
         Task<bool> Update(DTO entity, Guid userId);
         Task<bool> ChangeStatus(Guid id, Guid userId, int status = 1);
     }

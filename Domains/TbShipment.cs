@@ -15,7 +15,8 @@ public partial class TbShipment:BaseEntity
     public Guid ReceiverId { get; set; }
 
     public Guid ShipingTypeId { get; set; }
-    public Guid? ShipingPackageId { get; set; }
+    public Guid? ShipingPackagesId { get; set; }
+    
 
     public double Width { get; set; }
 

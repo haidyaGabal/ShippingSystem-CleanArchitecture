@@ -17,10 +17,17 @@ namespace BL.Services
     {
         protected readonly IRepository<T> _repo;
         protected readonly IMapper _mapper;
+        protected readonly IUnitOfWork _unitOfWork;
 
         public BaseService(IRepository<T> repository, IMapper mapper)
         {
             _repo = repository;
+            _mapper = mapper;
+        }
+        public BaseService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _repo = _unitOfWork.Repository<T>();
             _mapper = mapper;
         }
 
@@ -42,6 +49,12 @@ namespace BL.Services
             dtObj.CreatedBy = userId;
             return await _repo.Add(dtObj);
         }
+        public bool Add(DTO entity, out Guid id)
+        {
+            var dtObj = _mapper.Map<DTO, T>(entity);
+            
+            return _repo.Add(dtObj,out id);
+        }
 
         public async Task<bool> Update(DTO entity, Guid userId)
         {
@@ -54,6 +67,8 @@ namespace BL.Services
         {
             return await _repo.ChangeStatus(id, status);
         }
+
+       
     }
 
 }

@@ -1,7 +1,9 @@
 ﻿using BL.Contracts;
+using BL.Contracts.Shipment;
 using BL.DTOs;
 using BL.Mapping;
 using BL.Services;
+using BL.Services.Shipment;
 using DAL;
 using DAL.Repositories;
 using DAL.UserModels;
@@ -91,12 +93,19 @@ namespace WebApi
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 
-            builder.Services.AddScoped<IShipingType, ShippingTypeService>();
+            builder.Services.AddScoped<IShipingType, ShipingTypeService>();
             builder.Services.AddScoped<ICountry, CounteryService>();
             builder.Services.AddScoped<ICity, CityService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<IRefershToken, RefershTokenService>();
+
+            builder.Services.AddScoped<IPaymentMethod, PaymentService>();
+            builder.Services.AddScoped<IUserReceiver, UserReceiverService>();
+            builder.Services.AddScoped<IUserSender, UserSenderService>();
+            builder.Services.AddScoped<IShipment, ShipmentService>();
+            builder.Services.AddScoped<ITrackingNumber, TrackingNumberCreatorService>();
+            builder.Services.AddScoped<ICalculateRate, CalculateRateService>();
 
 
 

@@ -470,10 +470,7 @@ namespace DAL.Migrations
                     b.Property<Guid>("SenderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ShipingPackageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ShipingPackagesId")
+                    b.Property<Guid?>("ShipingPackagesId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("ShipingRate")
@@ -939,9 +936,7 @@ namespace DAL.Migrations
 
                     b.HasOne("Domains.TbShipingPackage", "ShipingPackages")
                         .WithMany("TbShippments")
-                        .HasForeignKey("ShipingPackagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShipingPackagesId");
 
                     b.HasOne("Domains.TbShipingType", "ShipingType")
                         .WithMany("TbShipments")

@@ -12,8 +12,7 @@ public partial class TbPaymentMethod:BaseEntity
     public string? MethodEname { get; set; }
 
     public double? Commission { get; set; }
-
-
+ 
 
     public virtual ICollection<TbShipment> TbShippments { get; set; } = new List<TbShipment>();
 }
