@@ -13,6 +13,7 @@ namespace Domains
         T? GetById(Guid id);
         List<T> GetAll();
         Task<bool> Add(T entity);
+        bool Add(T entity,out Guid id);
         Task<bool> Update(T entity);
         Task<bool> Delete(Guid id);
         Task<bool> ChangeStatus(Guid id,int status = 1);

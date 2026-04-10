@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DAL.Exceptions;
 using Domains;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 namespace DAL.Repositories
@@ -16,15 +17,23 @@ namespace DAL.Repositories
             private readonly ShippingContext _context;
             private readonly DbSet<T> _dbSet;
             private readonly ILogger<Repository<T>> _logger;
+        private IDbContextTransaction? tx;
+        private ILogger<Repository<T>> logger;
 
-            public Repository(ShippingContext context, ILogger<Repository<T>> logger)
+        public Repository(ShippingContext context, ILogger<Repository<T>> logger)
             {
                 _context = context;
                 _dbSet = _context.Set<T>();
                 _logger = logger;
             }
 
-            public List<T> GetAll()
+        public Repository(IDbContextTransaction? tx, ILogger<Repository<T>> logger)
+        {
+            this.tx = tx;
+            this.logger = logger;
+        }
+
+        public List<T> GetAll()
             {
                 try
                 {
@@ -56,7 +65,7 @@ namespace DAL.Repositories
                 if (entity.Id == Guid.Empty)
                     entity.Id = Guid.NewGuid();
 
-                entity.CreatedDate = DateTime.UtcNow;
+                entity.CreatedDate = DateTime.Now;
                 entity.CurrentState = 1;
                // entity.CreatedBy = userId;
 
@@ -69,6 +78,28 @@ namespace DAL.Repositories
                 throw new DataAccessException(ex, "Error adding entity", _logger);
             }
         }
+        public bool Add(T entity,out Guid id)
+        {
+            try
+            {
+                if (entity.Id == Guid.Empty)
+                    entity.Id = Guid.NewGuid();
+
+                entity.CreatedDate = DateTime.UtcNow;
+                entity.CurrentState = 1;
+                // entity.CreatedBy = userId;
+
+                _dbSet.Add(entity);
+                 _context.SaveChangesAsync();
+                id= entity.Id;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new DataAccessException(ex, "Error adding entity", _logger);
+            }
+        }
+
 
         public async Task<bool> Update(T entity)
         {

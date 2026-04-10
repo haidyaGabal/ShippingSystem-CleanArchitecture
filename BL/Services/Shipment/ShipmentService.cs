@@ -13,7 +13,7 @@ namespace BL.Services.Shipment
 {
     public class ShipmentService : BaseService<TbShipment, ShipmentDTO>, IShipment
     {
-      
+
 
         private readonly IUserReceiver _userReceiver;
         private readonly IUserSender _userSender;
@@ -23,14 +23,14 @@ namespace BL.Services.Shipment
 
         private readonly IMapper _mapper;
 
-        public ShipmentService( IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate,ITrackingNumber trackingNumber, IUnitOfWork uow) : base(uow, mapper)
+        public ShipmentService(IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow) : base(uow, mapper)
         {
             _userReceiver = userReceiver;
             _userSender = userSender;
             _caculateRate = calculateRate;
             _rackingNumber = trackingNumber;
             _mapper = mapper;
-     
+
             _uow = uow;
         }
 
@@ -64,19 +64,20 @@ namespace BL.Services.Shipment
                     shipmentDTO.ReceiverId = reciverId;
 
                 }
-           
-                await  this.Add(shipmentDTO, shipmentDTO.Id);
+
+                await this.Add(shipmentDTO, shipmentDTO.Id);
                 await _uow.CommitTransactionAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await _uow.RollbackTransactionAsync();
                 throw ex;
+
             }
-            
+
         }
     }
 
 }
- 
+
 
