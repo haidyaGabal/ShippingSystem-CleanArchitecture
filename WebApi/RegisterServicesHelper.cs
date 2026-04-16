@@ -108,6 +108,11 @@ namespace WebApi
             builder.Services.AddScoped<ICalculateRate, CalculateRateService>();
 
 
+   
+            builder.Services.AddScoped<IShipingPackages, ShipingPackageService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
 
 
             ///for jwt 
