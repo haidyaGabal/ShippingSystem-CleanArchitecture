@@ -85,7 +85,7 @@ namespace WebApi.Controllers
 
         ///get by country
         ///
-        [HttpGet("GetByCountry{id}")]
+        [HttpGet("GetByCountry/{id}")]
         public ActionResult<ApiResponse<CityDTO>> GetByCountry(Guid id)
         {
             try
