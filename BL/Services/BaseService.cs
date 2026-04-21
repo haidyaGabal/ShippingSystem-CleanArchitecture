@@ -18,17 +18,19 @@ namespace BL.Services
         protected readonly IRepository<T> _repo;
         protected readonly IMapper _mapper;
         protected readonly IUnitOfWork _unitOfWork;
+        IUserService _userService;
 
         public BaseService(IRepository<T> repository, IMapper mapper)
         {
             _repo = repository;
             _mapper = mapper;
         }
-        public BaseService(IUnitOfWork unitOfWork, IMapper mapper)
+        public BaseService(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
         {
             _unitOfWork = unitOfWork;
             _repo = _unitOfWork.Repository<T>();
             _mapper = mapper;
+            _userService = userService;
         }
 
         public List<DTO> GetAll()
@@ -43,29 +45,29 @@ namespace BL.Services
             return _mapper.Map<T, DTO>(obj);
         }
 
-        public async Task<bool> Add(DTO entity, Guid userId)
+        public async Task<bool> Add(DTO entity)
         {
             var dtObj = _mapper.Map<DTO, T>(entity);
-            dtObj.CreatedBy = userId;
+            dtObj.CreatedBy = _userService.GetLoggedInUser();
             return await _repo.Add(dtObj);
         }
         public bool Add(DTO entity, out Guid id)
         {
             var dtObj = _mapper.Map<DTO, T>(entity);
-            
+            dtObj.CreatedBy = _userService.GetLoggedInUser();
             return _repo.Add(dtObj,out id);
         }
 
-        public async Task<bool> Update(DTO entity, Guid userId)
+        public async Task<bool> Update(DTO entity)
         {
             var dtObj = _mapper.Map<DTO, T>(entity);
-            dtObj.UpdatedBy = userId;
+            dtObj.UpdatedBy = _userService.GetLoggedInUser();
             return await _repo.Update(dtObj);
         }
 
         public async Task<bool> ChangeStatus(Guid id, Guid userId, int status = 1)
         {
-            return await _repo.ChangeStatus(id, status);
+            return await _repo.ChangeStatus(id, _userService.GetLoggedInUser(), status);
         }
 
        
