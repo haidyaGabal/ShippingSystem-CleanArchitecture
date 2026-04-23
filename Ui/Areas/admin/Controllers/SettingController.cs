@@ -48,9 +48,9 @@ namespace Ui.Areas.admin.Controllers
         public async Task<IActionResult> Save(SettingDTO dto)
         {
             if (dto.Id == Guid.Empty)
-                await setting.Add(dto, dto.Id);
+                 setting.Add(dto);
             else
-                await setting.Update(dto, dto.Id);
+                 setting.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -58,7 +58,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await setting.ChangeStatus(Id, Guid.Empty, 0);
+             setting.ChangeStatus(Id, Guid.Empty, 0);
             return RedirectToAction(nameof(Index));
         }
 

@@ -48,9 +48,9 @@ namespace Ui.Areas.admin.Controllers
         public async Task<IActionResult> Save(PaymentMethodDTO dto)
         {
             if (dto.Id == Guid.Empty)
-                await payment.Add(dto, dto.Id);
+                payment.Add(dto);
             else
-                await payment.Update(dto, dto.Id);
+                 payment.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -58,7 +58,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await payment.ChangeStatus(Id, Guid.Empty, 0);
+             payment.ChangeStatus(Id, Guid.Empty, 0);
             return RedirectToAction(nameof(Index));
         }
 

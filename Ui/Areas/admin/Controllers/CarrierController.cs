@@ -52,9 +52,9 @@ namespace Ui.Areas.admin.Controllers
         public async Task<IActionResult> Save(CarrierDTO dto)
         {
             if (dto.Id == Guid.Empty)
-               await carrier.Add(dto, dto.Id);
+                carrier.Add(dto);
             else
-               await carrier.Update(dto, dto.Id);
+                carrier.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -62,7 +62,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await carrier.ChangeStatus(Id, Guid.Empty, 0);
+             carrier.ChangeStatus(Id, Guid.Empty, 0);
             return RedirectToAction(nameof(Index));
         }
 

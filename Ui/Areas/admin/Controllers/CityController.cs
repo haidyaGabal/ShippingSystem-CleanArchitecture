@@ -59,9 +59,9 @@ namespace Ui.Areas.admin.Controllers
                 return View("Edit", dto);
 
             if (dto.Id == Guid.Empty) 
-                await _city.Add(dto, dto.Id);
+                _city.Add(dto);
             else
-                await _city.Update(dto, dto.Id);
+               _city.Update(dto);
 
 
             return RedirectToAction(nameof(Actions), new { countryId = dto.CountryId });
@@ -72,7 +72,7 @@ namespace Ui.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id, Guid countryId)
         {
-            await _city.ChangeStatus(id, Guid.Empty, 0);
+                 _city.ChangeStatus(id, Guid.Empty, 0);
             return RedirectToAction(nameof(Actions), new { countryId });
         }
     }

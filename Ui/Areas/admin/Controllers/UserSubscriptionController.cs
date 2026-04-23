@@ -48,9 +48,9 @@ namespace Ui.Areas.admin.Controllers
         public async Task<IActionResult> Save(UserSubscriptionDTO dto)
         {
             if (dto.Id == Guid.Empty)
-                await userSubscription.Add(dto, dto.Id);
+                 userSubscription.Add(dto);
             else
-                await userSubscription.Update(dto, dto.Id);
+                 userSubscription.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -58,7 +58,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await userSubscription.ChangeStatus(Id, Guid.Empty, 0);
+             userSubscription.ChangeStatus(Id, Guid.Empty, 0);
             return RedirectToAction(nameof(Index));
         }
 

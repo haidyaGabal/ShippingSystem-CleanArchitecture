@@ -48,9 +48,9 @@ namespace Ui.Areas.admin.Controllers
         public async Task<IActionResult> Save(ShipmentDTO dto)
         {
             if (dto.Id == Guid.Empty)
-                await shippment.Add(dto, dto.Id);
+                shippment.Add(dto);
             else
-                await shippment.Update(dto, dto.Id);
+                 shippment.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -58,9 +58,10 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await shippment.ChangeStatus(Id, Guid.Empty, 0);
+             shippment.ChangeStatus(Id, Guid.Empty, 0);
             return RedirectToAction(nameof(Index));
         }
+
 
 
 

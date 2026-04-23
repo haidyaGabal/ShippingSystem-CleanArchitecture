@@ -48,9 +48,9 @@ namespace Ui.Areas.admin.Controllers
         public async Task<IActionResult> Save(CountryDTO dto)
         {
             if (dto.Id == Guid.Empty)
-                await country.Add(dto, dto.Id);
+                country.Add(dto);
             else
-                await country.Update(dto, dto.Id);
+                 country.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -58,7 +58,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await country.ChangeStatus(Id, Guid.Empty, 0);
+             country.ChangeStatus(Id, Guid.Empty, 0);
             return RedirectToAction(nameof(Index));
         }
 
