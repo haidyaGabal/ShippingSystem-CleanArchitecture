@@ -12,11 +12,9 @@ namespace BL.Contracts
     public interface IUnitOfWork : IAsyncDisposable
     {
         IRepository<T> Repository<T>() where T : BaseEntity;
-
         Task BeginTransactionAsync();
-        Task CommitTransactionAsync();
-        Task RollbackTransactionAsync();
-
+        Task CommitAsync();
+        Task RollbackAsync();
         Task<int> SaveChangesAsync();
 
         // Complete (Alias for SaveChangesAsync)
