@@ -45,11 +45,11 @@ namespace BL.Services
             return _mapper.Map<T, DTO>(obj);
         }
 
-        public async Task<bool> Add(DTO entity)
+        public bool Add(DTO entity)
         {
             var dtObj = _mapper.Map<DTO, T>(entity);
             dtObj.CreatedBy = _userService.GetLoggedInUser();
-            return await _repo.Add(dtObj);
+            return  _repo.Add(dtObj);
         }
         public bool Add(DTO entity, out Guid id)
         {
@@ -58,16 +58,16 @@ namespace BL.Services
             return _repo.Add(dtObj,out id);
         }
 
-        public async Task<bool> Update(DTO entity)
+        public bool Update(DTO entity)
         {
             var dtObj = _mapper.Map<DTO, T>(entity);
             dtObj.UpdatedBy = _userService.GetLoggedInUser();
-            return await _repo.Update(dtObj);
+            return  _repo.Update(dtObj);
         }
 
-        public async Task<bool> ChangeStatus(Guid id, Guid userId, int status = 1)
+        public bool ChangeStatus(Guid id, Guid userId, int status = 1)
         {
-            return await _repo.ChangeStatus(id, _userService.GetLoggedInUser(), status);
+            return  _repo.ChangeStatus(id,_userService.GetLoggedInUser(), status);
         }
 
        
