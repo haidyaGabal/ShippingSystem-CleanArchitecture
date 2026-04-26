@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using BL.Mapping;
 using DAL;
 using DAL.UserModels;
@@ -26,9 +26,17 @@ namespace WebApi
                           .AllowCredentials();///Required for cookies (refresh token)
                 });
             });
-            builder.Services.AddControllers();
+            // Add services to the container.
 
-        
+     
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null; // ⬅️ مهم جدًا
+                });
+
+
             RegisterServicesHelper.RegisterServices(builder);
 
             // Swagger
