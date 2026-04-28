@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace BL.Contracts
 {
-    public interface IRefershToken : IBaseService<TbRefreshToken, RefershTokenDTO>
+    public interface IRefershToken : IBaseService<TbRefreshToken, RefreshTokenDTO>
     {
         
-            Task<RefershTokenDTO> GenerateRefreshTokenAsync(string userId);
+          //  Task<RefreshTokenDTO> GenerateRefreshTokenAsync(string userId);
 
-            Task<RefershTokenDTO?> GetByTokenAsync(string token);
+         //   Task<RefershTokenDTO?> GetByTokenAsync(string token);
 
-        Task<bool> Refresh(RefershTokenDTO refershTokenDTO);
+        Task<bool> Refresh(RefreshTokenDTO refershTokenDTO);
 
 
 
