@@ -13,6 +13,7 @@ namespace Ui.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+      
 
         public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
             IHttpContextAccessor accessor)
@@ -20,6 +21,7 @@ namespace Ui.Services
             _userManager = userManager;
             _signInManager = signInManager;
             _httpContextAccessor = accessor;
+       
         }
 
         public async Task<UserResultDTO> RegisterAsync(UserDTO registerDto)
@@ -126,6 +128,8 @@ namespace Ui.Services
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             return Guid.Parse(userId);
         }
+
+      
     }
 
 }
