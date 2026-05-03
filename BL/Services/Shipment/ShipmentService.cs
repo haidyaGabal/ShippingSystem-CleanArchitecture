@@ -20,10 +20,11 @@ namespace BL.Services.Shipment
         private readonly ICalculateRate _caculateRate;
         private readonly ITrackingNumber _rackingNumber;
         private readonly IUnitOfWork _uow;
+        IUserService _userService;
 
         private readonly IMapper _mapper;
 
-        public ShipmentService(IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow) : base(uow, mapper)
+        public ShipmentService(IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow, IUserService userService) : base(uow, mapper, userService)
         {
             _userReceiver = userReceiver;
             _userSender = userSender;
@@ -32,8 +33,9 @@ namespace BL.Services.Shipment
             _mapper = mapper;
 
             _uow = uow;
+            _userService = userService;
         }
-
+     
 
 
         public async Task Create(ShipmentDTO shipmentDTO)
@@ -48,10 +50,13 @@ namespace BL.Services.Shipment
                 ///calculate Rate
                 shipmentDTO.ShipingRate = _caculateRate.Calculate(shipmentDTO);
 
+                var userId = _userService.GetLoggedInUser();
+            
                 ///save sender
                 if (shipmentDTO.SenderId == Guid.Empty)
                 {
                     Guid senderId = Guid.Empty;
+                    shipmentDTO.userSender.UserId = userId;
                     _userSender.Add(shipmentDTO.userSender, out senderId);
                     shipmentDTO.SenderId = senderId;
 
@@ -60,18 +65,22 @@ namespace BL.Services.Shipment
                 if (shipmentDTO.ReceiverId == Guid.Empty)
                 {
                     Guid reciverId = Guid.Empty;
+                    shipmentDTO.userReceiver.UserId = userId;
                     _userReceiver.Add(shipmentDTO.userReceiver, out reciverId);
                     shipmentDTO.ReceiverId = reciverId;
 
                 }
 
-                await this.Add(shipmentDTO, shipmentDTO.Id);
-                await _uow.CommitTransactionAsync();
+                Guid gShipmentId = Guid.Empty;
+             
+
+                 this.Add(shipmentDTO,out gShipmentId);
+                await _uow.CommitAsync();
             }
             catch (Exception ex)
             {
-                await _uow.RollbackTransactionAsync();
-                throw ex;
+                await _uow.RollbackAsync();
+                throw ;
 
             }
 
