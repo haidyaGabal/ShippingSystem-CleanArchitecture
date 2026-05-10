@@ -58,7 +58,7 @@ namespace DAL.Repositories
                 }
         }
 
-        public async Task<bool> Add(T entity)
+        public  bool Add(T entity)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace DAL.Repositories
                // entity.CreatedBy = userId;
 
                 _dbSet.Add(entity);
-              await  _context.SaveChangesAsync();
+               _context.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -78,6 +78,8 @@ namespace DAL.Repositories
                 throw new DataAccessException(ex, "Error adding entity", _logger);
             }
         }
+
+
         public bool Add(T entity,out Guid id)
         {
             try
@@ -90,7 +92,7 @@ namespace DAL.Repositories
                 // entity.CreatedBy = userId;
 
                 _dbSet.Add(entity);
-                 _context.SaveChangesAsync();
+                 _context.SaveChanges();
                 id= entity.Id;
                 return true;
             }
@@ -101,12 +103,12 @@ namespace DAL.Repositories
         }
 
 
-        public async Task<bool> Update(T entity)
+        public bool Update(T entity)
         {
             try
             {
                 // MUST be tracked
-                var existing = await _dbSet.FirstOrDefaultAsync(x => x.Id == entity.Id);
+                var existing =  _dbSet.FirstOrDefault(x => x.Id == entity.Id);
                 if (existing == null)
                     return false;
 
@@ -119,7 +121,7 @@ namespace DAL.Repositories
                 // Copy values
                 _context.Entry(existing).CurrentValues.SetValues(entity);
 
-                await _context.SaveChangesAsync();
+                 _context.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -130,19 +132,19 @@ namespace DAL.Repositories
 
 
 
-        public async Task<bool> Delete(Guid id)
+        public bool Delete(Guid id)
             {
                 try
                 {
                 // var entity = _dbSet.Find(id);
                 //or
-                var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+                var entity =  _dbSet.FirstOrDefault(x => x.Id == id);
                 if (entity == null)
                         return false;
 
                
                 _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
 
                 return true;
                 }
@@ -152,19 +154,19 @@ namespace DAL.Repositories
                 }
         }
 
-            public async Task<bool> ChangeStatus(Guid id, int status = 1)
+            public bool ChangeStatus(Guid id, Guid userId, int status = 1)
             {
                 try
                 {
                 // var entity = _dbSet.Find(id);
                 //or
-                var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id); 
+                var entity = _dbSet.FirstOrDefault(x => x.Id == id); 
                 if (entity == null)
                         return false;
 
                      entity.CurrentState = status; // only if entity has Status
 
-                   await _context.SaveChangesAsync();
+                   _context.SaveChanges();
                     return true;
                 }
                 catch (Exception ex)
@@ -173,34 +175,31 @@ namespace DAL.Repositories
                 }
         }
 
-       
 
-        public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
+        public T FirstOrDefault(Expression<Func<T, bool>> filter)
         {
             try
             {
-                return await _dbSet.AsNoTracking().FirstOrDefaultAsync(predicate);
+                return _dbSet.Where(filter).AsNoTracking().FirstOrDefault();
             }
             catch (Exception ex)
             {
-                throw new DataAccessException(ex, "Error in FirstOrDefaultAsync", _logger);
+                throw new DataAccessException(ex, "", _logger);
             }
         }
 
-        public async Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> GetList(Expression<Func<T, bool>> filter)
         {
             try
             {
-                return await _dbSet
-                    .AsNoTracking()
-                    .Where(predicate)
-                    .ToListAsync();
+                return _dbSet.Where(filter).AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
-                throw new DataAccessException(ex, "Error in GetListAsync", _logger);
+                throw new DataAccessException(ex, "", _logger);
             }
         }
+
 
     }
     }
