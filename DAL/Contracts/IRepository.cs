@@ -10,14 +10,14 @@ namespace Domains
 
     public interface IRepository<T>
     {
-        T? GetById(Guid id);
         List<T> GetAll();
-        Task<bool> Add(T entity);
-        bool Add(T entity,out Guid id);
-        Task<bool> Update(T entity);
-        Task<bool> Delete(Guid id);
-        Task<bool> ChangeStatus(Guid id,int status = 1);
-        Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate);
-        Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate);
+        T GetById(Guid id);
+        bool Add(T entity);
+        bool Add(T entity, out Guid id);
+        bool Update(T entity);
+        bool Delete(Guid id);
+        bool ChangeStatus(Guid id, Guid userId, int status = 1);
+        T FirstOrDefault(Expression<Func<T, bool>> filter);
+        Task<List<T>> GetList(Expression<Func<T, bool>> filter);
     }
 }
