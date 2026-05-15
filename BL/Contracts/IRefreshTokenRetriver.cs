@@ -10,6 +10,6 @@ namespace BL.Contracts
     public interface IRefreshTokenRetriver
     {
 
-        public Task<RefreshTokenDTO> GetByToken(string token);
+        public RefreshTokenDTO GetByToken(string token);
     }
 }
