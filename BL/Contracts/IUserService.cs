@@ -17,5 +17,6 @@ namespace BL.Contracts
        
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
         //Task LoginAsync(LoginDTO user);
+        Guid GetLoggedInUser();
     }
 }

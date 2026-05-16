@@ -15,7 +15,7 @@ namespace BL.Mapping
         {
             CreateMap<TbCarrier,CityDTO>().ReverseMap();
             CreateMap<TbCity, CityDTO>().ReverseMap();
-            CreateMap<TbRefreshToken, RefershTokenDTO>().ReverseMap();
+            CreateMap<TbRefreshToken, RefreshTokenDTO>().ReverseMap();
             CreateMap<TbCountry, CountryDTO>().ReverseMap();
             CreateMap<TbPaymentMethod, PaymentMethodDTO>().ReverseMap();
             CreateMap<TbSetting, SettingDTO>().ReverseMap();

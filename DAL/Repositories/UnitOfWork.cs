@@ -45,62 +45,23 @@ namespace BL.Services.Shipment
                  _loggerFactory.CreateLogger<Repository<T>>()));
 
         }
-
         public async Task BeginTransactionAsync()
-        {
-            if (_tx != null)
-                await _tx.DisposeAsync();
+                    => _tx = await _dbContext.Database.BeginTransactionAsync();
 
-            _tx = await _dbContext.Database.BeginTransactionAsync();
+        public async Task CommitAsync()
+        {
+            await _dbContext.SaveChangesAsync();
+            if (_tx is not null) await _tx.CommitAsync();
         }
 
-        public async Task CommitTransactionAsync()
-        {
-            try
-            {
-                await _dbContext.SaveChangesAsync();
+        public async Task RollbackAsync()
+            => await _tx?.RollbackAsync()!;
 
-                if (_tx != null)
-                    await _tx.CommitAsync();
-            }
-            catch
-            {
-                await RollbackTransactionAsync();
-                throw;
-            }
-            finally
-            {
-                if (_tx != null)
-                {
-                    await _tx.DisposeAsync();
-                    _tx = null;
-                }
-            }
-        }
-
-        public async Task RollbackTransactionAsync()
-        {
-            if (_tx != null)
-            {
-                await _tx.RollbackAsync();
-                await _tx.DisposeAsync();
-                _tx = null;
-            }
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _dbContext.SaveChangesAsync();
-        }
+        public Task<int> SaveChangesAsync() => _dbContext.SaveChangesAsync();
 
         public async ValueTask DisposeAsync()
         {
-            if (_tx != null)
-            {
-                await _tx.DisposeAsync();
-                _tx = null;
-            }
-
+            if (_tx is not null) await _tx.DisposeAsync();
             await _dbContext.DisposeAsync();
         }
     }

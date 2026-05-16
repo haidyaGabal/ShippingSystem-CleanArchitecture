@@ -13,13 +13,16 @@ namespace WebApi.Controllers
         private readonly TokenService _tokenService;
         private readonly IUserService _userService;
         private readonly IRefershToken _RefreshTokenService;
+        private readonly IRefreshTokenRetriver _RefreshTokenRetriver;
         public AuthController(TokenService tokenService,
                               IUserService userService,
-                              IRefershToken refreshTokenService)
+                              IRefershToken refreshTokenService,
+                              IRefreshTokenRetriver refreshTokenRetriver)
         {
             _tokenService = tokenService;
             _userService = userService;
             _RefreshTokenService = refreshTokenService;
+            _RefreshTokenRetriver = refreshTokenRetriver;
         }
 
         [HttpPost("register")]
@@ -49,7 +52,7 @@ namespace WebApi.Controllers
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();
 
-            var storedToken = new RefershTokenDTO
+            var storedToken = new RefreshTokenDTO
             {
                 Token = refreshToken,
                 UserId = user.Id.ToString(),
@@ -79,7 +82,7 @@ namespace WebApi.Controllers
 
             /// Retrieve the refresh token from the database
             /// here, when access token is expierd and you need to access for refToken from database to generate a new access token 
-            var storedToken =await _RefreshTokenService.GetByTokenAsync(refreshToken);
+            var storedToken = _RefreshTokenRetriver.GetByToken(refreshToken);
             if (storedToken == null || storedToken.CurrentState == 0 || storedToken.Expires < DateTime.UtcNow)
             {
                 return Unauthorized("Invalid or expired refresh token");
@@ -102,7 +105,7 @@ namespace WebApi.Controllers
             }
 
             /// Retrieve the refresh token from the database
-            var storedToken =await _RefreshTokenService.GetByTokenAsync(refreshToken);
+            var storedToken = _RefreshTokenRetriver.GetByToken(refreshToken);
             if (storedToken == null || storedToken.CurrentState == 0 || storedToken.Expires < DateTime.UtcNow)
             {
                 return Unauthorized("Invalid or expired refresh token");
@@ -110,7 +113,7 @@ namespace WebApi.Controllers
 
             /// Generate a new refresh token
             var newRefreshToken = _tokenService.GenerateRefreshToken();
-            var newRefreshDto = new RefershTokenDTO
+            var newRefreshDto = new RefreshTokenDTO
             {
                 Token = newRefreshToken,
                 UserId = storedToken.Id.ToString(),

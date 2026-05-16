@@ -1,6 +1,7 @@
 ﻿using BL.Contracts.Shipment;
 using BL.DTOs;
 using DAL.Exceptions;
+using Domains;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
@@ -79,7 +80,32 @@ namespace WebApi.Controllers
 
             }
         }
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
 
-    
+        }
+        // ================= CREATE =================
+        [HttpPost("Create")]
+        public IActionResult Create([FromBody] ShipmentDTO data)
+        {
+            if (data == null)
+                return BadRequest(ApiResponse<string>.FailResponse("Shipment data is required."));
+
+            try
+            {
+                var result = _shippment.Create(data);
+                return Ok(ApiResponse<object>.SuccessResponse(result, "Shipment created successfully."));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500,
+                    ApiResponse<string>.FailResponse("Error while creating shipment",
+                    new List<string> { ex.Message }));
+            }
+        }
+
+
+
     }
 }

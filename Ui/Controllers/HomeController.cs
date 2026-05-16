@@ -11,8 +11,8 @@ using Ui.Models;
 namespace Ui.Controllers
 {
 
-    
 
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,7 +30,7 @@ namespace Ui.Controllers
         public IActionResult Index()
         {
             //var type = _shippingType.GetAll();
-            shipment();
+        
             return View();
         }
 

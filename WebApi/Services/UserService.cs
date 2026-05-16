@@ -12,13 +12,14 @@ namespace WebApi.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        private readonly IRefreshTokenRetriver _RefreshTokenRetriver;
         public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            IHttpContextAccessor accessor)
+            IHttpContextAccessor accessor, IRefreshTokenRetriver refreshTokenRetriver)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _httpContextAccessor = accessor;
+            _RefreshTokenRetriver = refreshTokenRetriver;
         }
 
         public async Task<UserResultDTO> RegisterAsync(UserDTO registerDto)
@@ -94,11 +95,23 @@ namespace WebApi.Services
             });
         }
 
+
         public Guid GetLoggedInUser()
         {
-            var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Guid.Parse(userId);
+            var refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["RefreshToken"];
+
+            if (string.IsNullOrEmpty(refreshToken))
+                throw new Exception("RefreshToken is missing");
+
+            var refreshTokenData =  _RefreshTokenRetriver.GetByToken(refreshToken);
+
+            if (refreshTokenData == null)
+                throw new Exception("RefreshToken not found");
+
+            return Guid.Parse(refreshTokenData.UserId);
         }
+
+
     }
 
 }

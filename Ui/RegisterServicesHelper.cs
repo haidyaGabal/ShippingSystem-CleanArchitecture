@@ -76,6 +76,7 @@ namespace Ui
             builder.Services.AddScoped<ICalculateRate, CalculateRateService>();
             builder.Services.AddScoped<IShipingPackages, ShipingPackageService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IRefreshTokenRetriver, RefreshTokenRetriverService>();
 
 
 

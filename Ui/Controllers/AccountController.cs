@@ -63,6 +63,13 @@ namespace Ui.Controllers
                     Secure = true,
                     Expires = DateTime.UtcNow.AddMinutes(15)  // Adjust token expiry based on your needs
                 });
+                ///for restore userID base on RefreshToken
+                Response.Cookies.Append("RefreshToken", apiResult?.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = DateTime.UtcNow.AddDays(7)  // Adjust token expiry based on your needs
+                });
 
                 /// for fetch data from db and get role use this
                 var dbUser= await _userService.GetUserByEmailAsync(user.Email);
