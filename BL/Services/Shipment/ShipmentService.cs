@@ -80,7 +80,27 @@ namespace BL.Services.Shipment
             catch (Exception ex)
             {
                 await _uow.RollbackAsync();
-                throw ;
+                throw new Exception();
+
+            }
+
+        }
+
+        public async Task<List<ShipmentDTO>> GetShipments()
+        {
+            try
+            {
+                var userId = _userService.GetLoggedInUser();
+                var shipments =await _repo.GetList(c => c.CreatedBy == userId);
+
+
+                return _mapper.Map<List<TbShipment>,List<ShipmentDTO>>(shipments);
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
 
             }
 
