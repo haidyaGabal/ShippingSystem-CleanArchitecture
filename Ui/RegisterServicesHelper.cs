@@ -32,6 +32,9 @@ namespace Ui
         {
             options.LoginPath = "/login";
             options.AccessDeniedPath = "/access-denied";
+            options.SlidingExpiration = true;///for create new cookie when exit cookie is expird
+            options.Cookie.IsEssential=true; ///browser saved this cookie even if browser has constraint;
+            options.ExpireTimeSpan=TimeSpan.FromDays(7);/// for time of cookie
         });
 
             builder.Services.AddDbContext<ShippingContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

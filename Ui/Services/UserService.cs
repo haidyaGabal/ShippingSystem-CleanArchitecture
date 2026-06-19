@@ -61,7 +61,7 @@ namespace Ui.Services
 
         public async Task<UserResultDTO> LoginAsync(LoginDTO loginDto)
         {
-            var result = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, true, false);
 
             if (!result.Succeeded)
             {
