@@ -91,7 +91,10 @@ namespace BL.Services.Shipment
             try
             {
                 var userId = _userService.GetLoggedInUser();
-                var shipments =await _repo.GetList(c => c.CreatedBy == userId);
+                var shipments =await _repo.GetList(c => 
+                c.CreatedBy == userId,
+                c => c.Sender,
+                c => c.Receiver);
 
 
                 return _mapper.Map<List<TbShipment>,List<ShipmentDTO>>(shipments);
@@ -105,6 +108,8 @@ namespace BL.Services.Shipment
             }
 
         }
+
+
     }
 
 }

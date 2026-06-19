@@ -19,5 +19,8 @@ namespace Domains
         bool ChangeStatus(Guid id, Guid userId, int status = 1);
         T FirstOrDefault(Expression<Func<T, bool>> filter);
         Task<List<T>> GetList(Expression<Func<T, bool>> filter);
+        Task<List<T>> GetList(
+            Expression<Func<T, bool>> filter,
+            params Expression<Func<T, object>>[] includes);
     }
 }

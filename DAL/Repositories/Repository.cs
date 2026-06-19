@@ -199,6 +199,30 @@ namespace DAL.Repositories
                 throw new DataAccessException(ex, "", _logger);
             }
         }
+        public async Task<List<T>> GetList(
+    Expression<Func<T, bool>> filter,
+    params Expression<Func<T, object>>[] includes)
+        {
+            try
+            {
+                IQueryable<T> query = _dbSet.AsNoTracking();
+
+                if (includes != null)
+                {
+                    foreach (var include in includes)
+                    {
+                        query = query.Include(include);
+                    }
+                }
+
+                return await query.Where(filter).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new DataAccessException(ex, "", _logger);
+            }
+        }
+       
 
 
     }
