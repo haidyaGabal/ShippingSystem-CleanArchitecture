@@ -28,7 +28,7 @@ namespace Ui.Controllers
         public IActionResult List()
         {
             var shipment= _shipment.GetShipments();
-            return View();
+            return View(shipment);
         }
 
         
