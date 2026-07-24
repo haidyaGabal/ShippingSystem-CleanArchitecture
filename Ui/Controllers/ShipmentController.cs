@@ -2,6 +2,7 @@
 using BL.Contracts.Shipment;
 using Domains;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Ui.Controllers
 {
@@ -25,9 +26,9 @@ namespace Ui.Controllers
          
             return View();
         }
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var shipment= _shipment.GetShipments();
+            var shipment=await _shipment.GetShipments();
             return View(shipment);
         }
 
