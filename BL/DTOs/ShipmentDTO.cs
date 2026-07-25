@@ -21,8 +21,8 @@ namespace BL.DTOs
         public Guid? ShipingTypeId { get; set; }
 
 
-        public UserSenderDTO userSender { get; set; }
-        public UserReceiverDTO userReceiver { get; set; }
+        public UserSenderDTO Sender { get; set; }
+        public UserReceiverDTO Receiver { get; set; }
 
 
         public Guid? ShipingPackagesId { get; set; }
