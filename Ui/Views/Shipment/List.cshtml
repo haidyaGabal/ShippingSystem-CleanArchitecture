@@ -1,136 +1,568 @@
 ﻿@model List<ShipmentDTO>
-<!-- Breadcroumbs start -->
+
+<!-- Breadcrumbs Start -->
+
 <div class="wshipping-content-block wshipping-breadcroumb inner-bg-1">
+
+    ```
     <div class="container">
+
         <div class="row">
+
             <div class="col-12 col-lg-7">
-                <h1>Shipment History</h1>
-                <a href="index.html" title="Home">Home</a> / Shipment History
+
+                <h1>
+                    Shipment History
+                </h1>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   title="Home">
+
+                    Home
+
+                </a>
+
+                / Shipment History
+
             </div>
+
+
             <div class="col-12 col-lg-5 text-right">
+
                 <h4>
-                    We freight to all over the world
-                    The best logistic company, <span>FAST</span> and <span>SAFELY!</span>
+
+                    We freight to all over the world.
+                    The best logistic company,
+
+                    <span>FAST</span>
+                    and
+                    <span>SAFELY!</span>
+
                 </h4>
+
             </div>
+
         </div>
+
     </div>
+    ```
+
 </div>
-<!-- Breadcroumbs end -->
-<!-- Shipment History start -->
+<!-- Breadcrumbs End -->
+<!-- Shipment History Start -->
+
 <div class="wshipping-content-block">
+
+    ```
     <div class="container">
+
         <div class="row">
+
+
+            <!-- Main Content -->
             <div class="col-12 col-lg-9">
+
                 <div class="order-list">
-                    <h3>Your Shipment History</h3>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>TrackingNumber</th>
-                                    <th>ShippingDate#</th>
-                                    <th>ShipingRate</th>
-                                    <th>userSender</th>
-                                    <th>userReceiver</th>
-                                    
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var shipment in Model)
-                                {
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <div>
+
+                            <h3>
+                                Your Shipment History
+                            </h3>
+
+                            <p>
+                                View and track all your shipments.
+                            </p>
+
+                        </div>
+
+
+                        <a asp-controller="Shipment"
+                           asp-action="Create"
+                           class="wshipping-button">
+
+                            <i class="fa fa-plus"></i>
+                            New Shipment
+
+                        </a>
+
+                    </div>
+
+
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive">
+
+                            <table class="table">
+
+                                <thead>
+
                                     <tr>
-                                        <td>@shipment.TrackingNumber</td>
-                                        <td>@shipment.ShippingDate</td>
-                                        <td>@shipment.ShipingRate </td>
-                                        <td>@shipment.userSender</td>
-                                        <td>@shipment.userReceiver</td>
-                                      
-                                        <td><a href="" title=""><i class="fa fa-check-circle" aria-hidden="true"></i></a></td>
+
+                                        <th>
+                                            Tracking Number
+                                        </th>
+
+                                        <th>
+                                            Shipping Date
+                                        </th>
+
+                                        <th>
+                                            Sender
+                                        </th>
+
+                                        <th>
+                                            Receiver
+                                        </th>
+
+                                        <th>
+                                            Shipping Rate
+                                        </th>
+
+                                        <th>
+                                            Action
+                                        </th>
+
                                     </tr>
-                                    
-                                }
-                               
-                         
-                            </tbody>
-                        </table>
-                    </div>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    @foreach (var shipment in Model)
+                                    {
+                                        <tr>
+
+                                            <!-- Tracking Number -->
+                                            <td>
+
+                                                <strong>
+
+                                                    @if (shipment.TrackingNumber.HasValue)
+                                                    {
+                                                        @shipment.TrackingNumber
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>
+                                                            N/A
+                                                        </span>
+                                                    }
+
+                                                </strong>
+
+                                            </td>
+
+
+                                            <!-- Shipping Date -->
+                                            <td>
+
+                                                @shipment.ShippingDate
+                                                .ToString("dd MMM yyyy")
+
+                                            </td>
+
+
+                                            <!-- Sender -->
+                                            <td>
+
+                                                @if (shipment.Sender != null)
+                                                {
+                                                    <span>
+
+                                                        @shipment.Sender.SenderName
+
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span>
+                                                        N/A
+                                                    </span>
+                                                }
+
+                                            </td>
+
+
+                                            <!-- Receiver -->
+                                            <td>
+
+                                                @if (shipment.Receiver != null)
+                                                {
+                                                    <span>
+
+                                                        @shipment.Receiver.ReceiverName
+
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span>
+                                                        N/A
+                                                    </span>
+                                                }
+
+                                            </td>
+
+
+                                            <!-- Shipping Rate -->
+                                            <td>
+
+                                                @shipment.ShipingRate.ToString("C")
+
+                                            </td>
+
+
+                                            <!-- Action -->
+                                            <td>
+
+                                                <a asp-controller="Shipment"
+                                                   asp-action="Details"
+                                                   asp-route-id="@shipment.Id"
+                                                   title="View Shipment Details">
+
+                                                    <i class="fa fa-eye"
+                                                       aria-hidden="true">
+                                                    </i>
+
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center">
+
+                            <i class="fa fa-truck fa-3x">
+                            </i>
+
+                            <h4>
+                                No Shipments Found
+                            </h4>
+
+                            <p>
+                                You have not created any shipments yet.
+                            </p>
+
+                            <a asp-controller="Shipment"
+                               asp-action="Create"
+                               class="wshipping-button">
+
+                                Create Your First Shipment
+
+                            </a>
+
+                        </div>
+                    }
+
                 </div>
+
             </div>
-            <!-- Right sidebar start -->
+
+
+            <!-- Right Sidebar Start -->
             <div class="col-12 col-lg-3">
+
                 <div class="right-block left-menu menu-with-title mt60 mb15">
-                    <h4 class="title-with-bg">Select Your Freight</h4>
+
+                    <h4 class="title-with-bg">
+
+                        Shipment Services
+
+                    </h4>
+
+
                     <ul>
-                        <li class="active"><a href="" title="Air Freight Tracking">Air Freight Tracking</a></li>
-                        <li><a href="" title="Ocean Freight Tracking">Ocean Freight Tracking</a></li>
-                        <li><a href="" title="Road & Rail Freight Tracking">Road & Rail Freight Tracking</a></li>
+
+                        <li class="active">
+
+                            <a href="#"
+                               title="Track Shipment">
+
+                                <i class="fa fa-map-marker">
+                                </i>
+
+                                Track Shipment
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="#"
+                               title="Shipment History">
+
+                                <i class="fa fa-history">
+                                </i>
+
+                                Shipment History
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a asp-controller="Shipment"
+                               asp-action="Create"
+                               title="Create Shipment">
+
+                                <i class="fa fa-plus">
+                                </i>
+
+                                Create Shipment
+
+                            </a>
+
+                        </li>
+
                     </ul>
+
                 </div>
-                <a href="#" class="order-list-button">Your Order List</a>
+
+
+                <a asp-controller="Shipment"
+                   asp-action="Create"
+                   class="order-list-button">
+
+                    Create New Shipment
+
+                </a>
+
             </div>
-            <!-- Right sidebar end -->
+            <!-- Right Sidebar End -->
+
         </div>
+
     </div>
+    ```
+
 </div>
-<!-- Shipment History end -->
-<!-- Send free quote start -->
+<!-- Shipment History End -->
+<!-- Need Help Start -->
+
 <div class="wshipping-content-block get-quote">
+
+    ```
     <div class="container">
+
         <div class="row">
-            <div class="col-12 col-lg-8"><h4>We Are Always In Here, <span>Need any Help?</span></h4></div>
-            <div class="col-12 col-lg-4 text-right"><a href="contact.html" title="" class="wshipping-button">Contact With Us</a></div>
+
+            <div class="col-12 col-lg-8">
+
+                <h4>
+
+                    We Are Always Here,
+
+                    <span>
+                        Need Any Help?
+                    </span>
+
+                </h4>
+
+            </div>
+
+
+            <div class="col-12 col-lg-4 text-right">
+
+                <a asp-controller="Home"
+                   asp-action="Contact"
+                   class="wshipping-button">
+
+                    Contact With Us
+
+                </a>
+
+            </div>
+
         </div>
+
     </div>
+    ```
+
 </div>
-<!-- Send free quote end -->
+<!-- Need Help End -->
 <!-- Our Services Start -->
+
 <div class="wshipping-content-block">
+
+    ```
     <div class="container">
+
+
         <div class="row">
+
             <div class="col-12 col-lg-6 offset-lg-3">
+
                 <div class="section-title wow fadeInUp">
-                    <h2>Our Services</h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+
+                    <h2>
+                        Our Services
+                    </h2>
+
+                    <p>
+                        We provide reliable shipping solutions
+                        for your transportation needs.
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
+
+
         <div class="row">
+
+
+            <!-- Ocean Freight -->
             <div class="col-12 col-lg-4">
+
                 <div class="single-service-item wow fadeInUp">
-                    <div class="service-item-bg service-bg-1"></div>
-                    <div class="service-content">
-                        <h3>Ocean Freight Shipping</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
-                        <a href="" title="" class="readmore-btn">Read more <i class="fa fa-angle-right"></i></a>
-                        <div class="location_map"><i class="fa fa-plus"></i></div>
+
+                    <div class="service-item-bg service-bg-1">
                     </div>
+
+                    <div class="service-content">
+
+                        <h3>
+                            Ocean Freight Shipping
+                        </h3>
+
+                        <p>
+                            Reliable ocean freight shipping services
+                            for international shipments.
+                        </p>
+
+                        <a href="#"
+                           class="readmore-btn">
+
+                            Read More
+
+                            <i class="fa fa-angle-right">
+                            </i>
+
+                        </a>
+
+                        <div class="location_map">
+
+                            <i class="fa fa-plus">
+                            </i>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
+
+
+            <!-- Air Freight -->
             <div class="col-12 col-lg-4">
+
                 <div class="single-service-item wow fadeInUp">
-                    <div class="service-item-bg service-bg-2"></div>
-                    <div class="service-content">
-                        <h3>Air Freight Shipping</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
-                        <a href="" title="" class="readmore-btn">Read more <i class="fa fa-angle-right"></i></a>
-                        <div class="location_map"><i class="fa fa-plus"></i></div>
+
+                    <div class="service-item-bg service-bg-2">
                     </div>
+
+                    <div class="service-content">
+
+                        <h3>
+                            Air Freight Shipping
+                        </h3>
+
+                        <p>
+                            Fast and secure air freight shipping
+                            for urgent deliveries.
+                        </p>
+
+                        <a href="#"
+                           class="readmore-btn">
+
+                            Read More
+
+                            <i class="fa fa-angle-right">
+                            </i>
+
+                        </a>
+
+                        <div class="location_map">
+
+                            <i class="fa fa-plus">
+                            </i>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
+
+
+            <!-- Road Freight -->
             <div class="col-12 col-lg-4">
+
                 <div class="single-service-item wow fadeInUp">
-                    <div class="service-item-bg service-bg-3"></div>
-                    <div class="service-content">
-                        <h3>Car Shipping</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
-                        <a href="" title="" class="readmore-btn">Read more <i class="fa fa-angle-right"></i></a>
-                        <div class="location_map"><i class="fa fa-plus"></i></div>
+
+                    <div class="service-item-bg service-bg-3">
                     </div>
+
+                    <div class="service-content">
+
+                        <h3>
+                            Road Freight Shipping
+                        </h3>
+
+                        <p>
+                            Flexible and reliable road transportation
+                            for local and regional shipments.
+                        </p>
+
+                        <a href="#"
+                           class="readmore-btn">
+
+                            Read More
+
+                            <i class="fa fa-angle-right">
+                            </i>
+
+                        </a>
+
+                        <div class="location_map">
+
+                            <i class="fa fa-plus">
+                            </i>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+    ```
+
 </div>
-<!-- Our Services end -->
+<!-- Our Services End -->
