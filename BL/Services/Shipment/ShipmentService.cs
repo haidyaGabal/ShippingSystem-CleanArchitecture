@@ -56,8 +56,8 @@ namespace BL.Services.Shipment
                 if (shipmentDTO.SenderId == Guid.Empty)
                 {
                     Guid senderId = Guid.Empty;
-                    shipmentDTO.userSender.UserId = userId;
-                    _userSender.Add(shipmentDTO.userSender, out senderId);
+                    shipmentDTO.Sender.UserId = userId;
+                    _userSender.Add(shipmentDTO.Sender, out senderId);
                     shipmentDTO.SenderId = senderId;
 
                 }
@@ -65,8 +65,8 @@ namespace BL.Services.Shipment
                 if (shipmentDTO.ReceiverId == Guid.Empty)
                 {
                     Guid reciverId = Guid.Empty;
-                    shipmentDTO.userReceiver.UserId = userId;
-                    _userReceiver.Add(shipmentDTO.userReceiver, out reciverId);
+                    shipmentDTO.Receiver.UserId = userId;
+                    _userReceiver.Add(shipmentDTO.Receiver, out reciverId);
                     shipmentDTO.ReceiverId = reciverId;
 
                 }

@@ -70,7 +70,7 @@ namespace Ui.Controllers
                 ReferenceId = Guid.NewGuid(),
 
                 // Sender Object
-                userSender = new UserSenderDTO
+                Sender = new UserSenderDTO
                 {
                     UserId = Guid.NewGuid(),
                     SenderName = "Ahmed Mohammed Al-Otaibi",
@@ -85,7 +85,7 @@ namespace Ui.Controllers
                 },
 
                 // Receiver Object
-                userReceiver = new UserReceiverDTO
+                Receiver = new UserReceiverDTO
                 {
                     UserId = Guid.NewGuid(),
                     ReceiverName = "Mohammed Saeed Al-Ghamdi",
