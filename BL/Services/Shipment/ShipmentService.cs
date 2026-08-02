@@ -2,7 +2,7 @@
 using BL.Contracts;
 using BL.Contracts.Shipment;
 using BL.DTOs;
-using BL.Mapping;
+
 using DAL.Models;
 using Domains;
 using System;
@@ -24,9 +24,9 @@ namespace BL.Services.Shipment
         private readonly IUnitOfWork _uow;
         IUserService _userService;
 
-        private readonly AutoMapper.IMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public ShipmentService(AutoMapper.IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow, IUserService userService) : base(uow, mapper, userService)
+        public ShipmentService(IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow, IUserService userService) : base(uow, mapper, userService)
         {
             _userReceiver = userReceiver;
             _userSender = userSender;

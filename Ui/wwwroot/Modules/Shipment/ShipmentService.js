@@ -14,7 +14,7 @@
             ReceiverId: "00000000-0000-0000-0000-000000000000",
 
             // ✅ MUST be lowercase (match DTO exactly)
-            userSender: {
+            Sender: {
                 Id: "00000000-0000-0000-0000-000000000000",
                 UserId: "00000000-0000-0000-0000-000000000000",
                 SenderName: $('input[name="SenderName"]').val(),
@@ -27,7 +27,7 @@
                 OtherAddress: $('input[name="OtherAddress"]').val()
             },
 
-            userReceiver: {
+            Receiver: {
                 Id: "00000000-0000-0000-0000-000000000000",
                 UserId: "00000000-0000-0000-0000-000000000000",
                 ReceiverName: $('input[name="ReceiverName"]').val(),

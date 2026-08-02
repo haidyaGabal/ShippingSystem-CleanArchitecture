@@ -27,11 +27,6 @@ namespace Ui.Controllers
          
             return View();
         }
-        //public async Task<IActionResult> List()
-        //{
-        //    var shipment=await _shipment.GetShipments();
-        //    return View(shipment);
-        //}
         public async Task<IActionResult> List(int pageNumber = 1, int pageSize = 10)
         {
             var pagination = new PaginationParams
