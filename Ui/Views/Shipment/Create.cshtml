@@ -1,4 +1,33 @@
 ﻿<!-- Breadcroumbs end -->
+<style>
+    /* Structural polish only — no new colors, just spacing/shape */
+    .shipping-block { padding: 40px 0; }
+    .shipping-form-block {
+        border-radius: 14px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 35px;
+    }
+    #progressbar { display: flex; justify-content: space-between; padding: 0; margin-bottom: 35px; }
+    #progressbar li { list-style: none; text-align: center; flex: 1; font-size: 13px; }
+    .shipping-form .form-group { margin-bottom: 18px; }
+    .shipping-form .form-control { border-radius: 8px; padding: 10px 14px; }
+    .review, .ship-address {
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin-bottom: 15px;
+    }
+    .what-package img {
+        border-radius: 12px;
+        width: 100%;
+        object-fit: cover;
+    }
+    .action-button { border-radius: 8px; padding: 12px 28px; margin-top: 8px; margin-right: 8px; }
+    .tanks-message { text-align: center; margin: 40px 0; }
+    media (max-width: 768px) {
+        .shipping-form-block { padding: 20px; }
+    }
+</style>
+
 <!-- Create New Shipment Start -->
 <div class="wshipping-content-block shipping-block">
     <div class="container">
@@ -10,16 +39,14 @@
                     <ul id="progressbar">
                         <li class="active">Where From</li>
                         <li>Where Going</li>
-                        <li>What</li>
-                        <li>How</li>
-                        <li>Payment</li>
+                        <li>Package</li>
                         <li>Review</li>
                         <li>Complete</li>
                     </ul>
 
                     <!-- fieldsets Shipping From Start-->
                     <fieldset>
-                        <h2 class="fs-title">Hello. Where are you shipping from? <a href="#" title="" class="login-btn-form">Login</a></h2>
+                        <h2 class="fs-title">Hello. Where are you shipping from?</h2>
                         <h3 class="fs-subtitle">* Indicates required field</h3>
                         <div class="shipping-form">
                             <div class="row">
@@ -87,6 +114,12 @@
                                         <input type="text" name="Phone" class="form-control" required />
                                     </div>
                                 </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Shipping Date <sup>*</sup></label>
+                                        <input type="date" name="ShippingDate" class="form-control" required />
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -108,24 +141,12 @@
 
                     <!-- fieldsets Shipping going Start-->
                     <fieldset>
-                        <h2 class="fs-title">Where is your shipping going? <a href="#" title="" class="login-btn-form">Login</a></h2>
+                        <h2 class="fs-title">Where is your shipping going?</h2>
                         <div class="row">
-                            <div class="col-12 col-lg-4">
+                            <div class="col-12 col-lg-6">
                                 <div class="ship-address">
                                     <h4>Ship from <a href="#" title="Edit" class="btn-edit">Edit</a></h4>
-                                    <p>
-                                        Lorem Ipsum is simply dummy text<br>
-                                        of the printing and typesetting industry
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-4">
-                                <div class="ship-address">
-                                    <h4>Return to <a href="#" title="Edit" class="btn-edit">Edit</a></h4>
-                                    <p>
-                                        Lorem Ipsum is simplydummy text of the<br>
-                                        printing and typesetting industry
-                                    </p>
+                                    <p>Confirm sender details before continuing</p>
                                 </div>
                             </div>
                         </div>
@@ -196,11 +217,11 @@
                                         <input type="text" name="ReceiverPhone" class="form-control" required />
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12">
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Expected Delivery Date</label>
+                                        <input type="date" name="DeliveryDate" class="form-control" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -212,7 +233,7 @@
 
                     <!-- fieldsets package Start-->
                     <fieldset>
-                        <h2 class="fs-title">What kind of packaging are you using? <a href="#" title="" class="login-btn-form">Login</a></h2>
+                        <h2 class="fs-title">What kind of packaging are you using?</h2>
                         <h3 class="fs-subtitle">* Indicates required field</h3>
                         <div class="shipping-form">
                             <div class="row">
@@ -220,13 +241,11 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group">
-                                                <label>Shipping Packaging <sup>*</sup></label>
+                                                <label>Shipping Type</label>
                                                 <div class="input-comment">
-                                                    <select name="PackageType" class="form-control">
+                                                    <select name="ShippingType" class="form-control">
                                                         <option></option>
-                                                     
                                                     </select>
-                                               
                                                 </div>
                                             </div>
                                         </div>
@@ -234,50 +253,50 @@
                                             <div class="form-group">
                                                 <label>Weight <sup>*</sup></label>
                                                 <div class="input-comment">
-                                                    <input type="number" name="Weight" class="form-control" required />
+                                                    <input type="number" step="0.01" name="Weight" class="form-control" required min="0.01" max="500" />
                                                     <span class="error1" style="display: none;"> <i class="error-log fa fa-exclamation-triangle"></i> </span>
-                                                    <span class="field-comment">lbs</span>
+                                                    <span class="field-comment">kg</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-4">
                                             <div class="form-group">
-                                                <label>Length</label>
+                                                <label>Length <sup>*</sup></label>
                                                 <div class="input-comment">
-                                                    <input type="number" name="Length" class="form-control" />
-                                                    <span class="field-comment">in</span>
+                                                    <input type="number" step="0.01" name="Length" class="form-control" required min="0.1" max="1000" />
+                                                    <span class="field-comment">cm</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-4">
                                             <div class="form-group">
-                                                <label>Width</label>
+                                                <label>Width <sup>*</sup></label>
                                                 <div class="input-comment">
-                                                    <input type="number" name="Width" class="form-control" />
-                                                    <span class="field-comment">in</span>
+                                                    <input type="number" step="0.01" name="Width" class="form-control" required min="0.1" max="1000" />
+                                                    <span class="field-comment">cm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-4">
+                                            <div class="form-group">
+                                                <label>Height <sup>*</sup></label>
+                                                <div class="input-comment">
+                                                    <input type="number" step="0.01" name="Height" class="form-control" required min="0.1" max="1000" />
+                                                    <span class="field-comment">cm</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label>Height</label>
-                                                <div class="input-comment">
-                                                    <input type="number" name="Height" class="form-control" />
-                                                    <span class="field-comment">in</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-4">
                                             <div class="form-group">
                                                 <label>Declared value</label>
                                                 <div class="input-comment">
-                                                    <input type="number" name="PackageValue" class="form-control" />
+                                                    <input type="number" step="0.01" name="PackageValue" class="form-control" min="0" max="1000000" />
                                                     <span class="field-comment">USD</span>
                                                 </div>
                                             </div>
@@ -285,7 +304,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-4">
-                                    <div class="what-package"><img src="~/Frontend/assets/images/package.jpg" alt="" /></div>
+                                    <div class="what-package"><img src="~/Frontend/assets/images/package.jpg" alt="Package illustration" /></div>
                                 </div>
                             </div>
                         </div>
@@ -295,88 +314,6 @@
                     </fieldset>
                     <!-- fieldsets package end-->
 
-                    <!-- fieldsets pick up Start-->
-                    <fieldset>
-                        <h2 class="fs-title">How would you like to ship? <a href="#" title="" class="login-btn-form">Login</a></h2>
-                        <h3 class="fs-subtitle">* Indicates required field</h3>
-                        <div class="shipping-form dropoff-block">
-                            <h3>Would you like us to pick up your shipment?</h3>
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" href="#no-drop" aria-controls="no-drop" role="tab" data-toggle="tab">No I'll drop it off</a></li>
-                                <li class="or-text">--or--</li>
-                                <li class="nav-item"><a class="nav-link" href="#yes-drop" aria-controls="yes-drop" role="tab" data-toggle="tab">Yes pick up my shipment</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="no-drop">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Dropoff date:</label>
-                                                <div class="datepicker-group">
-                                                    <input type="text" class="form-control datetimepicker1" placeholder="Date" />
-                                                    <div class="datepicker-icon"><i class="fa fa-calendar-alt"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h3>When would like it delivered?</h3>
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Date and short details:</label>
-                                                <input type="text" class="form-control" name="sDetails" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Shipping Types</label>
-                                                <div class="input-comment">
-                                                    <select name="ShippingType" class="form-control">
-                                                        <option>Customer packaging</option>
-                                                        <option>2kg</option>
-                                                        <option>10kg</option>
-                                                        <option>20kg</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="yes-drop">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Pickup date:</label>
-                                                <div class="datepicker-group">
-                                                    <input type="text" class="form-control datetimepicker1" placeholder="Date" />
-                                                    <div class="datepicker-icon"><i class="fa fa-calendar-alt"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="review">
-                                        <h3>Pickup Address <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text<br>
-                                            of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                        </p>
-                                    </div>
-                                    <div class="review">
-                                        <h3>Pickup Details <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
-                                        <p>
-                                            Your pickup window: 9:00AM - 7:00PM<br>
-                                            Pickup location: Front Door
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="button" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" name="next" class="next action-button" value="Continue" />
-                        <input type="reset" name="cancel" class="action-button btn-red" value="Cancel Shipment" />
-                    </fieldset>
-                    <!-- fieldsets pick up end-->
-
                     <!-- fieldsets Review Start-->
                     <fieldset>
                         <h2 class="fs-title">Let's make sure everything is in order</h2>
@@ -384,75 +321,33 @@
                             <div class="review">
                                 <h3>Where <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
                                 <div class="row">
-                                    <div class="col-12 col-lg-4">
+                                    <div class="col-12 col-lg-6">
                                         <div class="ship-address">
                                             <h4>Ship from</h4>
-                                            <p>
-                                                Lorem Ipsum is simply dummy text<br>
-                                                of the printing and typesetting industry
-                                            </p>
+                                            <p id="reviewSender">—</p>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-4">
+                                    <div class="col-12 col-lg-6">
                                         <div class="ship-address">
                                             <h4>Ship to</h4>
-                                            <p>
-                                                Lorem Ipsum is simplydummy text of the<br>
-                                                printing and typesetting industry
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-4">
-                                        <div class="ship-address">
-                                            <h4>Return to</h4>
-                                            <p>
-                                                Lorem Ipsum is simplydummy text of the<br>
-                                                printing and typesetting industry
-                                            </p>
+                                            <p id="reviewReceiver">—</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="review">
-                                <h3>What <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
-                                <h5>Shipment information</h5>
+                                <h3>Package <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
                                 <ul>
-                                    <li><b>Actual Weight:</b> 60 lbs</li>
-                                    <li><b>Total Bilable Weight:</b> 60 lbs</li>
+                                    <li><b>Weight:</b> <span id="reviewWeight">—</span> kg</li>
+                                    <li><b>Dimensions:</b> <span id="reviewDimensions">—</span> cm</li>
+                                    <li><b>Declared value:</b> $<span id="reviewValue">—</span></li>
+                                    <li><b>Shipping rate:</b> $<span id="reviewRate">—</span></li>
                                 </ul>
-                                <h5>Package information</h5>
-                                <ul>
-                                    <li><b>Weight:</b> 60 lbs</li>
-                                    <li><b>Dimensions:</b> 17x13x11 in</li>
-                                    <li><b>Declared value:</b> $100</li>
-                                </ul>
-                            </div>
-                            <div class="review">
-                                <h3>How <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
-                                <h5>Service Selection</h5>
-                                <p>It has survived not only five centuries,</p>
-                                <h5>Arrival</h5>
-                                <p>Mon, Nov6, 2017, End of the day</p>
-                            </div>
-                            <div class="review">
-                                <h3>Additional Option <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
-                                <p>N/A</p>
-                            </div>
-                            <div class="review">
-                                <h3>Payment <a href="#" title="Edit" class="btn-edit">Edit</a></h3>
-                                <h5>Bill Shipping Charge to:</h5>
-                                <p>Paypal</p>
-                                <h5>Bill Duties and Taxes to:</h5>
-                                <p>Receive Company name</p>
-                                <h5>Enter Promo Code:</h5>
-                                <div class="promoCode-input">
-                                    <input type="text" class="form-control" name="sDetails" />
-                                </div>
                             </div>
                             <div class="review">
                                 <div class="checkbox">
-                                    <input type="checkbox" name="remember" id="trems" class="css-checkbox" />
-                                    <label for="trems" class="css-label">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</label>
+                                    <input type="checkbox" name="remember" id="trems" class="css-checkbox" required />
+                                    <label for="trems" class="css-label">I confirm the shipment details above are correct and agree to the terms of service.</label>
                                 </div>
                             </div>
                         </div>
