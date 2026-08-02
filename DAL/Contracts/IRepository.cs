@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -21,6 +22,12 @@ namespace Domains
         Task<List<T>> GetList(Expression<Func<T, bool>> filter);
         Task<List<T>> GetList(
             Expression<Func<T, bool>> filter,
+            params Expression<Func<T, object>>[] includes);
+
+        // NEW: paginated overload
+        Task<PagedResult<T>> GetList(
+            Expression<Func<T, bool>> filter,
+            PaginationParams pagination,
             params Expression<Func<T, object>>[] includes);
     }
 }

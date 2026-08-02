@@ -1,4 +1,5 @@
 ﻿using BL.DTOs;
+using DAL.Models;
 using Domains;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace BL.Contracts.Shipment
         public Task Create(ShipmentDTO shipmentDTO);
 
         public Task<List<ShipmentDTO>> GetShipments();
+        public  Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagination);
     }
 }

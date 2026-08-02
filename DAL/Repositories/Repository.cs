@@ -1,14 +1,15 @@
-﻿using System;
+﻿using DAL.Exceptions;
+using DAL.Models;
+using Domains;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Exceptions;
-using Domains;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Logging;
 
 namespace DAL.Repositories
 {
@@ -221,8 +222,44 @@ namespace DAL.Repositories
             {
                 throw new DataAccessException(ex, "", _logger);
             }
-        }
        
+        
+        }
+
+        public async Task<PagedResult<T>> GetList(
+    Expression<Func<T, bool>> filter,
+    PaginationParams pagination,
+    params Expression<Func<T, object>>[] includes)
+        {
+            try
+            {
+                IQueryable<T> query = _dbSet.AsNoTracking();
+
+                if (includes != null)
+                {
+                    foreach (var include in includes)
+                    {
+                        query = query.Include(include);
+                    }
+                }
+
+                query = query.Where(filter);
+
+                var totalCount = await query.CountAsync();
+
+                var items = await query
+                    .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                    .Take(pagination.PageSize)
+                    .ToListAsync();
+
+                return new PagedResult<T>(items, totalCount, pagination.PageNumber, pagination.PageSize);
+            }
+            catch (Exception ex)
+            {
+                throw new DataAccessException(ex, "", _logger);
+            }
+        }
+
 
 
     }

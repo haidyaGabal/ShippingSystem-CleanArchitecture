@@ -1,5 +1,6 @@
 ﻿
 using BL.Contracts.Shipment;
+using DAL.Models;
 using Domains;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -26,12 +27,23 @@ namespace Ui.Controllers
          
             return View();
         }
-        public async Task<IActionResult> List()
+        //public async Task<IActionResult> List()
+        //{
+        //    var shipment=await _shipment.GetShipments();
+        //    return View(shipment);
+        //}
+        public async Task<IActionResult> List(int pageNumber = 1, int pageSize = 10)
         {
-            var shipment=await _shipment.GetShipments();
-            return View(shipment);
+            var pagination = new PaginationParams
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            var shipments = await _shipment.GetShipments(pagination);
+            return View(shipments);
         }
 
-        
+
     }
 } 

@@ -1,10 +1,9 @@
-﻿@model List<ShipmentDTO>
+﻿@model DAL.Models.PagedResult<ShipmentDTO>
 
 <!-- Breadcrumbs Start -->
 
 <div class="wshipping-content-block wshipping-breadcroumb inner-bg-1">
 
-    ```
     <div class="container">
 
         <div class="row">
@@ -16,14 +15,13 @@
                 </h1>
 
                 <a asp-controller="Home"
-                   asp-action="Index"
-                   title="Home">
+                   asp-action="Index">
 
                     Home
 
                 </a>
 
-                / Shipment History
+                <span> / Shipment History</span>
 
             </div>
 
@@ -46,7 +44,6 @@
         </div>
 
     </div>
-    ```
 
 </div>
 <!-- Breadcrumbs End -->
@@ -54,7 +51,6 @@
 
 <div class="wshipping-content-block">
 
-    ```
     <div class="container">
 
         <div class="row">
@@ -65,35 +61,45 @@
 
                 <div class="order-list">
 
-                    <div class="d-flex justify-content-between align-items-center mb-3">
 
-                        <div>
+                    <!-- Page Header -->
+                    <div class="row align-items-center mb-4">
+
+                        <div class="col-12 col-md-8">
 
                             <h3>
-                                Your Shipment History
+                                Shipment Management
                             </h3>
 
                             <p>
-                                View and track all your shipments.
+                                Monitor and manage your shipments.
                             </p>
 
                         </div>
 
 
-                        <a asp-controller="Shipment"
-                           asp-action="Create"
-                           class="wshipping-button">
+                        <div class="col-12 col-md-4 text-md-right">
 
-                            <i class="fa fa-plus"></i>
-                            New Shipment
+                            <a asp-controller="Shipment"
+                               asp-action="Create"
+                               class="wshipping-button">
 
-                        </a>
+                                <i class="fa fa-plus">
+                                </i>
+
+                                New Shipment
+
+                            </a>
+
+                        </div>
 
                     </div>
 
 
-                    @if (Model != null && Model.Any())
+                    @if (Model != null && Model.Items != null && Model.Items.Any())
                     {
+
+                        <!-- Shipment Table -->
                         <div class="table-responsive">
 
                             <table class="table">
@@ -103,23 +109,27 @@
                                     <tr>
 
                                         <th>
-                                            Tracking Number
+                                            Shipment
                                         </th>
 
                                         <th>
-                                            Shipping Date
+                                            Route
                                         </th>
 
                                         <th>
-                                            Sender
+                                            Schedule
                                         </th>
 
                                         <th>
-                                            Receiver
+                                            Package
                                         </th>
 
                                         <th>
-                                            Shipping Rate
+                                            Cost
+                                        </th>
+
+                                        <th>
+                                            Status
                                         </th>
 
                                         <th>
@@ -133,86 +143,162 @@
 
                                 <tbody>
 
-                                    @foreach (var shipment in Model)
+                                    @foreach (var shipment in Model.Items)
                                     {
+
                                         <tr>
 
-                                            <!-- Tracking Number -->
+
+                                            <!-- Shipment Identity -->
                                             <td>
 
                                                 <strong>
 
-                                                    @if (shipment.TrackingNumber.HasValue)
-                                                    {
-                                                        @shipment.TrackingNumber
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>
-                                                            N/A
-                                                        </span>
-                                                    }
+                                                    #@shipment.TrackingNumber
+
+                                                </strong>
+
+                                                <br />
+
+                                                <small>
+
+                                                    Shipment ID:
+                                                    @shipment.Id
+
+                                                </small>
+
+                                            </td>
+
+
+                                            <!-- Route -->
+                                            <td>
+
+                                                <div>
+
+                                                    <strong>
+
+                                                        @(shipment.Sender?.SenderName ?? "Unknown Sender")
+
+                                                    </strong>
+
+                                                </div>
+
+
+                                                <div class="mt-1 mb-1">
+
+                                                    <i class="fa fa-long-arrow-right">
+                                                    </i>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <strong>
+
+                                                        @(shipment.Receiver?.ReceiverName ?? "Unknown Receiver")
+
+                                                    </strong>
+
+                                                </div>
+
+                                            </td>
+
+
+                                            <!-- Schedule -->
+                                            <td>
+
+                                                <div>
+                                                    <small>Shipping</small>
+
+                                                    <br />
+
+                                                    <strong>
+                                                        @shipment.ShippingDate.ToString("dd MMM yyyy")
+                                                    </strong>
+                                                </div>
+
+                                                <div class="mt-2">
+                                                    <small>Delivery</small>
+
+                                                    <br />
+
+                                                    <strong>
+                                                        @if (shipment.DeliveryDate != DateTime.MinValue)
+                                                        {
+                                                            @shipment.DeliveryDate.ToString("dd MMM yyyy")
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Pending</span>
+                                                        }
+                                                    </strong>
+                                                </div>
+
+                                            </td>
+
+                                            <!-- Package -->
+                                            <td>
+
+                                                <strong>
+
+                                                    @shipment.Weight kg
+
+                                                </strong>
+
+                                                <br />
+
+                                                <small>
+
+                                                    @shipment.Length ×
+                                                    @shipment.Width ×
+                                                    @shipment.Height cm
+
+                                                </small>
+
+                                            </td>
+
+
+                                            <!-- Cost -->
+                                            <td>
+
+                                                <strong>
+
+                                                    @shipment.ShipingRate.ToString("C")
 
                                                 </strong>
 
                                             </td>
 
 
-                                            <!-- Shipping Date -->
+                                            <!-- Status -->
                                             <td>
 
-                                                @shipment.ShippingDate
-                                                .ToString("dd MMM yyyy")
-
-                                            </td>
-
-
-                                            <!-- Sender -->
-                                            <td>
-
-                                                @if (shipment.Sender != null)
+                                                @if (shipment.DeliveryDate != DateTime.MinValue &&
+                                                                                        shipment.DeliveryDate < DateTime.Now)
                                                 {
-                                                    <span>
+                                                    <span class="badge badge-success">
 
-                                                        @shipment.Sender.SenderName
+                                                        Delivered
+
+                                                    </span>
+                                                }
+                                                else if (shipment.ShippingDate <= DateTime.Now)
+                                                {
+                                                    <span class="badge badge-warning">
+
+                                                        In Transit
 
                                                     </span>
                                                 }
                                                 else
                                                 {
-                                                    <span>
-                                                        N/A
-                                                    </span>
-                                                }
+                                                    <span class="badge badge-secondary">
 
-                                            </td>
-
-
-                                            <!-- Receiver -->
-                                            <td>
-
-                                                @if (shipment.Receiver != null)
-                                                {
-                                                    <span>
-
-                                                        @shipment.Receiver.ReceiverName
+                                                        Pending
 
                                                     </span>
                                                 }
-                                                else
-                                                {
-                                                    <span>
-                                                        N/A
-                                                    </span>
-                                                }
-
-                                            </td>
-
-
-                                            <!-- Shipping Rate -->
-                                            <td>
-
-                                                @shipment.ShipingRate.ToString("C")
 
                                             </td>
 
@@ -223,10 +309,10 @@
                                                 <a asp-controller="Shipment"
                                                    asp-action="Details"
                                                    asp-route-id="@shipment.Id"
+                                                   class="btn btn-sm"
                                                    title="View Shipment Details">
 
-                                                    <i class="fa fa-eye"
-                                                       aria-hidden="true">
+                                                    <i class="fa fa-eye">
                                                     </i>
 
                                                 </a>
@@ -234,6 +320,7 @@
                                             </td>
 
                                         </tr>
+
                                     }
 
                                 </tbody>
@@ -241,31 +328,79 @@
                             </table>
 
                         </div>
+
+                        <!-- Pagination Controls -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+
+                            <span>
+                                Page @Model.PageNumber of @Model.TotalPages
+                                (Total Shipments: @Model.TotalCount)
+                            </span>
+
+                            <div>
+
+                                @if (Model.HasPreviousPage)
+                                {
+                                    <a class="wshipping-button"
+                                       asp-controller="Shipment"
+                                       asp-action="List"
+                                       asp-route-pageNumber="@(Model.PageNumber - 1)"
+                                       asp-route-pageSize="@Model.PageSize">
+
+                                        Previous
+
+                                    </a>
+                                }
+
+                                @if (Model.HasNextPage)
+                                {
+                                    <a class="wshipping-button"
+                                       asp-controller="Shipment"
+                                       asp-action="List"
+                                       asp-route-pageNumber="@(Model.PageNumber + 1)"
+                                       asp-route-pageSize="@Model.PageSize">
+
+                                        Next
+
+                                    </a>
+                                }
+
+                            </div>
+
+                        </div>
+
                     }
                     else
                     {
+
+                        <!-- Empty State -->
                         <div class="text-center">
 
                             <i class="fa fa-truck fa-3x">
                             </i>
 
                             <h4>
+
                                 No Shipments Found
+
                             </h4>
 
                             <p>
-                                You have not created any shipments yet.
+
+                                You currently have no shipments.
+
                             </p>
 
                             <a asp-controller="Shipment"
                                asp-action="Create"
                                class="wshipping-button">
 
-                                Create Your First Shipment
+                                Create Shipment
 
                             </a>
 
                         </div>
+
                     }
 
                 </div>
@@ -289,10 +424,9 @@
 
                         <li class="active">
 
-                            <a href="#"
-                               title="Track Shipment">
+                            <a href="#">
 
-                                <i class="fa fa-map-marker">
+                                <i class="fa fa-search">
                                 </i>
 
                                 Track Shipment
@@ -304,8 +438,7 @@
 
                         <li>
 
-                            <a href="#"
-                               title="Shipment History">
+                            <a href="#">
 
                                 <i class="fa fa-history">
                                 </i>
@@ -320,8 +453,7 @@
                         <li>
 
                             <a asp-controller="Shipment"
-                               asp-action="Create"
-                               title="Create Shipment">
+                               asp-action="Create">
 
                                 <i class="fa fa-plus">
                                 </i>
@@ -351,15 +483,13 @@
         </div>
 
     </div>
-    ```
 
 </div>
 <!-- Shipment History End -->
-<!-- Need Help Start -->
+<!-- Send Free Quote Start -->
 
 <div class="wshipping-content-block get-quote">
 
-    ```
     <div class="container">
 
         <div class="row">
@@ -394,17 +524,14 @@
         </div>
 
     </div>
-    ```
 
 </div>
-<!-- Need Help End -->
+<!-- Send Free Quote End -->
 <!-- Our Services Start -->
 
 <div class="wshipping-content-block">
 
-    ```
     <div class="container">
-
 
         <div class="row">
 
@@ -417,8 +544,8 @@
                     </h2>
 
                     <p>
-                        We provide reliable shipping solutions
-                        for your transportation needs.
+                        Reliable logistics solutions for
+                        all your shipping needs.
                     </p>
 
                 </div>
@@ -446,8 +573,8 @@
                         </h3>
 
                         <p>
-                            Reliable ocean freight shipping services
-                            for international shipments.
+                            Reliable international ocean freight
+                            solutions for your shipments.
                         </p>
 
                         <a href="#"
@@ -489,8 +616,8 @@
                         </h3>
 
                         <p>
-                            Fast and secure air freight shipping
-                            for urgent deliveries.
+                            Fast and secure air freight
+                            for time-sensitive deliveries.
                         </p>
 
                         <a href="#"
@@ -528,12 +655,12 @@
                     <div class="service-content">
 
                         <h3>
-                            Road Freight Shipping
+                            Road & Rail Freight
                         </h3>
 
                         <p>
-                            Flexible and reliable road transportation
-                            for local and regional shipments.
+                            Flexible and reliable transportation
+                            for regional shipments.
                         </p>
 
                         <a href="#"
@@ -562,7 +689,6 @@
         </div>
 
     </div>
-    ```
 
 </div>
 <!-- Our Services End -->

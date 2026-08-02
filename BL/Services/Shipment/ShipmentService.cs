@@ -2,6 +2,8 @@
 using BL.Contracts;
 using BL.Contracts.Shipment;
 using BL.DTOs;
+using BL.Mapping;
+using DAL.Models;
 using Domains;
 using System;
 using System.Collections.Generic;
@@ -22,9 +24,9 @@ namespace BL.Services.Shipment
         private readonly IUnitOfWork _uow;
         IUserService _userService;
 
-        private readonly IMapper _mapper;
+        private readonly AutoMapper.IMapper _mapper;
 
-        public ShipmentService(IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow, IUserService userService) : base(uow, mapper, userService)
+        public ShipmentService(AutoMapper.IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow, IUserService userService) : base(uow, mapper, userService)
         {
             _userReceiver = userReceiver;
             _userSender = userSender;
@@ -108,9 +110,36 @@ namespace BL.Services.Shipment
             }
 
         }
+     
 
+public async Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagination)
+    {
+        try
+        {
+            var userId = _userService.GetLoggedInUser();
 
+            var pagedShipments = await _repo.GetList(
+                c => c.CreatedBy == userId,
+                pagination,
+                c => c.Sender,
+                c => c.Receiver);
+
+            var mappedItems = _mapper.Map<List<TbShipment>, List<ShipmentDTO>>(pagedShipments.Items);
+
+            return new PagedResult<ShipmentDTO>(
+                mappedItems,
+                pagedShipments.TotalCount,
+                pagedShipments.PageNumber,
+                pagedShipments.PageSize);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception();
+        }
     }
+
+
+}
 
 }
 
