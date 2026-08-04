@@ -1,509 +1,995 @@
-﻿<!-- Breadcroumbs end -->
-<!-- Create New Shipment Start -->
-<div class="wshipping-content-block shipping-block">
-    <div class="container">
-        <h2 class="heading2-border mt0">Create New Shipping</h2>
-        <div class="row">
-            <div class="shipping-form-block">
-                <form class="steps" accept-charset="UTF-8" enctype="multipart/form-data">
-                    <!-- progressbar -->
-                    <ul id="progressbar">
-                        <li class="active">Where From</li>
-                        <li>Where Going</li>
-                        <li>What</li>
-                        <li>How</li>
-                        <li>Payment</li>
-                        <li>Review</li>
-                        <li>Complete</li>
-                    </ul>
-                    <!-- fieldsets Shipping From Start-->
-                    <fieldset>
-                        <h2 class="fs-title">Hello. Where are you shipping from? <a href="" title="" class="login-btn-form">Login</a></h2>
-                        <h3 class="fs-subtitle">* Indicates required field </h3>
-                        <div class="shipping-form">
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Country<sup>*</sup></label>
-                                        <select name="Sendercountry" class="form-control">
-                                            <option>United States</option>
-                                            <option>Canada</option>
-                                            <option>France</option>
-                                            <option>Germany</option>
-                                            <option>Greece</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Company or Name<sup>*</sup></label>
-                                        <input type="text" class="form-control" name="SenderName" required="required" />
-                                        <span class="error1" style="display: none;"> <i class="error-log fa fa-exclamation-triangle"></i> </span>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Contact<sup>*</sup></label>
-                                        <input type="text" class="form-control" required="required" name="Contact" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label>Address<sup>*</sup></label>
-                                        <input type="text" class="form-control" required="required" name="Address" placeholder="Street Address" />
-                                    </div>
-                                </div>
-                                @*                                 <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label class="empty">&nbsp;</label>
-                                        <input type="text" class="form-control" name="address2" placeholder="Apartment, suite, unit, building, floor, etc." />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label class="empty">&nbsp;</label>
-                                        <input type="text" class="form-control" name="address3" placeholder="Department, c/o, etc." />
-                                    </div>
-                                </div> *@
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Postal Code<sup>*</sup></label>
-                                        <input type="text" class="form-control" required="required" name="PostalCode" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>City<sup>*</sup></label>
-                                        <select name="SenderCityId" class="form-control" required="required">
-                                            <option>United States</option>
-                                            <option>Canada</option>
-                                            <option>France</option>
-                                            <option>Germany</option>
-                                            <option>Greece</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Other Address Information</label>
-                                        <input type="text" class="form-control" name="OtherAddress" required="required" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>E-mail <sup>*</sup></label>
-                                        <input type="email" class="form-control" name="Email" required="required" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Phone<sup>*</sup></label>
-                                        <input type="text" class="form-control" name="Phone" required="required" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label class="slide-label">Use this as my default address </label>
-                                        <div class="slide-redio">
-                                            <input type="checkbox" value="None" id="IsDefaultSender" name="check" checked />
-                                            <label for="slide-radio2"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="button" name="next" class="next action-button" value="Continue" />
-                        <input type="reset" name="cancel" class="action-button btn-red" value="Cancel Shipment" />
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Create New Shipment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #10141F;
+            --muted: #667085;
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --line: #E2E6ED;
+            --primary: #185FA5;
+            --primary-dark: #124a82;
+            --accent: #0F6E56;
+            --accent-soft: #534AB7;
+            --danger: #C24444;
+            --radius: 14px;
+            --radius-sm: 8px;
+        }
 
-                        <input type="button" name="btnPost" onclick="ShipmentService.TestUser();" class="next action-button" value="Post" />
-                    </fieldset>
-                    <!-- fieldsets Shipping From end-->
-                    <!-- fieldsets Shipping going Start-->
-                    <fieldset>
-                        <h2 class="fs-title">Where is your shipping going? <a href="" title="" class="login-btn-form">Login</a></h2>
-                        <div class="row">
-                            <div class="col-12 col-lg-4">
-                                <div class="ship-address">
-                                    <h4>Ship from <a href="" title="Edit" class="btn-edit">Edit</a></h4>
-                                    <p>
-                                        Lorem Ipsum is simply dummy text<br>
-                                        of the printing and typesetting industry
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-4">
-                                <div class="ship-address">
-                                    <h4>Return to <a href="" title="Edit" class="btn-edit">Edit</a></h4>
-                                    <p>
-                                        Lorem Ipsum is simplydummy text of the<br>
-                                        printing and typesetting industry
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="fs-subtitle">* Indicates required field </h3>
-                        <div class="shipping-form">
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <label>Country<sup>*</sup></label>
-                                    <select name="ReciverCountry" class="form-control" required="required">
-                                        <option>United States</option>
-                                        <option>Canada</option>
-                                        <option>France</option>
-                                        <option>Germany</option>
-                                        <option>Greece</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Company or Name<sup>*</sup></label>
-                                        <input type="text" class="form-control" name="ReciverName" required="required" />
-                                        <span class="error1" style="display: none;"> <i class="error-log fa fa-exclamation-triangle"></i> </span>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Contact<sup>*</sup></label>
-                                        <input type="text" class="form-control" name="ReciverContact" required="required" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label>Address<sup>*</sup></label>
-                                        <input type="text" class="form-control" name="ReciverAddress" required="required" placeholder="Street Address" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Postal Code<sup>*</sup></label>
-                                        <input type="text" class="form-control" required="required" name="ReciverPostalCode" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>City<sup>*</sup></label>
-                                        <select name="ReciverCity" class="form-control" required="required">
-                                            <option>United States</option>
-                                            <option>Canada</option>
-                                            <option>France</option>
-                                            <option>Germany</option>
-                                            <option>Greece</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Other Address<sup>*</sup></label>
-                                        <input type="text" class="form-control" name="ReciverOtherAddress" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>E-mail <sup>*</sup></label>
-                                        <input type="email" class="form-control" name="ReciverEmail" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label>Phone<sup>*</sup></label>
-                                        <input type="text" class="form-control" name="ReciverPhone" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="button" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" name="next" class="next action-button" value="Continue" />
-                        <input type="reset" name="cancel" class="action-button btn-red" value="Cancel Shipment" />
-                    </fieldset>
-                    <!-- fieldsets Shipping going end-->
-                    <!-- fieldsets package Start-->
-                    <fieldset>
-                        <h2 class="fs-title">What kind of packaging are you using? <a href="" title="" class="login-btn-form">Login</a></h2>
-                        <h3 class="fs-subtitle">* Indicates required field </h3>
-                        <div class="shipping-form">
-                            <div class="row">
-                                <div class="col-12 col-lg-8">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label>ٍٍShipping Packaging <sup>*</sup></label>
-                                                <div class="input-comment">
-                                                    <select name="PackageType" class="form-control">
-                                                        <option>Customer packaging</option>
-                                                        <option>2kg</option>
-                                                        <option>10kg</option>
-                                                        <option>20kg</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label>Weight<sup>*</sup></label>
-                                                <div class="input-comment">
-                                                    <input type="text" class="form-control" name="Weight" required="required" />
-                                                    <span class="error1" style="display: none;"> <i class="error-log fa fa-exclamation-triangle"></i> </span> <span class="field-comment">lbs</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label>Length</label>
-                                                <div class="input-comment">
-                                                    <input type="text" class="form-control" name="Length" />
-                                                    <span class="field-comment">in</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label>Width</label>
-                                                <div class="input-comment">
-                                                    <input type="text" class="form-control" name="Width" />
-                                                    <span class="field-comment">in</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label>Height</label>
-                                                <div class="input-comment">
-                                                    <input type="text" class="form-control" name="Height" />
-                                                    <span class="field-comment">in</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label>Declared value</label>
-                                                <div class="input-comment">
-                                                    <input type="text" class="form-control" name="PackageValue" />
-                                                    <span class="field-comment">USD</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="what-package"><img src="assets/images/package.jpg" alt="" /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="button" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" name="next" class="next action-button" value="Continue" />
-                        <input type="reset" name="cancel" class="action-button btn-red" value="Cancel Shipment" />
-                    </fieldset>
-                    <!-- fieldsets package end-->
-                    <!-- fieldsets pick up Start-->
-                    <fieldset>
-                        <h2 class="fs-title">How would you like to ship? <a href="" title="" class="login-btn-form">Login</a></h2>
-                        <h3 class="fs-subtitle">* Indicates required field </h3>
-                        <div class="shipping-form dropoff-block">
-                            <h3>Whould you like us to pick up your shipment?</h3>
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" href="#no-drop" aria-controls="no-drop" role="tab" data-toggle="tab">No I'll drop it off</a></li>
-                                <li class="or-text">--or--</li>
-                                <li class="nav-item"><a class="nav-link" href="#yes-drop" aria-controls="yes-drop" role="tab" data-toggle="tab">Yes pick up my shipment</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="no-drop">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Dropoff date:</label>
-                                                <div class="datepicker-group">
-                                                    <input type="text" class="form-control datetimepicker1" placeholder="Date" />
-                                                    <div class="datepicker-icon"><i class="fa fa-calendar-alt"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h3>When would like it delivered?</h3>
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Date and short details:</label>
-                                                <input type="text" class="form-control" name="sDetails" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Shipping Types</label>
-                                                <div class="input-comment">
-                                                    <select name="ShippingType" class="form-control">
-                                                        <option>Customer packaging</option>
-                                                        <option>2kg</option>
-                                                        <option>10kg</option>
-                                                        <option>20kg</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="yes-drop">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Pickup date:</label>
-                                                <div class="datepicker-group">
-                                                    <input type="text" class="form-control datetimepicker1" placeholder="Date" />
-                                                    <div class="datepicker-icon"><i class="fa fa-calendar-alt"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="review">
-                                        <h3>Pickup Address <a href="" title="Edit" class="btn-edit">Edit</a></h3>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text<br>
-                                            of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                        </p>
-                                    </div>
-                                    <div class="review">
-                                        <h3>Pickup Details <a href="" title="Edit" class="btn-edit">Edit</a></h3>
-                                        <p>
-                                            Your pickup window: 9:00AM - 7:00PM<br>
-                                            Pickup location: Front Door
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="button" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" name="next" class="next action-button" value="Continue" />
-                        <input type="reset" name="cancel" class="action-button btn-red" value="Cancel Shipment" />
-                    </fieldset>
-                    <!-- fieldsets package end-->
-                    <!-- fieldsets Review Start-->
-                    <fieldset>
-                        <h2 class="fs-title">Let's make sure everyting is in order</h2>
-                        <div class="shipping-form">
-                            <div class="review">
-                                <h3>Where <a href="" title="Edit" class="btn-edit">Edit</a></h3>
-                                <div class="row">
-                                    <div class="col-12 col-lg-4">
-                                        <div class="ship-address">
-                                            <h4>Ship from</h4>
-                                            <p>
-                                                Lorem Ipsum is simply dummy text<br>
-                                                of the printing and typesetting industry
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-4">
-                                        <div class="ship-address">
-                                            <h4>Ship to</h4>
-                                            <p>
-                                                Lorem Ipsum is simplydummy text of the<br>
-                                                printing and typesetting industry
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-4">
-                                        <div class="ship-address">
-                                            <h4>Return to</h4>
-                                            <p>
-                                                Lorem Ipsum is simplydummy text of the<br>
-                                                printing and typesetting industry
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review">
-                                <h3>What <a href="" title="Edit" class="btn-edit">Edit</a></h3>
-                                <h5>Shipment information</h5>
-                                <ul>
-                                    <li><b>Actual Weight:</b> 60 lbs</li>
-                                    <li><b>Total Bilable Weight:</b> 60 lbs</li>
-                                </ul>
-                                <h5>Package information</h5>
-                                <ul>
-                                    <li><b>Weight:</b> 60 lbs</li>
-                                    <li><b>Dimensions:</b> 17x13x11 in</li>
-                                    <li><b>Declared value:</b> $100</li>
-                                </ul>
-                            </div>
-                            <div class="review">
-                                <h3>How <a href="" title="Edit" class="btn-edit">Edit</a></h3>
-                                <h5>Service Selection</h5>
-                                <p>It has survived not only five centuries,</p>
-                                <h5>Arrival</h5>
-                                <p>Mon, Nov6, 2017, End of the day</p>
-                            </div>
-                            <div class="review">
-                                <h3>Aditional Option <a href="" title="Edit" class="btn-edit">Edit</a></h3>
-                                <p>N/A</p>
-                            </div>
-                            <div class="review">
-                                <h3>Payment <a href="" title="Edit" class="btn-edit">Edit</a></h3>
-                                <h5>Bill Shipping Charge to:</h5>
-                                <p>Paypal</p>
-                                <h5>Bill Duties and Taxes to:</h5>
-                                <p>Receive Company name</p>
-                                <h5>Enter Promo Code:</h5>
-                                <div class="promoCode-input">
-                                    <input type="text" class="form-control" name="sDetails" />
-                                </div>
-                            </div>
-                            <div class="review">
-                                <div class="checkbox">
-                                    <input type="checkbox" name="remember" id="trems" class="css-checkbox" />
-                                    <label for="trems" class="css-label">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</label>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="button" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" name="next" class="next action-button" value="Continue" />
-                    </fieldset>
-                    <!-- fieldsets payment Start-->
-                    <fieldset>
-                        <div class="shipping-form">
-                            <h1 class="tanks-message">Thank You For Create Shipping</h1>
-                        </div>
-                        <input type="submit" name="submit" class="submit action-button" value="Submit" />
-                    </fieldset>
-                </form>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'Inter',sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk',sans-serif;
+            margin: 0;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono',monospace;
+        }
+
+        .page {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* ---- Header ---- */
+        .page-head {
+            margin-bottom: 32px;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 12px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .page-head h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -.01em;
+        }
+
+        /* ---- Route stepper (signature element) ---- */
+        .route {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin: 36px 0 44px;
+            padding: 0 4px;
+        }
+
+            .route::before {
+                content: "";
+                position: absolute;
+                top: 15px;
+                left: 20px;
+                right: 20px;
+                height: 2px;
+                background: var(--line);
+                z-index: 0;
+            }
+
+        .route-fill {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            height: 2px;
+            background: linear-gradient(90deg,var(--accent),var(--primary));
+            z-index: 1;
+            transition: width .45s ease;
+            width: 0%;
+        }
+
+        .route-step {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .route-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 2px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            transition: all .3s ease;
+        }
+
+            .route-dot svg {
+                width: 14px;
+                height: 14px;
+            }
+
+        .route-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--muted);
+            text-align: center;
+            max-width: 70px;
+            line-height: 1.2;
+        }
+
+        .route-step.done .route-dot {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .route-step.done .route-label {
+            color: var(--ink);
+        }
+
+        .route-step.active .route-dot {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 0 5px rgba(24,95,165,.15);
+        }
+
+        .route-step.active .route-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ---- Card / fieldset ---- */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            box-shadow: 0 1px 2px rgba(16,20,31,.03);
+        }
+
+        .fs-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .fs-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .login-link {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--primary);
+            text-decoration: none;
+            float: right;
+        }
+
+            .login-link:hover {
+                text-decoration: underline;
+            }
+
+        .step-panel {
+            display: none;
+        }
+
+            .step-panel.active {
+                display: block;
+            }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 20px;
+        }
+
+            .grid.cols-2 {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .grid.cols-1 {
+                grid-template-columns: 1fr;
+            }
+
+        .span-3 {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width:720px) {
+            .grid, .grid.cols-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 24px 20px;
+            }
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+            .field label {
+                font-size: 12.5px;
+                font-weight: 600;
+                color: var(--ink);
+            }
+
+                .field label sup {
+                    color: var(--danger);
+                    margin-left: 2px;
+                }
+
+            .field .hint {
+                font-size: 11px;
+                color: var(--muted);
+                font-weight: 400;
+            }
+
+        .input, select.input {
+            width: 100%;
+            padding: 11px 13px;
+            font-size: 14px;
+            font-family: 'Inter',sans-serif;
+            color: var(--ink);
+            background: #fff;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            outline: none;
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+
+            .input:focus, select.input:focus {
+                border-color: var(--accent-soft);
+                box-shadow: 0 0 0 3px rgba(83,74,183,.12);
+            }
+
+        .input-unit {
+            position: relative;
+        }
+
+            .input-unit .unit {
+                position: absolute;
+                right: 13px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-family: 'JetBrains Mono',monospace;
+                font-size: 11px;
+                color: var(--muted);
+                background: #fff;
+                padding-left: 4px;
+            }
+
+            .input-unit .input {
+                padding-right: 44px;
+            }
+
+        /* toggle */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .toggle {
+            width: 38px;
+            height: 22px;
+            border-radius: 20px;
+            background: var(--line);
+            position: relative;
+            cursor: pointer;
+            transition: background .2s ease;
+            border: none;
+            flex-shrink: 0;
+        }
+
+            .toggle::after {
+                content: "";
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #fff;
+                transition: left .2s ease;
+                box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            }
+
+            .toggle.on {
+                background: var(--accent);
+            }
+
+                .toggle.on::after {
+                    left: 18px;
+                }
+
+        .toggle-label {
+            font-size: 13px;
+            color: var(--ink);
+        }
+
+        /* tabs (pickup/dropoff) */
+        .tabs {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 18px 0 22px;
+        }
+
+        .tab {
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: 1.5px solid var(--line);
+            background: #fff;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+            .tab.active {
+                background: var(--primary);
+                border-color: var(--primary);
+                color: #fff;
+            }
+
+        .tab-or {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+            .tab-panel.active {
+                display: block;
+            }
+
+        /* summary rows for review */
+        .summary-block {
+            border-top: 1px solid var(--line);
+            padding: 18px 0;
+        }
+
+            .summary-block:first-of-type {
+                border-top: none;
+                padding-top: 0;
+            }
+
+        .summary-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+            .summary-head h4 {
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+        .edit-link {
+            font-size: 12px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .edit-link:hover {
+                text-decoration: underline;
+            }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 16px;
+        }
+
+        .summary-item p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .summary-item .k {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: var(--muted);
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .summary-item .v {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 13px;
+            color: var(--ink);
+        }
+
+        .terms {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+            .terms input {
+                margin-top: 3px;
+            }
+
+        /* footer nav */
+        .form-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 28px;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            font-family: 'Inter',sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 12px 22px;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            transition: transform .1s ease, box-shadow .15s ease, background .15s ease;
+        }
+
+            .btn:active {
+                transform: translateY(1px);
+            }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+            .btn-primary:hover {
+                background: var(--primary-dark);
+            }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--ink);
+            border: 1.5px solid var(--line);
+        }
+
+            .btn-ghost:hover {
+                border-color: var(--muted);
+            }
+
+        .btn-text-danger {
+            background: none;
+            border: none;
+            color: var(--danger);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+            .btn-text-danger:hover {
+                text-decoration: underline;
+            }
+
+        /* complete state */
+        .complete {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+            .complete .check-ring {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                background: rgba(15,110,86,.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 20px;
+            }
+
+            .complete h1 {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+
+            .complete p {
+                color: var(--muted);
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
+
+        .tracking-chip {
+            display: inline-block;
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 13px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            padding: 8px 16px;
+            border-radius: 999px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+
+        <div class="page-head">
+            <span class="eyebrow">New shipment</span>
+            <h1>Create a shipment</h1>
+        </div>
+
+        <!-- Route stepper -->
+        <div class="route" id="route">
+            <div class="route-fill" id="routeFill"></div>
+            <div class="route-step" data-step="0">
+                <div class="route-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" /><circle cx="12" cy="9" r="2.5" /></svg></div>
+                <span class="route-label">From</span>
+            </div>
+            <div class="route-step" data-step="1">
+                <div class="route-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-7-7 18-3-8-8-3z" /></svg></div>
+                <span class="route-label">To</span>
+            </div>
+            <div class="route-step" data-step="2">
+                <div class="route-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z" /><path d="M3 8v8l9 5 9-5V8" /><path d="M12 13v8" /></svg></div>
+                <span class="route-label">Package</span>
+            </div>
+            <div class="route-step" data-step="3">
+                <div class="route-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 16V6a1 1 0 0 1 1-1h9v11" /><path d="M13 9h4l3 3v4h-2" /><circle cx="7" cy="17" r="2" /><circle cx="16" cy="17" r="2" /></svg></div>
+                <span class="route-label">Method</span>
+            </div>
+            <div class="route-step" data-step="4">
+                <div class="route-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2" /><path d="M2 10h20" /></svg></div>
+                <span class="route-label">Payment</span>
+            </div>
+            <div class="route-step" data-step="5">
+                <div class="route-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg></div>
+                <span class="route-label">Review</span>
+            </div>
+            <div class="route-step" data-step="6">
+                <div class="route-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V4l16 8-16 8" /></svg></div>
+                <span class="route-label">Done</span>
             </div>
         </div>
+
+        <div class="card">
+            <form id="shipForm">
+
+                <!-- Step 0: Where from -->
+                <div class="step-panel active" data-panel="0">
+                    <a href="#" class="login-link">Log in</a>
+                    <h2 class="fs-title">Where are you shipping from?</h2>
+                    <p class="fs-sub">Fields marked with <sup style="color:var(--danger)">*</sup> are required.</p>
+
+                    <div class="grid" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Country<sup>*</sup></label>
+                            <select class="input" name="SenderCountry">
+                                <option>United States</option>
+                                <option>Canada</option>
+                                <option>France</option>
+                                <option>Germany</option>
+                                <option>Greece</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Company or name<sup>*</sup></label>
+                            <input class="input" type="text" name="SenderName" required />
+                        </div>
+                        <div class="field">
+                            <label>Contact<sup>*</sup></label>
+                            <input class="input" type="text" name="Contact" required />
+                        </div>
+                    </div>
+
+                    <div class="grid cols-1" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Address<sup>*</sup></label>
+                            <input class="input" type="text" name="Address" placeholder="Street address" required />
+                        </div>
+                    </div>
+
+                    <div class="grid" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Postal code<sup>*</sup></label>
+                            <input class="input mono" type="text" name="PostalCode" required />
+                        </div>
+                        <div class="field">
+                            <label>City<sup>*</sup></label>
+                            <select class="input" name="SenderCityId" required>
+                                <option>United States</option>
+                                <option>Canada</option>
+                                <option>France</option>
+                                <option>Germany</option>
+                                <option>Greece</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Other address info</label>
+                            <input class="input" type="text" name="OtherAddress" />
+                        </div>
+                    </div>
+
+                    <div class="grid cols-2" style="margin-bottom:8px;">
+                        <div class="field">
+                            <label>Email<sup>*</sup></label>
+                            <input class="input" type="email" name="Email" required />
+                        </div>
+                        <div class="field">
+                            <label>Phone<sup>*</sup></label>
+                            <input class="input mono" type="text" name="Phone" required />
+                        </div>
+                    </div>
+
+                    <div class="toggle-row">
+                        <button type="button" class="toggle on" data-toggle></button>
+                        <span class="toggle-label">Save as my default address</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Where going -->
+                <div class="step-panel" data-panel="1">
+                    <a href="#" class="login-link">Log in</a>
+                    <h2 class="fs-title">Where is this shipment going?</h2>
+                    <p class="fs-sub">Fields marked with <sup style="color:var(--danger)">*</sup> are required.</p>
+
+                    <div class="grid" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Country<sup>*</sup></label>
+                            <select class="input" name="ReceiverCountry" required>
+                                <option>United States</option>
+                                <option>Canada</option>
+                                <option>France</option>
+                                <option>Germany</option>
+                                <option>Greece</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Company or name<sup>*</sup></label>
+                            <input class="input" type="text" name="ReceiverName" required />
+                        </div>
+                        <div class="field">
+                            <label>Contact<sup>*</sup></label>
+                            <input class="input" type="text" name="ReceiverContact" required />
+                        </div>
+                    </div>
+
+                    <div class="grid cols-1" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Address<sup>*</sup></label>
+                            <input class="input" type="text" name="ReceiverAddress" placeholder="Street address" required />
+                        </div>
+                    </div>
+
+                    <div class="grid" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Postal code<sup>*</sup></label>
+                            <input class="input mono" type="text" name="ReceiverPostalCode" required />
+                        </div>
+                        <div class="field">
+                            <label>City<sup>*</sup></label>
+                            <select class="input" name="ReceiverCity" required>
+                                <option>United States</option>
+                                <option>Canada</option>
+                                <option>France</option>
+                                <option>Germany</option>
+                                <option>Greece</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Other address</label>
+                            <input class="input" type="text" name="ReceiverOtherAddress" />
+                        </div>
+                    </div>
+
+                    <div class="grid cols-2">
+                        <div class="field">
+                            <label>Email<sup>*</sup></label>
+                            <input class="input" type="email" name="ReceiverEmail" required />
+                        </div>
+                        <div class="field">
+                            <label>Phone<sup>*</sup></label>
+                            <input class="input mono" type="text" name="ReceiverPhone" required />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Package -->
+                <div class="step-panel" data-panel="2">
+                    <a href="#" class="login-link">Log in</a>
+                    <h2 class="fs-title">What are you packaging?</h2>
+                    <p class="fs-sub">Fields marked with <sup style="color:var(--danger)">*</sup> are required.</p>
+
+                    <div class="grid cols-2" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Packaging type<sup>*</sup></label>
+                            <select class="input" name="PackageType">
+                                <option>Customer packaging</option>
+                                <option>2 kg box</option>
+                                <option>10 kg box</option>
+                                <option>20 kg box</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Weight<sup>*</sup></label>
+                            <div class="input-unit">
+                                <input class="input mono" type="text" name="Weight" required />
+                                <span class="unit">LBS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Length</label>
+                            <div class="input-unit"><input class="input mono" type="text" name="Length" /><span class="unit">IN</span></div>
+                        </div>
+                        <div class="field">
+                            <label>Width</label>
+                            <div class="input-unit"><input class="input mono" type="text" name="Width" /><span class="unit">IN</span></div>
+                        </div>
+                        <div class="field">
+                            <label>Height</label>
+                            <div class="input-unit"><input class="input mono" type="text" name="Height" /><span class="unit">IN</span></div>
+                        </div>
+                    </div>
+
+                    <div class="grid cols-2">
+                        <div class="field">
+                            <label>Declared value</label>
+                            <div class="input-unit"><input class="input mono" type="text" name="PackageValue" /><span class="unit">USD</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: How -->
+                <div class="step-panel" data-panel="3">
+                    <a href="#" class="login-link">Log in</a>
+                    <h2 class="fs-title">How would you like to ship?</h2>
+                    <p class="fs-sub">Fields marked with <sup style="color:var(--danger)">*</sup> are required.</p>
+
+                    <div class="tabs">
+                        <button type="button" class="tab active" data-tab="dropoff">I'll drop it off</button>
+                        <span class="tab-or">or</span>
+                        <button type="button" class="tab" data-tab="pickup">Pick up my shipment</button>
+                    </div>
+
+                    <div class="tab-panel active" data-tabpanel="dropoff">
+                        <div class="grid cols-2" style="margin-bottom:18px;">
+                            <div class="field">
+                                <label>Drop-off date</label>
+                                <input class="input" type="text" name="DropoffDate" placeholder="Select a date" />
+                            </div>
+                            <div class="field">
+                                <label>Shipping type</label>
+                                <select class="input" name="ShippingType">
+                                    <option>Customer packaging</option>
+                                    <option>2 kg</option>
+                                    <option>10 kg</option>
+                                    <option>20 kg</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field span-3">
+                            <label>Delivery date &amp; details</label>
+                            <input class="input" type="text" name="sDetails" placeholder="e.g. Mon, Nov 6 — end of day" />
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" data-tabpanel="pickup">
+                        <div class="field" style="margin-bottom:20px;max-width:280px;">
+                            <label>Pickup date</label>
+                            <input class="input" type="text" name="PickupDate" placeholder="Select a date" />
+                        </div>
+                        <div class="summary-block">
+                            <div class="summary-head"><h4>Pickup address</h4><a href="#" class="edit-link">Edit</a></div>
+                            <p style="font-size:13px;color:var(--muted);margin:0;">Uses the sender address entered in step one.</p>
+                        </div>
+                        <div class="summary-block">
+                            <div class="summary-head"><h4>Pickup window</h4><a href="#" class="edit-link">Edit</a></div>
+                            <p style="font-size:13px;color:var(--muted);margin:0;">9:00 AM – 7:00 PM, front door.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Payment -->
+                <div class="step-panel" data-panel="4">
+                    <h2 class="fs-title">How would you like to pay?</h2>
+                    <p class="fs-sub">Fields marked with <sup style="color:var(--danger)">*</sup> are required.</p>
+
+                    <div class="grid cols-2" style="margin-bottom:18px;">
+                        <div class="field">
+                            <label>Bill shipping charge to</label>
+                            <select class="input" name="BillShippingTo">
+                                <option>PayPal</option>
+                                <option>Credit card</option>
+                                <option>Company account</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Bill duties &amp; taxes to</label>
+                            <select class="input" name="BillDutiesTo">
+                                <option>Receiver</option>
+                                <option>Sender</option>
+                                <option>Third party</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field" style="max-width:280px;">
+                        <label>Promo code</label>
+                        <input class="input mono" type="text" name="PromoCode" placeholder="Optional" />
+                    </div>
+                </div>
+
+                <!-- Step 5: Review -->
+                <div class="step-panel" data-panel="5">
+                    <h2 class="fs-title">Review your shipment</h2>
+                    <p class="fs-sub">Check the details below before submitting.</p>
+
+                    <div class="summary-block">
+                        <div class="summary-head"><h4>Where</h4><a href="#" class="edit-link">Edit</a></div>
+                        <div class="summary-grid">
+                            <div class="summary-item"><span class="k">Ship from</span><p class="v mono">Cairo, EG</p></div>
+                            <div class="summary-item"><span class="k">Ship to</span><p class="v mono">Paris, FR</p></div>
+                            <div class="summary-item"><span class="k">Return to</span><p class="v mono">Cairo, EG</p></div>
+                        </div>
+                    </div>
+
+                    <div class="summary-block">
+                        <div class="summary-head"><h4>What</h4><a href="#" class="edit-link">Edit</a></div>
+                        <div class="summary-grid">
+                            <div class="summary-item"><span class="k">Weight</span><p class="v mono">60 lbs</p></div>
+                            <div class="summary-item"><span class="k">Dimensions</span><p class="v mono">17×13×11 in</p></div>
+                            <div class="summary-item"><span class="k">Declared value</span><p class="v mono">$100</p></div>
+                        </div>
+                    </div>
+
+                    <div class="summary-block">
+                        <div class="summary-head"><h4>How</h4><a href="#" class="edit-link">Edit</a></div>
+                        <div class="summary-grid">
+                            <div class="summary-item"><span class="k">Service</span><p class="v mono">Standard</p></div>
+                            <div class="summary-item"><span class="k">Arrival</span><p class="v mono">Nov 6, EOD</p></div>
+                        </div>
+                    </div>
+
+                    <div class="summary-block">
+                        <div class="summary-head"><h4>Payment</h4><a href="#" class="edit-link">Edit</a></div>
+                        <div class="summary-grid">
+                            <div class="summary-item"><span class="k">Shipping charge</span><p class="v mono">PayPal</p></div>
+                            <div class="summary-item"><span class="k">Duties &amp; taxes</span><p class="v mono">Receiver</p></div>
+                        </div>
+                    </div>
+
+                    <label class="terms">
+                        <input type="checkbox" name="terms" required />
+                        <span>I agree to the shipping terms and confirm the details above are accurate.</span>
+                    </label>
+                </div>
+
+                <!-- Step 6: Complete -->
+                <div class="step-panel" data-panel="6">
+                    <div class="complete">
+                        <div class="check-ring">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2.5"><path d="M20 6L9 17l-5-5" /></svg>
+                        </div>
+                        <h1>Shipment created</h1>
+                        <p>A confirmation has been sent to your email. Track it any time with the code below.</p>
+                        <span class="tracking-chip">SHP-2026-084213</span>
+                    </div>
+                </div>
+
+                <!-- Nav -->
+                <div class="form-nav" id="formNav">
+                    <div class="nav-left">
+                        <button type="button" class="btn btn-ghost" id="prevBtn">Previous</button>
+                    </div>
+                    <div class="nav-right">
+                        <button type="button" class="btn-text-danger" id="cancelBtn">Cancel shipment</button>
+                        <button type="button" class="btn btn-primary" id="nextBtn">Continue</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
     </div>
-</div>
-<!-- Create New Shipment end -->
-@section Scripts
-{
-    <script src="~/modules/apphelper.js"></script>
-    <script src="~/modules/apiclient.js"></script>
-    <script src="~/modules/countriesservice.js"></script>
-    <script src="~/modules/cititesservice.js"></script>
-    <script src="~/modules/shippingtypesservice.js"></script>
-    <script src="~/modules/shippingpackgingservice.js"></script>
-    <script src="~/modules/shipment/shipmentservice.js"></script>
-    <script src="~/modules/shipment/managepagecontrols.js"></script>
-    <script src="~/modules/shipment/pageevents.js"></script>
-    <script src="~/modules/shipment/show.js"></script>
-    <script src="~/modules/shipment/create.js"></script>
-}
+
+    <script>
+        const panels = document.querySelectorAll('.step-panel');
+        const routeSteps = document.querySelectorAll('.route-step');
+        const routeFill = document.getElementById('routeFill');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const formNav = document.getElementById('formNav');
+        let current = 0;
+        const total = panels.length;
+
+        function render() {
+            panels.forEach((p, i) => p.classList.toggle('active', i === current));
+            routeSteps.forEach((s, i) => {
+                s.classList.remove('active', 'done');
+                if (i < current) s.classList.add('done');
+                if (i === current) s.classList.add('active');
+            });
+            const pct = (current / (total - 1)) * 100;
+            routeFill.style.width = `calc(${pct}% * 0.86)`;
+
+            prevBtn.style.visibility = current === 0 ? 'hidden' : 'visible';
+            if (current === total - 1) {
+                formNav.style.display = 'none';
+            } else {
+                formNav.style.display = 'flex';
+                nextBtn.textContent = current === total - 2 ? 'Submit shipment' : 'Continue';
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (current < total - 1) { current++; render(); }
+        });
+        prevBtn.addEventListener('click', () => {
+            if (current > 0) { current--; render(); }
+        });
+        cancelBtn.addEventListener('click', () => {
+            current = 0; render();
+        });
+
+        // default-address toggle
+        document.querySelectorAll('[data-toggle]').forEach(t => {
+            t.addEventListener('click', () => t.classList.toggle('on'));
+        });
+
+        // pickup/dropoff tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelector(`[data-tabpanel="${tab.dataset.tab}"]`).classList.add('active');
+            });
+        });
+
+        render();
+    </script>
+
+</body>
+</html>
