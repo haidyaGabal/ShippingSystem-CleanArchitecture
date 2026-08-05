@@ -1,7 +1,120 @@
-﻿@{
-    Layout = null;
-}
-<h1>Access Denied</h1>
-<h4>
-    You are not Authorized
-</h4>
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Access Denied</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10141F;
+    --muted:#667085;
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --line:#E2E6ED;
+    --primary:#185FA5;
+    --primary-dark:#124a82;
+    --danger:#C24444;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .panel{
+    max-width:460px;
+    width:100%;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:44px 40px 36px;
+    text-align:center;
+    box-shadow:0 1px 2px rgba(16,20,31,.03);
+  }
+  .lock-ring{
+    width:64px;height:64px;
+    border-radius:50%;
+    background:rgba(194,68,68,.1);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 22px;
+  }
+  .lock-ring svg{width:26px;height:26px;}
+  .code{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--danger);
+    display:block;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:26px;
+    font-weight:700;
+    margin:0 0 10px;
+    letter-spacing:-.01em;
+  }
+  p{
+    font-size:14.5px;
+    color:var(--muted);
+    line-height:1.55;
+    margin:0 0 28px;
+  }
+  .actions{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    padding:12px 22px;
+    border-radius:8px;
+    text-decoration:none;
+    display:inline-block;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .btn-primary{
+    background:var(--primary);
+    color:#fff;
+  }
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1.5px solid var(--line);
+  }
+  .btn-ghost:hover{border-color:var(--muted);}
+</style>
+</head>
+<body>
+
+  <div class="panel">
+    <div class="lock-ring">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#C24444" stroke-width="2">
+        <rect x="4" y="11" width="16" height="9" rx="2"/>
+        <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+      </svg>
+    </div>
+    <span class="code">Error 403</span>
+    <h1>Access denied</h1>
+    <p>You don't have permission to view this page. If you think this is a mistake, sign in with an account that has access or contact your administrator.</p>
+    <div class="actions">
+      <a href="/" class="btn btn-primary">Go to homepage</a>
+      <a href="/Account/Login" class="btn btn-ghost">Sign in</a>
+    </div>
+  </div>
+
+</body>
+</html>
