@@ -72,15 +72,15 @@ namespace Ui.Controllers
                 });
 
                 /// for fetch data from db and get role use this
-                var dbUser= await _userService.GetUserByEmailAsync(user.Email);
+                var dbUser = await _userService.GetUserByEmailAsync(user.Email);
 
                 if (dbUser.Role.ToLower() == "admin")
-                
+
                     return RedirectToRoute(new { area = "admin", controller = "Home", action = "Index" });
-                
+
                 else
                     return RedirectToRoute(new { controller = "Home", action = "Index" });
-                
+
 
             }
             else
@@ -93,9 +93,9 @@ namespace Ui.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserDTO user)
         {
-           
-      
-         
+
+
+
             if (!ModelState.IsValid)
                 return View(user);
 
@@ -109,9 +109,15 @@ namespace Ui.Controllers
             {
                 return View();
             }
-                
-                
-              
+
+
+
+        }
+        [AllowAnonymous]
+        public IActionResult AccessDenied(string returnUrl)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
         }
     }
 }
