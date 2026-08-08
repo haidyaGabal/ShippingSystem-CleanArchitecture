@@ -16,5 +16,6 @@ namespace BL.Contracts.Shipment
 
         public Task<List<ShipmentDTO>> GetShipments();
         public  Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagination);
+        public Task<ShipmentDTO> GetShipment(Guid id);
     }
 }
