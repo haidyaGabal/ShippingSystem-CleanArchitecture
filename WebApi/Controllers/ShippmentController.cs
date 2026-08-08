@@ -3,6 +3,7 @@ using BL.DTOs;
 using DAL.Exceptions;
 using Domains;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebApi.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -51,11 +52,12 @@ namespace WebApi.Controllers
 
         // GET api/<ShippmentController>/5
         [HttpGet("{id}")]
-        public ActionResult<ApiResponse<ShipmentDTO>> Get(Guid id)
+        public async Task<ActionResult<ApiResponse<ShipmentDTO>>> Get(Guid id)
         {
             try
             {
-                var data = _shippment.GetById(id);
+                var data = await _shippment.GetShipment(id);
+
 
                 return Ok(ApiResponse<ShipmentDTO>.SuccessResponse(data));
             }
@@ -80,6 +82,7 @@ namespace WebApi.Controllers
 
             }
         }
+
         [HttpPost]
         public void Post([FromBody] string value)
         {
