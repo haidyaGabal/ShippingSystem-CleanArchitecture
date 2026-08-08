@@ -137,9 +137,27 @@ public async Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagina
             throw new Exception();
         }
     }
+        //return shipment based on user id
 
+        public async Task<ShipmentDTO> GetShipment(Guid id)
+        {
+            try
+            {
+                var userId = _userService.GetLoggedInUser();
+                var shipments = await _repo.GetList(c =>
+                    c.CreatedBy == userId && c.Id == id,
+                    c => c.Sender,
+                    c => c.Receiver);
 
-}
+                var shipment = shipments.FirstOrDefault();
+                return _mapper.Map<ShipmentDTO>(shipment);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+    }
 
 }
 
