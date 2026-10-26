@@ -10,7 +10,8 @@ namespace BL.Contracts
 {
     public interface ICity : IBaseService<TbCity, CityDTO>
     {
-        public List<CityDTO> GetByCountryId(Guid countryId);
+       // public List<CityDTO> GetByCountryId(Guid countryId);
+        public Task<List<CityDTO>> GetByCountryId(Guid countryId);
 
 
     }

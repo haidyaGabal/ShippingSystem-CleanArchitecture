@@ -20,12 +20,10 @@ namespace BL.Services
         {
         }
 
-        public List<CityDTO> GetByCountryId(Guid countryId)
-        {
-            var cities = _repo.GetAll()
-                              .Where(c => c.CountryId == countryId)
-                              .ToList();
 
+        public async Task<List<CityDTO>> GetByCountryId(Guid countryId)
+        {
+            var cities = await _repo.GetList(c => c.CountryId == countryId && c.CurrentState > 0);
             return _mapper.Map<List<CityDTO>>(cities);
         }
     }

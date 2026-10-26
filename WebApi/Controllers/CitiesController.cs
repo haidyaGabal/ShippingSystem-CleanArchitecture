@@ -2,6 +2,7 @@
 using BL.DTOs;
 using DAL.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebApi.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -86,11 +87,11 @@ namespace WebApi.Controllers
         ///get by country
         ///
         [HttpGet("GetByCountry/{id}")]
-        public ActionResult<ApiResponse<CityDTO>> GetByCountry(Guid id)
+        public async Task<ActionResult<ApiResponse<CityDTO>>> GetByCountry(Guid id)
         {
             try
             {
-                var data = _city.GetByCountryId(id);
+                var data =await _city.GetByCountryId(id);
 
                 return Ok(ApiResponse<List<CityDTO>>.SuccessResponse(data));
             }
