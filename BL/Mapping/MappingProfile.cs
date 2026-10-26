@@ -13,7 +13,7 @@ namespace BL.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<TbCarrier,CityDTO>().ReverseMap();
+            CreateMap<TbCarrier,CarrierDTO>().ReverseMap();
             CreateMap<TbCity, CityDTO>().ReverseMap();
             CreateMap<TbRefreshToken, RefreshTokenDTO>().ReverseMap();
             CreateMap<TbCountry, CountryDTO>().ReverseMap();
@@ -24,8 +24,15 @@ namespace BL.Mapping
             CreateMap<TbShipment, ShipmentDTO>().ReverseMap();
             CreateMap<TbShipmentStatus, TbShipmentStatus>().ReverseMap();
             CreateMap<TbSubscriptionPackage, SubscriptionPackageDTO>().ReverseMap();
-            CreateMap<TbUserReceiver, UserReceiverDTO>().ReverseMap();
-            CreateMap<TbUserSender, UserSenderDTO>().ReverseMap();
+            CreateMap<TbUserReceiver, UserReceiverDTO>()
+                .ForMember(d => d.CountryId, o => o.MapFrom(s => s.City != null ? s.City.CountryId : Guid.Empty))
+                .ReverseMap()
+                .ForMember(e => e.City, o => o.Ignore());
+
+            CreateMap<TbUserSender, UserSenderDTO>()
+                .ForMember(d => d.CountryId, o => o.MapFrom(s => s.City != null ? s.City.CountryId : Guid.Empty))
+                .ReverseMap()
+                .ForMember(e => e.City, o => o.Ignore());
             CreateMap<TbUserSubscription, UserSubscriptionDTO>().ReverseMap();
 
         }

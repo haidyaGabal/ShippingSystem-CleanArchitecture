@@ -33,6 +33,7 @@ namespace BL.DTOs
 
  
         public Guid CityId { get; set; }
+        public Guid CountryId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Address is required")]
         [StringLength(500, MinimumLength = 5, ErrorMessage = "Address must be between 5 and 500 characters")]
