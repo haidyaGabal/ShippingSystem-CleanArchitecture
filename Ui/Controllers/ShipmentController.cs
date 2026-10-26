@@ -9,9 +9,9 @@ namespace Ui.Controllers
 {
     public class ShipmentController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ShipmentController> _logger;
         private readonly IShipment _shipment;
-        public ShipmentController(ILogger<HomeController> logger, IShipment shipment)
+        public ShipmentController(ILogger<ShipmentController> logger, IShipment shipment)
         {
             _logger = logger;
             _shipment = shipment;
@@ -38,7 +38,15 @@ namespace Ui.Controllers
             var shipments = await _shipment.GetShipments(pagination);
             return View(shipments);
         }
+        public IActionResult Edit(Guid id)
+        {
+            return View("Show");
+        }
+        public IActionResult Show(Guid id)
+        {
 
+            return View();
+        }
 
     }
 } 

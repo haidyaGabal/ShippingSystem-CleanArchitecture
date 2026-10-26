@@ -12,6 +12,9 @@
             type: 'GET',
             contentType: 'application/json',
             headers: headers,
+            xhrFields: {
+                withCredentials: true   // added: sends the RefreshToken cookie
+            },
             success: onSuccess,
             error: function (xhr) {
                 if (useAuth && xhr.status === 401) {
@@ -54,8 +57,6 @@
     },
 
     refreshToken: function (onSuccess, onFailure) {
-
-
         $.ajax({
             url: this.baseUrl + '/api/auth/RefreshAccessToken',
             type: 'POST',
@@ -63,7 +64,6 @@
             xhrFields: {
                 withCredentials: true
             },
-            /*data: JSON.stringify({ refreshToken: refreshToken }),*/
             success: function (response) {
                 if (response && response.accessToken) {
                     document.cookie = `AccessToken=${response.accessToken}; path=/`;

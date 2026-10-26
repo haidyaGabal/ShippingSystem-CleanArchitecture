@@ -2,21 +2,29 @@
 
     FormIds: {},
 
+    EMPTY_GUID: "00000000-0000-0000-0000-000000000000",
+
     GetModel: function () {
+
+        const shipDate = $('input[name="ShippingDate"]').val();
+        const delDate = $('input[name="DeliveryDate"]').val();
 
         const shipmentDto = {
 
-            // ✅ DTO: ShipmentDTO
-            ShippingDate: new Date().toISOString(),
-            DeliveryDate: new Date(Date.now() + 3 * 86400000).toISOString(),
+            ShippingDate: shipDate
+                ? new Date(shipDate).toISOString()
+                : new Date().toISOString(),
+            DeliveryDate: delDate
+                ? new Date(delDate).toISOString()
+                : new Date(Date.now() + 3 * 86400000).toISOString(),
 
-            SenderId: "00000000-0000-0000-0000-000000000000",
-            ReceiverId: "00000000-0000-0000-0000-000000000000",
+            SenderId: this.EMPTY_GUID,
+            ReceiverId: this.EMPTY_GUID,
 
-            // ✅ MUST be lowercase (match DTO exactly)
+            // property names match ShipmentDTO exactly
             Sender: {
-                Id: "00000000-0000-0000-0000-000000000000",
-                UserId: "00000000-0000-0000-0000-000000000000",
+                Id: this.EMPTY_GUID,
+                UserId: this.EMPTY_GUID,
                 SenderName: $('input[name="SenderName"]').val(),
                 Email: $('input[name="Email"]').val(),
                 Phone: $('input[name="Phone"]').val(),
@@ -28,21 +36,18 @@
             },
 
             Receiver: {
-                Id: "00000000-0000-0000-0000-000000000000",
-                UserId: "00000000-0000-0000-0000-000000000000",
+                Id: this.EMPTY_GUID,
+                UserId: this.EMPTY_GUID,
                 ReceiverName: $('input[name="ReceiverName"]').val(),
                 Email: $('input[name="ReceiverEmail"]').val(),
                 Phone: $('input[name="ReceiverPhone"]').val(),
-                CityId: $('select[name="ReceiverCity"]').val(),
+                CityId: $('select[name="ReceiverCity"]').val() || null,
                 Address: $('input[name="ReceiverAddress"]').val(),
                 Contact: $('input[name="ReceiverContact"]').val(),
                 PostalCode: $('input[name="ReceiverPostalCode"]').val(),
                 OtherAddress: $('input[name="ReceiverOtherAddress"]').val()
             },
-         
 
-            
-            // ✅ EXACT DTO NAMES
             ShipingTypeId: $('select[name="ShippingType"]').val() || null,
             ShipingPackagesId: $('select[name="PackageType"]').val() || null,
 
@@ -69,7 +74,24 @@
         return isNaN(num) ? null : num;
     },
 
+    // waits until the option exists (dropdowns load from the API), then selects it
+    setSelectWhenReady: function (selector, value, tries = 20) {
+        if (!value) return;
+        const $el = $(selector);
+        if ($el.find('option[value="' + value + '"]').length) {
+            $el.val(value);
+        } else if (tries > 0) {
+            setTimeout(() => this.setSelectWhenReady(selector, value, tries - 1), 250);
+        }
+    },
+
     FillShipmentForm: function (data) {
+
+        if (!data) return;
+
+        const s = data.Sender || {};
+        const r = data.Receiver || {};
+        const toDate = v => (!v || String(v).startsWith("0001")) ? "" : String(v).split("T")[0];
 
         this.FormIds = {
             Id: data.Id,
@@ -79,86 +101,67 @@
             ShipingRate: data.ShipingRate
         };
 
-        // ================= SENDER =================
-        $('input[name="SenderName"]').val(data.userSender?.SenderName || "");
-        $('input[name="Email"]').val(data.userSender?.Email || "");
-        $('input[name="Phone"]').val(data.userSender?.Phone || "");
+        // Sender
+        $('input[name="SenderName"]').val(s.SenderName || "");
+        $('input[name="Email"]').val(s.Email || "");
+        $('input[name="Phone"]').val(s.Phone || "");
+        $('input[name="Address"]').val(s.Address || "");
+        $('input[name="Contact"]').val(s.Contact || "");
+        $('input[name="PostalCode"]').val(s.PostalCode || "");
+        $('input[name="OtherAddress"]').val(s.OtherAddress || "");
 
-        $('select[name="Sendercountry"]').val(data.userSender?.CountryId || "");
-        ManagePageControls.fillCityDropdown(
-            'select[name="SenderCityId"]',
-            data.userSender?.CountryId,
-            data.userSender?.CityId
-        );
+        // Receiver
+        $('input[name="ReceiverName"]').val(r.ReceiverName || "");
+        $('input[name="ReceiverEmail"]').val(r.Email || "");
+        $('input[name="ReceiverPhone"]').val(r.Phone || "");
+        $('input[name="ReceiverAddress"]').val(r.Address || "");
+        $('input[name="ReceiverContact"]').val(r.Contact || "");
+        $('input[name="ReceiverPostalCode"]').val(r.PostalCode || "");
+        $('input[name="ReceiverOtherAddress"]').val(r.OtherAddress || "");
 
-        $('input[name="Address"]').val(data.userSender?.Address || "");
-        $('input[name="Contact"]').val(data.userSender?.Contact || "");
-        $('input[name="PostalCode"]').val(data.userSender?.PostalCode || "");
-        $('input[name="OtherAddress"]').val(data.userSender?.OtherAddress || "");
+        // Country + City
+        this.setSelectWhenReady('select[name="Sendercountry"]', s.CountryId);
+        ManagePageControls.fillCityDropdown('select[name="SenderCityId"]', s.CountryId, s.CityId);
 
-        // ================= RECEIVER =================
-        $('input[name="ReceiverName"]').val(data.userReceiver?.ReceiverName || "");
-        $('input[name="ReceiverEmail"]').val(data.userReceiver?.Email || "");
-        $('input[name="ReceiverPhone"]').val(data.userReceiver?.Phone || "");
+        this.setSelectWhenReady('select[name="ReceiverCountry"]', r.CountryId);
+        ManagePageControls.fillCityDropdown('select[name="ReceiverCity"]', r.CountryId, r.CityId);
 
-        $('select[name="ReceiverCountry"]').val(data.userReceiver?.CountryId || "");
-        ManagePageControls.fillCityDropdown(
-            'select[name="ReceiverCity"]',
-            data.userReceiver?.CountryId,
-            data.userReceiver?.CityId
-        );
-
-        $('input[name="ReceiverAddress"]').val(data.userReceiver?.Address || "");
-        $('input[name="ReceiverContact"]').val(data.userReceiver?.Contact || "");
-        $('input[name="ReceiverPostalCode"]').val(data.userReceiver?.PostalCode || "");
-        $('input[name="ReceiverOtherAddress"]').val(data.userReceiver?.OtherAddress || "");
-
-        // ================= SHIPMENT =================
-        $('select[name="ShippingType"]').val(data.ShipingTypeId || "");
-        $('select[name="PackageType"]').val(data.ShipingPackagesId || "");
-
+        // Shipment
+        this.setSelectWhenReady('select[name="ShippingType"]', data.ShipingTypeId);
+        this.setSelectWhenReady('select[name="PackageType"]', data.ShipingPackagesId);
 
         $('input[name="Width"]').val(data.Width);
         $('input[name="Height"]').val(data.Height);
         $('input[name="Weight"]').val(data.Weight);
         $('input[name="Length"]').val(data.Length);
         $('input[name="PackageValue"]').val(data.PackageValue);
-
         $('input[name="TrackingNumber"]').val(data.TrackingNumber ?? "");
-
-        // Dates
-        $('input[name="ShippingDate"]').val(
-            data.ShippingDate ? new Date(data.ShippingDate).toISOString().split("T")[0] : ""
-        );
-
-        $('input[name="DeliveryDate"]').val(
-            data.DeliveryDate ? new Date(data.DeliveryDate).toISOString().split("T")[0] : ""
-        );
+        $('input[name="ShippingDate"]').val(toDate(data.ShippingDate));
+        $('input[name="DeliveryDate"]').val(toDate(data.DeliveryDate));
     },
 
     SaveShippment: function () {
 
-        let data = this.GetModel();
-
-        console.log("Before إرسال:", data);
+        const data = this.GetModel();
 
         ApiClient.post("/api/Shippment/Create", data,
             function (res) {
                 console.log("Created successfully", res);
             },
             function (xhr) {
-                console.error("API Error:", xhr.responseJSON);
+                console.error("API Error:", xhr.status, xhr.responseText);
             });
     },
 
-
     EditShippment: function () {
 
-        let data = this.GetModel();
+        const data = this.GetModel();
 
         data.Id = this.FormIds.Id;
         data.SenderId = this.FormIds.SenderId;
         data.ReceiverId = this.FormIds.ReceiverId;
+        data.Sender.Id = this.FormIds.SenderId;
+        data.Receiver.Id = this.FormIds.ReceiverId;
         data.TrackingNumber = this.FormIds.TrackingNumber;
         data.ShipingRate = this.FormIds.ShipingRate;
 
@@ -169,10 +172,9 @@
                 console.log("Updated successfully", res);
             },
             function (xhr) {
-                console.error("API Error:", xhr.responseJSON);
+                console.error("API Error:", xhr.status, xhr.responseText);
             });
     },
-
 
     GetShipments: function (onSuccess, onError) {
         ApiClient.get(`/api/Shippment/shipments`, onSuccess, onError, true);

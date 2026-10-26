@@ -110,35 +110,35 @@ namespace BL.Services.Shipment
             }
 
         }
-     
 
-public async Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagination)
-    {
-        try
+
+        public async Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagination)
         {
-            var userId = _userService.GetLoggedInUser();
+            try
+            {
+                var userId = _userService.GetLoggedInUser();
 
-            var pagedShipments = await _repo.GetList(
-                c => c.CreatedBy == userId,
-                pagination,
-                c => c.Sender,
-                c => c.Receiver);
+                var pagedShipments = await _repo.GetList(
+                    c => c.CreatedBy == userId,
+                    pagination,
+                    c => c.Sender,
+                    c => c.Receiver);
 
-            var mappedItems = _mapper.Map<List<TbShipment>, List<ShipmentDTO>>(pagedShipments.Items);
+                var mappedItems = _mapper.Map<List<TbShipment>, List<ShipmentDTO>>(pagedShipments.Items);
 
-            return new PagedResult<ShipmentDTO>(
-                mappedItems,
-                pagedShipments.TotalCount,
-                pagedShipments.PageNumber,
-                pagedShipments.PageSize);
+                return new PagedResult<ShipmentDTO>(
+                    mappedItems,
+                    pagedShipments.TotalCount,
+                    pagedShipments.PageNumber,
+                    pagedShipments.PageSize);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);   // was: throw new Exception();
+            }
         }
-        catch (Exception ex)
-        {
-            throw new Exception();
-        }
-    }
-        //return shipment based on user id
 
+        // return shipment based on user id
         public async Task<ShipmentDTO> GetShipment(Guid id)
         {
             try
@@ -147,14 +147,18 @@ public async Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagina
                 var shipments = await _repo.GetList(c =>
                     c.CreatedBy == userId && c.Id == id,
                     c => c.Sender,
-                    c => c.Receiver);
+                    c => c.Sender.City,       // needed for S CountryId
+                    c => c.Receiver,
+                    c => c.Receiver.City);    // needed for R CountryId
 
                 var shipment = shipments.FirstOrDefault();
+                if (shipment == null) return null;
+
                 return _mapper.Map<ShipmentDTO>(shipment);
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception(ex.Message, ex);   // was: "GETSHIPMENT-V2: " + ex
             }
         }
     }
