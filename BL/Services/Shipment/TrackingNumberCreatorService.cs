@@ -18,7 +18,8 @@ namespace BL.Services
 
         public double CreateTrachingNumber(ShipmentDTO dTO)
         {
-            return 4000;
+            // 10 digits, between 1,000,000,000 and 9,999,999,999
+            return Random.Shared.NextInt64(1_000_000_000L, 10_000_000_000L);
         }
 
 
