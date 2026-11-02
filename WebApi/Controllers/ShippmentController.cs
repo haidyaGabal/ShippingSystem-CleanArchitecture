@@ -88,23 +88,43 @@ namespace WebApi.Controllers
         {
 
         }
-        // ================= CREATE =================
         [HttpPost("Create")]
-        public IActionResult Create([FromBody] ShipmentDTO data)
+        public async Task<IActionResult> Create([FromBody] ShipmentDTO data)
         {
             if (data == null)
                 return BadRequest(ApiResponse<string>.FailResponse("Shipment data is required."));
 
             try
             {
-                var result = _shippment.Create(data);
-                return Ok(ApiResponse<object>.SuccessResponse(result, "Shipment created successfully."));
+                await _shippment.Create(data);
+                return Ok(ApiResponse<string>.SuccessResponse("OK", "Shipment created successfully."));
             }
             catch (Exception ex)
             {
                 return StatusCode(500,
                     ApiResponse<string>.FailResponse("Error while creating shipment",
-                    new List<string> { ex.Message }));
+                    new List<string> { ex.ToString() }));
+            }
+        }
+
+        // ================= Edit =================
+
+        [HttpPost("Edit")]
+        public async Task<IActionResult> Edit([FromBody] ShipmentDTO data)
+        {
+            if (data == null)
+                return BadRequest(ApiResponse<string>.FailResponse("Shipment data is required."));
+
+            try
+            {
+                await _shippment.Edit(data);
+                return Ok(ApiResponse<string>.SuccessResponse("OK", "Shipment updated successfully."));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500,
+                    ApiResponse<string>.FailResponse("Error while editing shipment",
+                    new List<string> { ex.ToString() }));
             }
         }
 

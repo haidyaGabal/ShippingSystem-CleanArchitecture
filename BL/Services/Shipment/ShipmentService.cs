@@ -87,6 +87,36 @@ namespace BL.Services.Shipment
             }
 
         }
+        public async Task Edit(ShipmentDTO shipmentDTO)
+        {
+            try
+            {
+                await _uow.BeginTransactionAsync();
+
+                
+                ///calculate Rate
+                shipmentDTO.ShipingRate = _caculateRate.Calculate(shipmentDTO);
+
+             
+                ///save sender
+              
+                    _userSender.Update(shipmentDTO.Sender);
+              
+                ///save reciver
+          
+                    _userReceiver.Update(shipmentDTO.Receiver);
+                
+
+                this.Update(shipmentDTO);
+                await _uow.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                await _uow.RollbackAsync();
+                throw new Exception(ex.Message, ex);
+            }
+
+        }
 
         public async Task<List<ShipmentDTO>> GetShipments()
         {

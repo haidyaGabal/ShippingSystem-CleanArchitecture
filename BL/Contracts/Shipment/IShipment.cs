@@ -13,9 +13,9 @@ namespace BL.Contracts.Shipment
     public interface IShipment : IBaseService<TbShipment, ShipmentDTO>
     {
         public Task Create(ShipmentDTO shipmentDTO);
-
+        public Task Edit(ShipmentDTO shipmentDTO);
         public Task<List<ShipmentDTO>> GetShipments();
-        public  Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagination);
+        public Task<PagedResult<ShipmentDTO>> GetShipments(PaginationParams pagination);
         public Task<ShipmentDTO> GetShipment(Guid id);
     }
 }
