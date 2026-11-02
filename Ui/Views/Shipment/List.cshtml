@@ -305,18 +305,27 @@
 
                                             <!-- Action -->
                                             <td>
+                                                <div class="d-flex" style="gap: 6px;">
 
-                                                <a asp-controller="Shipment"
-                                                   asp-action="Show"
-                                                   asp-route-id="@shipment.Id"
-                                                   class="btn btn-sm"
-                                                   title="View Shipment Details">
+                                                    <a asp-controller="Shipment"
+                                                       asp-action="Show"
+                                                       asp-route-id="@shipment.Id"
+                                                       class="btn btn-sm"
+                                                       title="View shipment details"
+                                                       aria-label="View shipment details">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
 
-                                                    <i class="fa fa-eye">
-                                                    </i>
+                                                    <a asp-controller="Shipment"
+                                                       asp-action="Edit"
+                                                       asp-route-id="@shipment.Id"
+                                                       class="btn btn-sm"
+                                                       title="Edit shipment"
+                                                       aria-label="Edit shipment">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
 
-                                                </a>
-
+                                                </div>
                                             </td>
 
                                         </tr>
