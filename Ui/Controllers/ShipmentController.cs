@@ -40,7 +40,7 @@ namespace Ui.Controllers
         }
         public IActionResult Edit(Guid id)
         {
-            return View("Show");
+            return View();
         }
         public IActionResult Show(Guid id)
         {

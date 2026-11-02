@@ -1,5 +1,10 @@
 ﻿$('form.steps').on('submit', function (e) {
-    e.preventDefault(); // منع الإرسال التقليدي
-    alert("i will submit");
+    e.preventDefault();
+
+    if (!ShipmentService.FormIds.Id) {
+        alert("Shipment data is still loading, please wait.");
+        return;
+    }
+
     ShipmentService.EditShippment();
 });
