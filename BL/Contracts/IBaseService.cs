@@ -14,6 +14,6 @@ namespace BL.Contracts
         bool Add(DTO entity);
         bool Add(DTO entity,out Guid id);
         bool Update(DTO entity);
-        bool ChangeStatus(Guid id, Guid userId, int status = 1);
+        bool ChangeStatus(Guid id,int status = 1);
     }
 }

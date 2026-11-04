@@ -65,12 +65,12 @@ namespace BL.Services
             return  _repo.Update(dtObj);
         }
 
-        public bool ChangeStatus(Guid id, Guid userId, int status = 1)
+        public bool ChangeStatus(Guid id, int status = 1)
         {
             return  _repo.ChangeStatus(id,_userService.GetLoggedInUser(), status);
         }
 
-       
+      
     }
 
 }

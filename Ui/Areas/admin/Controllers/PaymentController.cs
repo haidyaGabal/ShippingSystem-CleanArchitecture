@@ -58,7 +58,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-             payment.ChangeStatus(Id, Guid.Empty, 0);
+             payment.ChangeStatus(Id, 0);
             return RedirectToAction(nameof(Index));
         }
 

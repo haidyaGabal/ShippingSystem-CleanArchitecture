@@ -58,7 +58,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-             userReceiver.ChangeStatus(Id, Guid.Empty, 0);
+             userReceiver.ChangeStatus(Id, 0);
             return RedirectToAction(nameof(Index));
         }
 

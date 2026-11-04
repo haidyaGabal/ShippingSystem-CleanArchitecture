@@ -72,7 +72,7 @@ namespace Ui.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id, Guid countryId)
         {
-                 _city.ChangeStatus(id, Guid.Empty, 0);
+                 _city.ChangeStatus(id, 0);
             return RedirectToAction(nameof(Actions), new { countryId });
         }
     }

@@ -58,7 +58,7 @@ namespace Ui.Areas.admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
-             subscriptionPackage.ChangeStatus(Id, Guid.Empty, 0);
+             subscriptionPackage.ChangeStatus(Id, 0);
             return RedirectToAction(nameof(Index));
         }
 
