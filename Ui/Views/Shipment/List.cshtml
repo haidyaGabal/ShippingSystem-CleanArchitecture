@@ -324,6 +324,14 @@
                                                        aria-label="Edit shipment">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
+                                                    <a asp-controller="Shipment"
+                                                       asp-action="Delete"
+                                                       asp-route-id="@shipment.Id"
+                                                       class="btn btn-sm"
+                                                       title="Edit shipment"
+                                                       aria-label="Edit shipment">
+                                                        <i class="fa bg-danger "></i>
+                                                    </a>
 
                                                 </div>
                                             </td>
