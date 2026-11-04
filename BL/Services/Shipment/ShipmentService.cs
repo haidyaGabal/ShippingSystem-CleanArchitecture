@@ -89,33 +89,54 @@ namespace BL.Services.Shipment
         }
         public async Task Edit(ShipmentDTO shipmentDTO)
         {
+            if (shipmentDTO == null)
+                throw new ArgumentNullException(nameof(shipmentDTO));
+            if (shipmentDTO.Id == Guid.Empty)
+                throw new ArgumentException("Shipment id is required.", nameof(shipmentDTO));
+            if (shipmentDTO.Sender == null || shipmentDTO.Receiver == null)
+                throw new ArgumentException("Sender and receiver are required.", nameof(shipmentDTO));
+
             try
             {
                 await _uow.BeginTransactionAsync();
 
-                
-                ///calculate Rate
+                var userId = _userService.GetLoggedInUser();
+
+                // 1. Make sure the shipment exists and belongs to the logged-in user
+                var existing = (await _repo.GetList(c => c.Id == shipmentDTO.Id && c.CreatedBy == userId))
+                               .FirstOrDefault();
+                if (existing == null)
+                    throw new InvalidOperationException("Shipment not found.");
+
+                // 2. Never trust ids/owner/tracking number coming from the client
+                shipmentDTO.SenderId = existing.SenderId;
+                shipmentDTO.ReceiverId = existing.ReceiverId;
+                shipmentDTO.TrackingNumber = existing.TrackingNumber;
+                shipmentDTO.Sender.Id = existing.SenderId;
+                shipmentDTO.Receiver.Id = existing.ReceiverId;
+                shipmentDTO.Sender.UserId = userId;
+                shipmentDTO.Receiver.UserId = userId;
+
+                // 3. Recalculate the rate
                 shipmentDTO.ShipingRate = _caculateRate.Calculate(shipmentDTO);
 
-             
-                ///save sender
-              
-                    _userSender.Update(shipmentDTO.Sender);
-              
-                ///save reciver
-          
-                    _userReceiver.Update(shipmentDTO.Receiver);
-                
+                // 4. Update sender, receiver and shipment, and check each result
+                if (!_userSender.Update(shipmentDTO.Sender))
+                    throw new InvalidOperationException("Sender not found.");
 
-                this.Update(shipmentDTO);
+                if (!_userReceiver.Update(shipmentDTO.Receiver))
+                    throw new InvalidOperationException("Receiver not found.");
+
+                if (!this.Update(shipmentDTO))
+                    throw new InvalidOperationException("Shipment update failed.");
+
                 await _uow.CommitAsync();
             }
-            catch (Exception ex)
+            catch
             {
                 await _uow.RollbackAsync();
-                throw new Exception(ex.Message, ex);
+                throw;   // keeps the original exception and stack trace
             }
-
         }
 
         public async Task<List<ShipmentDTO>> GetShipments()
@@ -149,10 +170,11 @@ namespace BL.Services.Shipment
                 var userId = _userService.GetLoggedInUser();
 
                 var pagedShipments = await _repo.GetList(
-                    c => c.CreatedBy == userId,
+                    c => c.CreatedBy == userId&& c.CurrentState > 0,
                     pagination,
                     c => c.Sender,
                     c => c.Receiver);
+                   
 
                 var mappedItems = _mapper.Map<List<TbShipment>, List<ShipmentDTO>>(pagedShipments.Items);
 
