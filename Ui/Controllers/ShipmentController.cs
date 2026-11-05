@@ -40,13 +40,17 @@ namespace Ui.Controllers
         }
         public IActionResult Edit(Guid id)
         {
-            return View();
+            return RedirectToAction("List");
         }
         public IActionResult Show(Guid id)
         {
 
             return View();
         }
-
+        public IActionResult Delete(Guid id)
+        {
+            _shipment.ChangeStatus(id,0);
+            return RedirectToAction("List");
+        }
     }
 } 
