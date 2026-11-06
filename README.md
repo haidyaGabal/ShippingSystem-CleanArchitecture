@@ -189,12 +189,6 @@ The project applies software engineering concepts to keep the code organized, re
 - **Clean Architecture Principles:** Keeps core business concepts independent of infrastructure and presentation concerns.
 - **DTO Pattern:** Transfers data between application layers without exposing database entities directly.
 
-## Screenshots
-
-Screenshots of the client website and admin dashboard will be added here.
-
-<!-- Add screenshots of your actual application here. -->
-
 ## Project Goals
 
 - Build a practical Shipping Management System using ASP.NET Core.
@@ -204,20 +198,3 @@ Screenshots of the client website and admin dashboard will be added here.
 - Develop shipment tracking and management workflows.
 - Gain practical experience with Entity Framework Core, SQL Server, and ASP.NET Core Identity.
 
-## Future Improvements
-
-- Add automated unit and integration tests.
-- Improve shipment tracking and notifications.
-- Add reporting and analytics to the admin dashboard.
-- Enhance API security and documentation.
-- Improve application performance and error handling.
-
-## Author
-
-**Haidy Abdo Mohamed Abdallah Gabal**
-
-[GitHub Profile](https://github.com/haidyaGabal)
-
----
-
-*This project is developed as a practical application of ASP.NET Core, software architecture, and object-oriented programming concepts.*
