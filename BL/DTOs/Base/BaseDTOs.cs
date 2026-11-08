@@ -9,5 +9,6 @@ namespace BL.DTOs.Base
     public class BaseDTOs
     {
         public Guid Id { get; set; }
+        public int CurrentState { get; set; }
     }
 }
