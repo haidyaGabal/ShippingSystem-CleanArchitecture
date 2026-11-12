@@ -9,13 +9,16 @@ namespace WebApi.Services
     public class TokenService
     {
         private readonly string _secretKey;
+        private readonly string _issuer;
+        private readonly string _audience;
         private const int AccessTokenExpiryMinutes = 15;
         private const int RefreshTokenExpiryDays = 7;
 
-      
         public TokenService(IConfiguration configuration)
         {
-            _secretKey = configuration["Jwt:Key"]; 
+            _secretKey = configuration["Jwt:Key"];
+            _issuer = configuration["Jwt:Issuer"];
+            _audience = configuration["Jwt:Audience"];
         }
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
@@ -24,6 +27,8 @@ namespace WebApi.Services
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
+                issuer: _issuer,
+                audience: _audience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(AccessTokenExpiryMinutes),
                 signingCredentials: credentials

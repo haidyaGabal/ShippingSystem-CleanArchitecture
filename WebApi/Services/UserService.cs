@@ -95,21 +95,40 @@ namespace WebApi.Services
             });
         }
 
+        /// <summary>
+        /// get user from RefreshToken
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        //public Guid GetLoggedInUser()
+        //{
+        //    var refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["RefreshToken"];
 
+        //    if (string.IsNullOrEmpty(refreshToken))
+        //        throw new Exception("RefreshToken is missing");
+
+        //    var refreshTokenData =  _RefreshTokenRetriver.GetByToken(refreshToken);
+
+        //    if (refreshTokenData == null)
+        //        throw new Exception("RefreshToken not found");
+
+        //    return Guid.Parse(refreshTokenData.UserId);
+        //}
+        /// <summary>
+        /// get user from AccessToken
+        /// </summary>
+        /// <returns></returns>
+    
         public Guid GetLoggedInUser()
         {
-            var refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["RefreshToken"];
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (string.IsNullOrEmpty(refreshToken))
-                throw new Exception("RefreshToken is missing");
+            if (!Guid.TryParse(userId, out var id))
+                throw new UnauthorizedAccessException("User is not authenticated.");
 
-            var refreshTokenData =  _RefreshTokenRetriver.GetByToken(refreshToken);
-
-            if (refreshTokenData == null)
-                throw new Exception("RefreshToken not found");
-
-            return Guid.Parse(refreshTokenData.UserId);
+            return id;
         }
+
 
 
     }

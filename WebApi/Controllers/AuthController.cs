@@ -1,4 +1,5 @@
-﻿using BL.Contracts;
+﻿using Azure.Core;
+using BL.Contracts;
 using BL.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -72,7 +73,7 @@ namespace WebApi.Controllers
             return Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
         }
 
-        [HttpPost("refresh-access-token")]
+        [HttpPost("RefreshAccessToken")]
         public async Task<IActionResult> RefreshAccessToken()
         {
             if (!Request.Cookies.TryGetValue("RefreshToken", out var refreshToken))
@@ -92,6 +93,13 @@ namespace WebApi.Controllers
             var claims = await GetClimsById(storedToken.UserId);
 
             var newAccessToken = _tokenService.GenerateAccessToken(claims);
+       
+            Response.Cookies.Append("AccessToken", newAccessToken, new CookieOptions
+            {
+                HttpOnly = false,
+                Secure = true,
+                Expires = DateTime.UtcNow.AddMinutes(15)  // Adjust token expiry based on your needs
+            });
 
             return Ok(new { AccessToken = newAccessToken });
         }
@@ -116,7 +124,7 @@ namespace WebApi.Controllers
             var newRefreshDto = new RefreshTokenDTO
             {
                 Token = newRefreshToken,
-                UserId = storedToken.Id.ToString(),
+                UserId = storedToken.UserId,
                 Expires = DateTime.UtcNow.AddDays(7),
                 CurrentState = 1
             };
@@ -144,6 +152,7 @@ namespace WebApi.Controllers
         {
             var user = await _userService.GetUserByEmailAsync(email);
             var claims = new[] {
+                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Email),
                 new Claim(ClaimTypes.Role, "User")
             };
@@ -156,6 +165,7 @@ namespace WebApi.Controllers
             var user = await _userService.GetUserByIdAsync(userId);
 
             var claims = new[] {
+                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Email),
                 new Claim(ClaimTypes.Role, "User")
             };
