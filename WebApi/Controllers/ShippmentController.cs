@@ -2,6 +2,7 @@
 using BL.DTOs;
 using DAL.Exceptions;
 using Domains;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApi.Models;
@@ -10,6 +11,7 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ShippmentController : ControllerBase
