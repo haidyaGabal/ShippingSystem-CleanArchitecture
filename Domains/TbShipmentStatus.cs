@@ -13,11 +13,5 @@ public partial class TbShipmentStatus:BaseEntity
 
     public string? Notes { get; set; }
 
-    public Guid CarrierId { get; set; }
-
-    
-
-    public virtual TbCarrier Carrier { get; set; } = null!;
-
     public virtual TbShipment? Shipment { get; set; }
 }
