@@ -37,8 +37,9 @@ public partial class TbShipment:BaseEntity
     public double? TrackingNumber { get; set; }
 
     public Guid? ReferenceId { get; set; }
+    public Guid? CarrierId { get; set; }
 
-
+    public virtual TbCarrier Carrier { get; set; } = null!;
     public virtual TbPaymentMethod? PaymentMethod { get; set; }
 
     public virtual TbUserReceiver Receiver { get; set; } = null!;
