@@ -24,6 +24,7 @@ namespace BL.DTOs
         public UserSenderDTO Sender { get; set; }
         public UserReceiverDTO Receiver { get; set; }
 
+        public Guid? CarrierId { get; set; }
 
         public Guid? ShipingPackagesId { get; set; }
         public DateTime DeliveryDate { get; set; }
