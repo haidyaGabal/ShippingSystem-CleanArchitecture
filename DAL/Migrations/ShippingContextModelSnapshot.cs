@@ -437,6 +437,9 @@ namespace DAL.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<Guid?>("CarrierId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -502,6 +505,8 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CarrierId");
+
                     b.HasIndex("PaymentMethodId");
 
                     b.HasIndex("ReceiverId");
@@ -521,9 +526,6 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
-
-                    b.Property<Guid>("CarrierId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -547,8 +549,6 @@ namespace DAL.Migrations
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CarrierId");
 
                     b.HasIndex("ShipmentId");
 
@@ -917,6 +917,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Domains.TbShipment", b =>
                 {
+                    b.HasOne("Domains.TbCarrier", "Carrier")
+                        .WithMany("TbShippment")
+                        .HasForeignKey("CarrierId")
+                        .HasConstraintName("FK_TbShippmentStatus_TbCarriers");
+
                     b.HasOne("Domains.TbPaymentMethod", "PaymentMethod")
                         .WithMany("TbShippments")
                         .HasForeignKey("PaymentMethodId")
@@ -944,6 +949,8 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_TbShippments_TbShippingTypes");
 
+                    b.Navigation("Carrier");
+
                     b.Navigation("PaymentMethod");
 
                     b.Navigation("Receiver");
@@ -957,18 +964,10 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Domains.TbShipmentStatus", b =>
                 {
-                    b.HasOne("Domains.TbCarrier", "Carrier")
-                        .WithMany("TbShippmentStatuses")
-                        .HasForeignKey("CarrierId")
-                        .IsRequired()
-                        .HasConstraintName("FK_TbShippmentStatus_TbCarriers");
-
                     b.HasOne("Domains.TbShipment", "Shipment")
                         .WithMany("TbShippmentStatuses")
                         .HasForeignKey("ShipmentId")
                         .HasConstraintName("FK_TbShippmentStatus_TbShippments");
-
-                    b.Navigation("Carrier");
 
                     b.Navigation("Shipment");
                 });
@@ -1059,7 +1058,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Domains.TbCarrier", b =>
                 {
-                    b.Navigation("TbShippmentStatuses");
+                    b.Navigation("TbShippment");
                 });
 
             modelBuilder.Entity("Domains.TbCity", b =>
