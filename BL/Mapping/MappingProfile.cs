@@ -22,7 +22,7 @@ namespace BL.Mapping
             CreateMap<TbShipingType, ShipingTypeDTO>().ReverseMap();
             CreateMap<TbShipingPackage, ShipingPackageDTO>().ReverseMap();
             CreateMap<TbShipment, ShipmentDTO>().ReverseMap();
-            CreateMap<TbShipmentStatus, TbShipmentStatus>().ReverseMap();
+            CreateMap<TbShipmentStatus, ShipmentStatusDTO>().ReverseMap();
             CreateMap<TbSubscriptionPackage, SubscriptionPackageDTO>().ReverseMap();
             CreateMap<TbUserReceiver, UserReceiverDTO>()
                 .ForMember(d => d.CountryId, o => o.MapFrom(s => s.City != null ? s.City.CountryId : Guid.Empty))
