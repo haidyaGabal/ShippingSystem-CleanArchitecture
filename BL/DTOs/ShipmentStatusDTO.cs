@@ -18,6 +18,6 @@ namespace BL.DTOs
         public string Notes { get; set; } = null!;
 
 
-        public Guid CarrierId { get; set; }
+       
     }
 }
