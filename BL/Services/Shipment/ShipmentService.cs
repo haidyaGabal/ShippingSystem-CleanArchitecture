@@ -26,7 +26,9 @@ namespace BL.Services.Shipment
 
         private readonly IMapper _mapper;
 
-        public ShipmentService(IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow, IUserService userService) : base(uow, mapper, userService)
+        private readonly IShipmentsStatus _shipmentsStatus;
+
+        public ShipmentService(IMapper mapper, IUserReceiver userReceiver, IUserSender userSender, ICalculateRate calculateRate, ITrackingNumber trackingNumber, IUnitOfWork uow, IUserService userService, IShipmentsStatus shipmentsStatus) : base(uow, mapper, userService)
         {
             _userReceiver = userReceiver;
             _userSender = userSender;
@@ -36,6 +38,7 @@ namespace BL.Services.Shipment
 
             _uow = uow;
             _userService = userService;
+            _shipmentsStatus = shipmentsStatus;
         }
      
 
@@ -74,17 +77,29 @@ namespace BL.Services.Shipment
                 }
 
                 Guid gShipmentId = Guid.Empty;
-             
+                this.Add(shipmentDTO, out gShipmentId);
+                ///add shipment status
 
-                 this.Add(shipmentDTO,out gShipmentId);
+
+                _shipmentsStatus.Add(new ShipmentStatusDTO
+                {
+                    ShipmentId = gShipmentId,
+                    CurrentState = (int)ShipmentStatusEnum.Created
+                });
+
                 await _uow.CommitAsync();
+
+
+                
+
+               
             }
-            catch (Exception ex)
+            catch
             {
                 await _uow.RollbackAsync();
-                throw new Exception();
-
+                throw;
             }
+
 
         }
         public async Task Edit(ShipmentDTO shipmentDTO)
