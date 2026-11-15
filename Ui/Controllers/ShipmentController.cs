@@ -1,32 +1,26 @@
-﻿
-using BL.Contracts.Shipment;
+﻿using BL.Contracts.Shipment;
 using DAL.Models;
-using Domains;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Ui.Controllers
 {
+    [Authorize]
     public class ShipmentController : Controller
     {
         private readonly ILogger<ShipmentController> _logger;
         private readonly IShipment _shipment;
+
         public ShipmentController(ILogger<ShipmentController> logger, IShipment shipment)
         {
             _logger = logger;
             _shipment = shipment;
-            
-        }
-        public IActionResult Index()
-        {
-            return View();
         }
 
-        public IActionResult Create()
-        {
-         
-            return View();
-        }
+        public IActionResult Index() => View();
+
+        public IActionResult Create() => View();
+
         public async Task<IActionResult> List(int pageNumber = 1, int pageSize = 10)
         {
             var pagination = new PaginationParams
@@ -38,19 +32,9 @@ namespace Ui.Controllers
             var shipments = await _shipment.GetShipments(pagination);
             return View(shipments);
         }
-        public IActionResult Edit(Guid id)
-        {
-            return RedirectToAction("List");
-        }
-        public IActionResult Show(Guid id)
-        {
 
-            return View();
-        }
-        public IActionResult Delete(Guid id)
-        {
-            _shipment.ChangeStatus(id,0);
-            return RedirectToAction("List");
-        }
+        public IActionResult Edit(Guid id) => View();
+
+        public IActionResult Show(Guid id) => View();
     }
-} 
+}
