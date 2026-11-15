@@ -4,6 +4,7 @@ using BL.Contracts;
 using BL.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using Ui.Models;
 using Ui.Services;
 
@@ -26,6 +27,11 @@ namespace Ui.Controllers
         public IActionResult Register()
         {
             return View();
+        }
+        public async Task<IActionResult> Logout()
+        {
+           await _userService.LogoutAsync();
+            return View("Login");
         }
 
         [HttpPost]
