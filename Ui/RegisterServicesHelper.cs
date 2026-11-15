@@ -80,6 +80,8 @@ namespace Ui
             builder.Services.AddScoped<IShipingPackages, ShipingPackageService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IRefreshTokenRetriver, RefreshTokenRetriverService>();
+            builder.Services.AddScoped<IShipmentsStatus, ShipmentsStatusService>();
+
 
 
 
