@@ -78,7 +78,16 @@ namespace WebApi
                         Encoding.UTF8.GetBytes(jwtSettings["Key"])
                     )
                 };
-            });
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = ctx =>
+                    {
+                        Console.WriteLine("JWT FAILED: " + ctx.Exception.Message);
+                        return Task.CompletedTask;
+                    }
+                };
+            }
+            );
 
 
            
@@ -108,7 +117,8 @@ namespace WebApi
             builder.Services.AddScoped<ICalculateRate, CalculateRateService>();
 
 
-   
+            builder.Services.AddScoped<IShipmentsStatus, ShipmentsStatusService>();
+
             builder.Services.AddScoped<IShipingPackages, ShipingPackageService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IRefreshTokenRetriver, RefreshTokenRetriverService>();
