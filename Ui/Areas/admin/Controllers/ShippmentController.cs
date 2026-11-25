@@ -1,70 +1,46 @@
 ﻿using BL.Contracts.Shipment;
-using BL.DTOs;
+using DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ui.Areas.admin.Controllers
 {
     [Area("admin")]
-
+    [Authorize(Roles = "Admin")]
     public class ShippmentController : Controller
     {
-        private readonly IShipment shippment;
+        private readonly IAdminShipment _shipment;
 
-        public ShippmentController(IShipment _shippment)
-        {  
-            this.shippment = _shippment;
-        }
+        public ShippmentController(IAdminShipment shipment) => _shipment = shipment;
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10, int? state = null)
         {
-            return View(shippment.GetAll());
+            var pagination = new PaginationParams { PageNumber = pageNumber, PageSize = pageSize };
+            ViewBag.State = state;
+            return View(await _shipment.GetAll(pagination, state));
         }
-
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            ShipmentDTO item;
-
-            if (id != Guid.Empty)
-            {
-                item = shippment.GetById(id);
-                if (item == null)
-                    return NotFound();
-            }
-            else
-            {
-                item = new ShipmentDTO();
-            }
-
-            return View(item);
-        }
-        public IActionResult Actions()
-        {
-            return View(shippment.GetAll());
+            var model = await _shipment.GetById(id);
+            if (model == null) return NotFound();
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Save(ShipmentDTO dto)
+        public async Task<IActionResult> ChangeStatus(Guid id, int newState, bool fromDetails = false)
         {
-            if (dto.Id == Guid.Empty)
-                shippment.Add(dto);
-            else
-                 shippment.Update(dto);
+            try
+            {
+                await _shipment.ChangeStatus(id, newState);
+                TempData["Success"] = "Status updated.";
+            }
+            catch (InvalidOperationException ex) { TempData["Error"] = ex.Message; }
+            catch (ArgumentException ex) { TempData["Error"] = ex.Message; }
 
-            return RedirectToAction("Index");
+            return fromDetails
+                ? RedirectToAction(nameof(Details), new { id })
+                : RedirectToAction(nameof(Index));
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete(Guid Id)
-        {
-             shippment.ChangeStatus(Id, 0);
-            return RedirectToAction(nameof(Index));
-        }
-
-
-
-
     }
 }
-    
