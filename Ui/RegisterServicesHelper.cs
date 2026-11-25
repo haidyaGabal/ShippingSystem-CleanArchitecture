@@ -81,6 +81,7 @@ namespace Ui
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IRefreshTokenRetriver, RefreshTokenRetriverService>();
             builder.Services.AddScoped<IShipmentsStatus, ShipmentsStatusService>();
+            builder.Services.AddScoped<IAdminShipment, AdminShipmentService>();
 
 
 
