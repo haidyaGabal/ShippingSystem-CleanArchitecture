@@ -1,0 +1,111 @@
+﻿@model DAL.Models.PagedResult<BL.DTOs.ShipmentDTO>
+
+@{
+    ViewData["Title"] = "Shipments";
+    int? state = ViewBag.State as int?;
+
+    string StatusName(int s) => s switch
+    {
+        1 => "Created",
+        2 => "Approved",
+        3 => "Ready for ship",
+        4 => "Shipped",
+        5 => "Delivered",
+        6 => "Returned",
+        _ => "Unknown"
+    };
+}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-4 text-gray-800">All Shipments</h1>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <form method="get" asp-area="admin" asp-controller="Shippment" asp-action="Index" class="form-inline">
+                <select name="state" class="form-control form-control-sm mr-2" onchange="this.form.submit()">
+                    <option value="" selected="@(state == null)">All active</option>
+                    @for (int i = 1; i <= 6; i++)
+                    {
+                        <option value="@i" selected="@(state == i)">@StatusName(i)</option>
+                    }
+                </select>
+            </form>
+            <span class="text-muted small">Total: @Model.TotalCount</span>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tracking</th>
+                            <th>From → To</th>
+                            <th>Shipping date</th>
+                            <th>Weight</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var s in Model.Items)
+                        {
+                            var next = s.CurrentState < 5 ? s.CurrentState + 1 : (s.CurrentState == 5 ? 6 : 0);
+                            <tr>
+                                <td>#@s.TrackingNumber</td>
+                                <td>@s.Sender?.SenderName → @s.Receiver?.ReceiverName</td>
+                                <td>@s.ShippingDate.ToString("dd MMM yyyy")</td>
+                                <td>@s.Weight kg</td>
+                                <td>@s.ShipingRate.ToString("C")</td>
+                                <td><span class="badge badge-secondary">@StatusName(s.CurrentState)</span></td>
+                                <td>
+                                    @if (next != 0)
+                                    {
+                                        <form method="post" asp-area="admin" asp-controller="Shippment" asp-action="ChangeStatus">
+                                            <input type="hidden" name="id" value="@s.Id" />
+                                            <input type="hidden" name="newState" value="@next" />
+                                            <a asp-action="Details" asp-route-id="@s.Id" class="btn btn-sm btn-info mb-1">Details</a>
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                Move to @StatusName(next)
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        @if (!Model.Items.Any())
+                        {
+                            <tr><td colspan="7" class="text-center">No shipments found.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <span>Page @Model.PageNumber of @Model.TotalPages</span>
+                <div>
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a class="btn btn-sm btn-secondary" asp-action="Index"
+                           asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-state="@state">Previous</a>
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <a class="btn btn-sm btn-secondary" asp-action="Index"
+                           asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-state="@state">Next</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
