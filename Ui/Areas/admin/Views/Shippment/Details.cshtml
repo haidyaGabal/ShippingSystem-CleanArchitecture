@@ -1,0 +1,138 @@
+﻿@model BL.DTOs.AdminShipmentDetailsDTO
+
+@{
+    ViewData["Title"] = "Shipment Details";
+    var s = Model.Shipment;
+    var next = s.CurrentState < 5 ? s.CurrentState + 1 : (s.CurrentState == 5 ? 6 : 0);
+
+    string StatusName(int st) => st switch
+    {
+        1 => "Created",
+        2 => "Approved",
+        3 => "Ready for ship",
+        4 => "Shipped",
+        5 => "Delivered",
+        6 => "Returned",
+        _ => "Unknown"
+    };
+}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-gray-800 mb-0">Shipment #@s.TrackingNumber</h1>
+        <a asp-action="Index" class="btn btn-sm btn-secondary">Back to list</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="row">
+
+        <!-- Summary -->
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Summary</h6>
+                    <span class="badge badge-secondary">@StatusName(s.CurrentState)</span>
+                </div>
+                <div class="card-body">
+                    <p><b>Shipping date:</b> @s.ShippingDate.ToString("dd MMM yyyy")</p>
+                    <p><b>Delivery date:</b> @(s.DeliveryDate == DateTime.MinValue ? "Pending" : s.DeliveryDate.ToString("dd MMM yyyy"))</p>
+                    <p><b>Shipping type:</b> @(Model.ShippingTypeName ?? "-")</p>
+                    <p><b>Cost:</b> @s.ShipingRate.ToString("C")</p>
+                    <p class="mb-0"><b>Shipment ID:</b> <small>@s.Id</small></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Package -->
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Package</h6>
+                </div>
+                <div class="card-body">
+                    <p><b>Weight:</b> @s.Weight kg</p>
+                    <p><b>Dimensions:</b> @s.Length × @s.Width × @s.Height cm</p>
+                    <p class="mb-0"><b>Declared value:</b> @s.PackageValue.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sender -->
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Sender</h6>
+                </div>
+                <div class="card-body">
+                    <p><b>Name:</b> @s.Sender?.SenderName</p>
+                    <p><b>Phone:</b> @s.Sender?.Phone</p>
+                    <p><b>Email:</b> @s.Sender?.Email</p>
+                    <p><b>Address:</b> @s.Sender?.Address, @Model.SenderCity</p>
+                    <p class="mb-0"><b>Postal code:</b> @s.Sender?.PostalCode</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receiver -->
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Receiver</h6>
+                </div>
+                <div class="card-body">
+                    <p><b>Name:</b> @s.Receiver?.ReceiverName</p>
+                    <p><b>Phone:</b> @s.Receiver?.Phone</p>
+                    <p><b>Email:</b> @s.Receiver?.Email</p>
+                    <p><b>Address:</b> @s.Receiver?.Address, @Model.ReceiverCity</p>
+                    <p class="mb-0"><b>Postal code:</b> @s.Receiver?.PostalCode</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status + history -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Status history</h6>
+            @if (next != 0)
+            {
+                <form method="post" asp-area="admin" asp-controller="Shippment" asp-action="ChangeStatus">
+                    <input type="hidden" name="id" value="@s.Id" />
+                    <input type="hidden" name="newState" value="@next" />
+                    <input type="hidden" name="fromDetails" value="true" />
+                    <button type="submit" class="btn btn-sm btn-primary">Move to @StatusName(next)</button>
+                </form>
+            }
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered mb-0">
+                <thead>
+                    <tr><th>Date</th><th>Status</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model.History)
+                    {
+                        <tr>
+                            <td>@h.Date.ToString("dd MMM yyyy HH:mm")</td>
+                            <td>@StatusName(h.State)</td>
+                            <td>@h.Notes</td>
+                        </tr>
+                    }
+                    @if (!Model.History.Any())
+                    {
+                        <tr><td colspan="3" class="text-center">No history yet.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
