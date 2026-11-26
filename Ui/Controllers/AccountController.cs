@@ -28,10 +28,16 @@ namespace Ui.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Logout()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Logout()
         {
-           await _userService.LogoutAsync();
-            return View("Login");
+            var options = new CookieOptions { Path = "/", Secure = true };
+
+            Response.Cookies.Delete("AccessToken", options);
+            Response.Cookies.Delete("RefreshToken", options);
+
+            return RedirectToAction("Login");
         }
 
         [HttpPost]
