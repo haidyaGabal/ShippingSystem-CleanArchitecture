@@ -69,7 +69,7 @@ namespace WebApi
                 var dbContext = services.GetRequiredService<ShippingContext>();
                 await dbContext.Database.MigrateAsync();
                 // Seed data
-                await ContextConfig.SeedDataAsync(dbContext, userManager, roleManager);
+                await ContextConfig.SeedDataAsync(dbContext, userManager, roleManager, app.Configuration);
 
             }
 
