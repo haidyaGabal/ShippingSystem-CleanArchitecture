@@ -122,6 +122,11 @@ namespace Ui.Services
                 Email = u.Email,
             });
         }
+        public async Task<IList<string>> GetRolesAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return user == null ? new List<string>() : await _userManager.GetRolesAsync(user);
+        }
 
         public Guid GetLoggedInUser()
         {
