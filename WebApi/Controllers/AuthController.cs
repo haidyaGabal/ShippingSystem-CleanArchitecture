@@ -147,30 +147,37 @@ namespace WebApi.Controllers
         /// <summary>
         /// GetClims by Id or by Email 
         /// </summary>
-  
+
         async Task<(Claim[], UserDTO)> GetClims(string email)
         {
             var user = await _userService.GetUserByEmailAsync(email);
-            var claims = new[] {
-                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Role, "User")
-            };
-
+            var claims = await BuildClaims(user);
             return (claims, user);
         }
 
         async Task<Claim[]> GetClimsById(string userId)
         {
             var user = await _userService.GetUserByIdAsync(userId);
+            return await BuildClaims(user);
+        }
 
-            var claims = new[] {
-                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Role, "User")
-            };
+        async Task<Claim[]> BuildClaims(UserDTO user)
+        {
+            var roles = await _userService.GetRolesAsync(user.Id.ToString());
 
-            return claims;
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Email)
+                };
+
+            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
+
+            // users with no role in the database still get "User"
+            if (!roles.Any())
+                claims.Add(new Claim(ClaimTypes.Role, "User"));
+
+            return claims.ToArray();
         }
     }
 }
